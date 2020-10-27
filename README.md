@@ -7,7 +7,7 @@
 ### Anmerkungen
 
 * Vor jedem Kommando kommt "git" (z.B. git add). 
-* <file> bedeutet, dass man da irgendeinen file zu schreiben hat. 
+* %ltfile%gt bedeutet, dass man da irgendeinen file zu schreiben hat. 
 * [<irgendwas>] bedeutet, dass es optional ist. Also z.B. commit [-m <comment>] bedeutet, dass man -m <comment> auch auslassen könnte.
 
 ### Kommandoliste
