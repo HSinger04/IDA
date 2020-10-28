@@ -13,7 +13,7 @@
 ### Kommandoliste
 
 * add &lt;file&gt;: &lt;file&gt; wird gestaged. Dass eine Datei gestaged ist bedeutet quasi dass sie für den commit bereit ist. Eine gestagte Datei ist im Versionsverlauf noch nicht gespeichert.
-* commit [-m &lt;comment&gt;] &lt;file&gt;: Alle gestageten Dateien werden als neueste Version von Git aufgezeichnet. Ich empfehle, immer -m <comment> zu verwenden, da ihr sowieso auch beim Auslassen davon ein
+* commit [-m &lt;comment&gt;] &lt;file&gt;: Alle commiteten Dateien werden als neueste Version von Git aufgezeichnet. Ich empfehle, immer -m <comment> zu verwenden, da ihr sowieso auch beim Auslassen davon ein
 Commit-Comment eingeben müsst. Der Comment sollte kurz angeben, was für Veränderungen euer Commit bringt.
 * clone &lt;url&gt;: Die Repo von dem angegebenen Link wird in dem derzeitigen Ordner, von dem man das Kommando ausführt, gedownloadet und eine Git-Repo initialisiert. Also &lt;url&gt; wäre wohl in unserem Falle https://github.com/HSinger04/IDA.
 * pull: Downloadet und updatet die lokale Repository mit der neuesten Version der Online-Repository (i.e. von https://github.com/HSinger04/IDA). Hier enstehen Mergekonflikte, wenn sich die lokale und gepullte Versionen unterscheiden.
