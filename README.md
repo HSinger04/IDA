@@ -22,4 +22,6 @@ Commit-Comment eingeben müsst. Der Comment sollte kurz angeben, was für Verän
 
 #### Versionhistory
 
-* git checkout -- &lt;file&gt;: Verwandelt den Inhalt von &lt;file&gt; zu dem Inhalt des letzten Commits zurück
+* log: Zeigt Informationen über die letzten paar Commits u.a. auch die hashes (hashes sind diese langen Zeichenketten aus Kleinbuchstaben und Ziffern, die einen Commit identifizieren). 
+* checkout -- &lt;file&gt;: Verwandelt den Inhalt von &lt;file&gt; zu dem Inhalt des letzten Commits zurück
+* zu einem früheren Commit zurückkehren: Das habe ich selber noch nicht so wirklich ausprobiert. Das machen wir am besten gemeinsam, wenn die Situation auftritt (oder falls es einer von euch weiß, dann könnt ihr das gerne erklären!). Die erste und zweite Antwort von https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit scheint das gut zu erklären.
