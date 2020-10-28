@@ -6,7 +6,7 @@
 
 ### Anmerkungen
 
-* Vor jedem Kommando kommt "git" (z.B. git add). 
+* Vor jedem Kommando in der Kommandoliste müsst ihr euch "git" davordenken (z.B. git add). 
 * &lt;file&gt; bedeutet, dass man da irgendeinen file zu schreiben hat. 
 * [&lt;irgendwas&gt;] bedeutet, dass es optional ist. Also z.B. commit [-m &lt;comment&gt;] bedeutet, dass man -m &lt;comment&gt; auch auslassen könnte.
 
