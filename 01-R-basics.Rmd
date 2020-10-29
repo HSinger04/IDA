@@ -90,7 +90,7 @@ S01           B             54
 S02           A             23
 S02           B             03
 ```
-<!-- TODO: check if color of values is same as from solution --> 
+
 ```{r}
 tribble(
      ~participant,   ~condition,     ~response,
@@ -120,14 +120,14 @@ Answer: The participant and condition column, as it seems like there are only tw
 ## Ex 2.d [4 points]
 
 Create a tibble with data from a larger imaginary experiment. Concretely, your tibble should have 100 rows, and four columns called `participant`, `trial`, `condition` and `response`. There are five conditions, labelled A, B, C, D and E. There are ten participants, each of which sees all five conditions exactly twice. Participants are represented with strings like "S1", "S2" and so on. You can make up random real numbers sampled uniformly at random from 0 to 100 (rounded to two digits after the comma) to fill the `response` column. Below, we've already started on the code, but some of our code is wrong, some parts might give good results but are really clumsy and inelegant. Finish the job and improve where you can! (Check out help pages for all commands you do not know.)
-<!-- TODO: participants and conditions could still get shuffled-->
+<!-- TODO: I am not sure what exactly they expect us to do here-->
 ```{r, eval = F}
 exp_data <- tibble(
   participant = rep(1:10, 10) %>% # each participant shows up 10 times
     str_c("", ., sep = "S"),
   condition   = c("A", "B", "C", "D", "E") %>%
     rep(., each=20), # assign each participant condition in forward fashion 
-  trial       = 1:100,
+  trial       = rep(1:10, each=10),
   response    = runif(100) * 100 %>% round(., digits = 2)
 )
 ```
@@ -179,18 +179,19 @@ input_2 <- c(12, 43, 56, 87, 98, 101)
 
 ```{r}
 even_cumulative_mean <- function(input) {
-  if(is.numeric(input)) {
-    if(length(input) > 1) {
-      return tibble(
-          indices = seq(2, length(input), by=2) %>% # All even indices
-            input[.] %>% # look at input values for those indices
-            ifelse(is.nan(.) or is.na(.), F, T) %>% # convert into boolean
-            seq(2, length(input), by=2)[.] # only keep those with value T
-        )  
-    }
+  if(!is.numeric(input)) {
+    stop("input not numeric")  
+  }  
+  if(length(input) < 2) {
     stop("input has at most one element")  
   }
-  stop("input not numeric")
+  tibble(
+    indices = seq(2, length(input), by=2), # All even indices
+    output_of_indices = input[indices], # Output of even indices
+    # Output of means from output_of_indices up corresponding index 
+    cumulative_means = 1:length(output_of_indices) # list of indices
+      %>%  map_dbl(., ~ mean(output_of_indices[1:.x])) # map to cumulative means
+  )  
 }
 ```
 
