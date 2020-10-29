@@ -57,7 +57,7 @@ mean(passed)
 ## Ex 1.c [2 points]
 
 Use an appropriate function from the `stringr` package to obtain a Boolean vector indicating whether a name of the entries in `passed` (i.e., a name of the participants in our class) starts with the letter "J". Use this Boolean vector to obtain the subset of entries from `passed` for all participants whose name starts with the letter "J".
-
+<!--TODO Marie würde hier lieber J[:alpha:*] als RegEx verwenden -->
 ```{r}
 contains_J <- str_detect(names(passed), "^J")
 passed[contains_J]
