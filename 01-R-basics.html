@@ -534,21 +534,21 @@ summary {
 <div id="ex-1.a-2-points" class="section level2">
 <h2>Ex 1.a [2 points]</h2>
 <p>Create a named Boolean vector and assign it to variable <code>passed</code>. This vector should contain the following information about who passed and didn’t pass the final exam: Jax passed, Jamie passed, Jason didn’t, Geralt did.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>passed &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Jax =</span> T, <span class="dt">Jamie =</span> F, <span class="dt">Geralt =</span> T) </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>passed &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Jax =</span> T, <span class="dt">Jamie =</span> T, <span class="dt">Jason =</span> F, <span class="dt">Geralt =</span> T) </span></code></pre></div>
 </div>
 <div id="ex-1.b-2-points" class="section level2">
 <h2>Ex 1.b [2 points]</h2>
 <p>Compute the proportion of participants who passed by applying a single function <code>XXX</code> to the vector <code>passed</code>, like <code>XXX(passed)</code>. <strong>Hint: Remember that certain numerical operations will automatically cast a Boolean value to a number.</strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">mean</span>(passed)</span></code></pre></div>
-<pre><code>## [1] 0.6666667</code></pre>
+<pre><code>## [1] 0.75</code></pre>
 </div>
 <div id="ex-1.c-2-points" class="section level2">
 <h2>Ex 1.c [2 points]</h2>
 <p>Use an appropriate function from the <code>stringr</code> package to obtain a Boolean vector indicating whether a name of the entries in <code>passed</code> (i.e., a name of the participants in our class) starts with the letter “J”. Use this Boolean vector to obtain the subset of entries from <code>passed</code> for all participants whose name starts with the letter “J”.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>contains_J &lt;-<span class="st"> </span><span class="kw">str_detect</span>(<span class="kw">names</span>(passed), <span class="st">&quot;^J&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>passed[contains_J]</span></code></pre></div>
-<pre><code>##   Jax Jamie 
-##  TRUE FALSE</code></pre>
+<pre><code>##   Jax Jamie Jason 
+##  TRUE  TRUE FALSE</code></pre>
 </div>
 <div id="ex-1.d-4-points" class="section level2">
 <h2>Ex 1.d [4 points]</h2>
