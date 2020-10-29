@@ -128,7 +128,7 @@ exp_data <- tibble(
   condition   = c("A", "B", "C", "D", "E") %>%
     rep(., each=20), # assign each participant condition in forward fashion 
   trial       = rep(1:10, each=10), # assign each participant condition in forward fashion 
-  response    = runif(100) * 100 %>% round(., digits = 2) # assign random response
+  response    = runif(100) * 100 %>% round(., digits = 2) # assign random response. TODO: Marie proposed runif(100,min=0, max=100)
 )
 ```
 
