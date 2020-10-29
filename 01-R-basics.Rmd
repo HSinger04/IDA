@@ -216,7 +216,19 @@ Starting with that vector use a chain of pipes to:
 **Hint:** Check the use of regular expressions on the [cheat sheet of the `stringr` package](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf). 
 
 ```{r}
-# your code here
+# function that extracts reaction time and returns as numeric
+extract_nums <- function(x) {
+  x %>%
+    str_extract(., "[:digit:]+") %>% # extract reaction time substrings
+    as.numeric(.) # convert to numeric
+}
+weird_RTs %>%
+  # apply function that extracts reaction time and returns as numeric
+  map_dbl(., extract_nums) %>%
+  .[ifelse(. < 100, T, F)] %>% # remove all RT entries lower than 100
+  log(.) %>% # take the log
+  mean(.) %>% # take the mean
+  round(., digits = 3) # round to 3 significant digits
 ```
 
 
