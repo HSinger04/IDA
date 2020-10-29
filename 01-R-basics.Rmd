@@ -43,7 +43,7 @@ library(tidyverse)
 Create a named Boolean vector and assign it to variable `passed`. This vector should contain the following information about who passed and didn't pass the final exam: Jax passed, Jamie passed, Jason didn't, Geralt did. 
 
 ```{r}
-passed <- c(Jax = T, Jamie = F, Geralt = T) 
+passed <- c(Jax = T, Jamie = T, Jason = F, Geralt = T) 
 ```
 
 ## Ex 1.b [2 points]
@@ -127,8 +127,8 @@ exp_data <- tibble(
     str_c("", ., sep = "S"),
   condition   = c("A", "B", "C", "D", "E") %>%
     rep(., each=20), # assign each participant condition in forward fashion 
-  trial       = rep(1:10, each=10),
-  response    = runif(100) * 100 %>% round(., digits = 2)
+  trial       = rep(1:10, each=10), # assign each participant condition in forward fashion 
+  response    = runif(100) * 100 %>% round(., digits = 2) # assign random response
 )
 ```
 
@@ -193,6 +193,10 @@ even_cumulative_mean <- function(input) {
       %>%  map_dbl(., ~ mean(output_of_indices[1:.x])) # map to cumulative means
   )  
 }
+
+# outputs
+even_cumulative_mean(input_1)
+even_cumulative_mean(input_2)
 ```
 
 ## Ex 3.c [4 points]
@@ -225,10 +229,10 @@ extract_nums <- function(x) {
 weird_RTs %>%
   # apply function that extracts reaction time and returns as numeric
   map_dbl(., extract_nums) %>%
-  .[ifelse(. < 100, T, F)] %>% # remove all RT entries lower than 100
+  .[ifelse(. > 100, T, F)] %>% # remove all RT entries lower than 100
   log(.) %>% # take the log
   mean(.) %>% # take the mean
-  round(., digits = 3) # round to 3 significant digits
+  signif(., digits = 3) # round to 3 significant digits
 ```
 
 
