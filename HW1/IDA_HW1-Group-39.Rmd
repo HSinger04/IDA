@@ -57,9 +57,8 @@ mean(passed)
 ## Ex 1.c [2 points]
 
 Use an appropriate function from the `stringr` package to obtain a Boolean vector indicating whether a name of the entries in `passed` (i.e., a name of the participants in our class) starts with the letter "J". Use this Boolean vector to obtain the subset of entries from `passed` for all participants whose name starts with the letter "J".
-
 ```{r}
-contains_J <- str_detect(names(passed), "^J")
+contains_J <- str_detect(names(passed), "J[:alpha:*]")
 passed[contains_J]
 ```
 
@@ -120,7 +119,6 @@ Answer: The participant and condition column, as it seems like there are only tw
 ## Ex 2.d [4 points]
 
 Create a tibble with data from a larger imaginary experiment. Concretely, your tibble should have 100 rows, and four columns called `participant`, `trial`, `condition` and `response`. There are five conditions, labelled A, B, C, D and E. There are ten participants, each of which sees all five conditions exactly twice. Participants are represented with strings like "S1", "S2" and so on. You can make up random real numbers sampled uniformly at random from 0 to 100 (rounded to two digits after the comma) to fill the `response` column. Below, we've already started on the code, but some of our code is wrong, some parts might give good results but are really clumsy and inelegant. Finish the job and improve where you can! (Check out help pages for all commands you do not know.)
-<!-- TODO: I am not sure what exactly they expect us to do here-->
 ```{r, eval = F}
 exp_data <- tibble(
   participant = rep(1:10, 10) %>% # each participant shows up 10 times
@@ -128,7 +126,7 @@ exp_data <- tibble(
   condition   = c("A", "B", "C", "D", "E") %>%
     rep(., each=20), # assign each participant condition in forward fashion 
   trial       = rep(1:10, each=10), # assign each participant condition in forward fashion 
-  response    = runif(100) * 100 %>% round(., digits = 2) # assign random response
+  response    = runif(100,min=0, max=100) %>% round(., digits = 2) # assign random response.
 )
 ```
 
