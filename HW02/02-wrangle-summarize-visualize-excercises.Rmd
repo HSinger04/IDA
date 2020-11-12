@@ -67,6 +67,7 @@ Load the file using the code below (the CSV file should be in the same directory
 
 ```{r }
 data_BLJM <- read_csv("BLJM-data-2020.csv")
+data_BLJM
 ```
 
 Use R to display the following information:
@@ -76,6 +77,28 @@ Use R to display the following information:
 3. the mean `timeSpent`
 4. the mean `age` (*Hint:* use the option `mean(.., na.rm=T)` to remove entries with `NA`)
 
+```{r}
+# number of rows
+nrow(data_BLJM)
+
+# I suppose they are asking for total number of subjects
+data_BLJM %>% 
+  group_by(submission_id) %>% #look at column of subject ids
+  summarise() %>% #groups duplicates together
+  nrow(.)  #counts number of rows 
+
+# mean of variable timeSpent
+data_BLJM %>%
+  summarise(
+    timeSpent_mean = mean(timeSpent)
+  )
+
+# mean of variable age
+data_BLJM %>%
+  summarise(
+    age_mean = mean(age, na.rm = T)
+  )
+```
 
 ## Ex 1.b  Grouped summary statistics [2 points]
 
@@ -85,6 +108,15 @@ Use piping to perform the following steps on `data_BLJM`:
 2. group by `gender`
 3. obtain the mean and (unbiased) standard deviation for `age` (exluding `NA`s in both functions (see Ex 1.a))
 
+```{r}
+data_BLJM %>% 
+  filter(., !is.na(gender)) %>%
+  group_by(gender) %>%
+  summarise(
+    age_mean = mean(age, na.rm = T),
+    stddev_age = sd(age, na.rm = T), 
+  )
+```
 
 ## Ex 1.c Preprocessing [2 points]
 
@@ -93,11 +125,11 @@ We will use the code from [Appendix D of the web-book](https://michael-franke.gi
 ```{r}
 data_BLJM_processed <- 
   data_BLJM %>% 
-  # ... your exlanation here ...
+  # creating column 'condition' by building entries from the first letter of option1 and option2 respectively, for each subject 
   mutate(
     condition = str_c(str_sub(option2, 1, 1), str_sub(option1, 1, 1))
   ) %>% 
-  # ... your exlanation here ...
+  # only keep these columns in variable data_BLJM
   select(submission_id, condition, response)
 
 ```
