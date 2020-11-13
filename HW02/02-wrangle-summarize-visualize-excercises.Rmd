@@ -187,16 +187,40 @@ The WHO data set has a number of health-related measurements for most of the wor
 
 Use R's built-in function `cor` to compute the Bravais-Pearson correlation between the variables `FertilityRate` and `LifeExpectancy`. Notice that you must first remove all entries in either column with missing data.
 
+```{r}
+fr_and_le <- data_WHO %>% 
+  # select only FertilityRate and LifeExpectancy
+  select(FertilityRate, LifeExpectancy) %>%
+  # filter out rows with na values
+  filter(!(is.na(FertilityRate) | is.na(LifeExpectancy))) 
+
+# compute correlation
+cor(fr_and_le)
+```
 
 ## Ex 3.b Interpret a correlation score [3 points]
 
 Interpret this numerical result. Your answer be something like the following (but hopefully much better): "There appears to be a positive correlation between $X$ and $Y$ suggesting that as $X$ increases $Y$ will decrease. This is proof that $X$ is a causally related to $Y$, in fact that $Y$ is the cause of $X$."
 
+#### Answer
+
+There appears to be a negative correlation between FertilityRate and LifeExpectancy. 
+However, this does not imply that the two are causally related.
 
 ## Ex 3.c Compute correlation scores for each region [2 points]
 
 Use R's built-in function `cor` to compute the Bravais-Pearson correlation between the variables `FertilityRate` and `LifeExpectancy` seperately for each region. Use `group_by` and remember to remove missing values. Store the resulting tibble in a variable called `correlation_WHO` because we will use it later on.
 
+```{r}
+correlation_WHO <- data_WHO %>% 
+  # only select relevant variables
+  select(Region, FertilityRate, LifeExpectancy) %>%
+  # filter out rows with na values
+  filter(!(is.na(FertilityRate) | is.na(LifeExpectancy))) %>%
+  group_by(Region) %>%
+  # TODO: correlation scores appear double
+  mutate(correlation = cor(FertilityRate, LifeExpectancy)) 
+```
 
 ## Ex 3.d Make a scatter plot [3 points]
 
