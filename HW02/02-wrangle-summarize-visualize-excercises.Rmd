@@ -1,7 +1,7 @@
 ---
 title: "Homework Sheet 2 -- Wrangle, Summarize, Visualize -- Excercises"
 date: 'Due: Wednesday, November 18 by 11:59 CET'
-author: ""
+author: "39"
 output: 
   html_document:
     toc: true
@@ -168,6 +168,9 @@ Argue, if you can, that the lecturer's conjecture is true: students who like met
 
 Suppose we have a vector of metric data points, stemming from measurements of weight of around ten thousand seagulls. The weight has been determined up to the [yoctogram level](https://en.wikipedia.org/wiki/Orders_of_magnitude_(mass)). (Just imagine that this was actually possible!) Why would it probably not make much good sense to consider the mode of this vector as an indicator of central tendency of these measurements?
 
+## Answer
+
+As mentioned in the web book, the mode "is the unique value that occurred most frequently in the data". Considering that we are measuring weights on a yoctogram level, even with data of ten thousand seagulls, it's highly likely that no weight measurement will occur twice (in which case, there would be no mode) or that maybe a very small number of (like max. 10) seagulls have the same weight (let's call it x) up to the yoctogram level <!-- TODO: Talk about why the mode is insufficient due to those reasons mentioned below  -->(in which case, the mode is not a good measure of tendency since while the weight x would be the most frequent one, only a relatively very small number would have that weight and also just by random chance)
 
 # <span style = "color:firebrick">Exercise 3:</span> Exploring two-dimensional metric measurements [15 points]
 
