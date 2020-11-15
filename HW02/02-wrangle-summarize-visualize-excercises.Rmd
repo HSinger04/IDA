@@ -178,6 +178,7 @@ Create a plot for the current data set similar to that of Figure 5.1 from the we
 
 (*Hint*: you can recycle code from the web-book, but you need to find it.)
 ```{r}
+#TODO COMMENTING
 data_BLJM_conditions_select%>%
   ggplot(aes(
     x = LB,
@@ -200,8 +201,9 @@ data_BLJM_conditions_select%>%
 
 Argue, if you can, that the lecturer's conjecture is true: students who like metal also prefer logic, and vice versa. Or, if you must, argue that the the data does not provide (visual) evidence for the lecturer's conjecture. (Make your answer short; at most four concise sentences, please!)
 
-
-
+People who chose Logic chose more often Jazz than Metal
+People who chose Metal chose more often Biology than Logic
+-> no? 
 # <span style = "color:firebrick">Exercise 2:</span> Musings about modes [5 points]
 
 Suppose we have a vector of metric data points, stemming from measurements of weight of around ten thousand seagulls. The weight has been determined up to the [yoctogram level](https://en.wikipedia.org/wiki/Orders_of_magnitude_(mass)). (Just imagine that this was actually possible!) Why would it probably not make much good sense to consider the mode of this vector as an indicator of central tendency of these measurements?
