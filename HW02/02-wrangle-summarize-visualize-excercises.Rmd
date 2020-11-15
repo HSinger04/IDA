@@ -78,22 +78,22 @@ Use R to display the following information:
 4. the mean `age` (*Hint:* use the option `mean(.., na.rm=T)` to remove entries with `NA`)
 
 ```{r}
-# number of rows
+# 1 number of rows
 nrow(data_BLJM)
 
-# I suppose they are asking for total number of subjects
+# 2 I suppose they are asking for total number of subjects
 data_BLJM %>% 
   group_by(submission_id) %>% #look at column of subject ids
   summarise() %>% #groups duplicates together
   nrow(.)  #counts number of rows 
 
-# mean of variable timeSpent
+# 3 mean of variable timeSpent
 data_BLJM %>%
   summarise(
     timeSpent_mean = mean(timeSpent)
   )
 
-# mean of variable age
+# 4 mean of variable age
 data_BLJM %>%
   summarise(
     age_mean = mean(age, na.rm = T)
@@ -132,6 +132,7 @@ data_BLJM_processed <-
   # only keep these columns in variable data_BLJM
   select(submission_id, condition, response)
 
+data_BLJM_processed
 ```
 
 
@@ -145,11 +146,30 @@ Produce a tibble with 8 rows which contains the following tidy data for later pr
 4. a column that contains the number of times the triple of choices in each row occurred in the data
 
 (*Hint*: You can recycle code from the web-book, but you need to find it (and possibly tweak it).)
+```{r}
+data_BLJM_conditions <- data_BLJM_processed %>%
+    pivot_wider(names_from =condition, values_from = response) %>% 
+    dplyr::count(JM, LB, BM)
+
+data_BLJM_conditions
+
+
+```
 
 
 ## Ex 1.e Obtaining counts for music+subject choices [2 points]
 
 Produce a similar table as for the previous exercise but only for the `JM` and `LB` columns.
+```{r}
+
+data_BLJM_conditions_select <- data_BLJM_processed %>% 
+   pivot_wider(names_from =condition, values_from = response) %>% # 
+   select(-BM) %>%  
+   dplyr::count(JM, LB)
+
+data_BLJM_conditions_select
+```
+
 
 
 ## Ex 1.f Plot the music+subject choices [2 points]
@@ -157,11 +177,29 @@ Produce a similar table as for the previous exercise but only for the `JM` and `
 Create a plot for the current data set similar to that of Figure 5.1 from the web-book. Comment your code exetensivly, explaining each relevant step as if you were trying to teach somebody R and ggplot. 
 
 (*Hint*: you can recycle code from the web-book, but you need to find it.)
+```{r}
+data_BLJM_conditions_select%>%
+  ggplot(aes(
+    x = LB,
+    y = n,
+    color = JM,
+    shape = JM,
+    group = JM
+   )
+  ) + 
+  geom_point(size = 3) + geom_line() +
+  labs(
+    title = "Counts of responses of each music+subject pair", 
+    x = "",
+    y = ""
+  )
+```
 
 
 ## Ex 1.g Interpret the plot [3 points]
 
 Argue, if you can, that the lecturer's conjecture is true: students who like metal also prefer logic, and vice versa. Or, if you must, argue that the the data does not provide (visual) evidence for the lecturer's conjecture. (Make your answer short; at most four concise sentences, please!)
+
 
 
 # <span style = "color:firebrick">Exercise 2:</span> Musings about modes [5 points]
