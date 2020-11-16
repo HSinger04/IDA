@@ -222,7 +222,8 @@ Suppose we have a vector of metric data points, stemming from measurements of we
 
 ## Answer
 
-As mentioned in the web book, the mode "is the unique value that occurred most frequently in the data". Considering that we are measuring weights on a yoctogram level, even with data of ten thousand seagulls, it's highly likely that no weight measurement will occur twice (in which case, there would be no mode) or that maybe a very small number of (like max. 10) seagulls have the same weight (let's call it x) up to the yoctogram level <!-- TODO: Talk about why the mode is insufficient due to those reasons mentioned below  -->(in which case, the mode is not a good measure of tendency since while the weight x would be the most frequent one, only a relatively very small number would have that weight and also just by random chance)
+As mentioned in the web book, the mode "is the unique value that occurred most frequently in the data". Considering that we are measuring weights on a yoctogram level, even with data of ten thousand seagulls, it's highly likely that no weight measurement will occur twice (in which case, there would be no mode) or that maybe a very small number of (like max. 10) seagulls have the same weight (let's call that weight x) up to the yoctogram level. <!-- TODO: Talk about why the mode is insufficient due to those reasons mentioned below  -->(
+In the latter case, the mode is not a good measure of tendency since while the weight x would be the most frequent one, it is likely that just by random chance, x happened to be the mode in our specific data set, while it could have just as well been a (completely) different value if we sampled another 10000 seagull weights.
 
 # <span style = "color:firebrick">Exercise 3:</span> Exploring two-dimensional metric measurements [15 points]
 
