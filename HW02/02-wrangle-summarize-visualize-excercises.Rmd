@@ -179,16 +179,25 @@ Create a plot for the current data set similar to that of Figure 5.1 from the we
 (*Hint*: you can recycle code from the web-book, but you need to find it.)
 ```{r}
 #TODO COMMENTING
-data_BLJM_conditions_select%>%
+data_BLJM_conditions_select %>%
   ggplot(aes(
+    # define x ...
     x = LB,
+    # ... and y axis
     y = n,
+    # use different colors for Jazz and Metal
     color = JM,
+    # use different shapes for Jazz and Metal
     shape = JM,
+    # we want to create points / lines for Jazz and Metal separately, not together
     group = JM
    )
   ) + 
-  geom_point(size = 3) + geom_line() +
+  # plot the points with size 3
+  geom_point(size = 3) +
+  # create respective lines for Jazz and Metal
+  geom_line() +
+  # add labels describing plot
   labs(
     title = "Counts of responses of each music+subject pair", 
     x = "",
