@@ -178,7 +178,6 @@ Create a plot for the current data set similar to that of Figure 5.1 from the we
 
 (*Hint*: you can recycle code from the web-book, but you need to find it.)
 ```{r}
-#TODO COMMENTING
 data_BLJM_conditions_select %>%
   ggplot(aes(
     # define x ...
@@ -257,7 +256,7 @@ Interpret this numerical result. Your answer be something like the following (bu
 
 #### Answer
 
-There appears to be a negative correlation between FertilityRate and LifeExpectancy. 
+There appears to be a negative correlation between FertilityRate and LifeExpectancy. That is, with larger FertilityRate values, LifeExpectanty values become lower and vice versa.   
 However, this does not imply that the two are causally related.
 
 ## Ex 3.c Compute correlation scores for each region [2 points]
@@ -271,8 +270,12 @@ correlation_WHO <- data_WHO %>%
   # filter out rows with na values
   filter(!(is.na(FertilityRate) | is.na(LifeExpectancy))) %>%
   group_by(Region) %>%
-  # TODO: correlation scores appear double - make sure that doesn't happen
-  mutate(correlation = cor(FertilityRate, LifeExpectancy)) 
+  # add column for correlations
+  mutate(correlation = cor(FertilityRate, LifeExpectancy)) %>%
+  # remove duplicate region rows
+  distinct(., Region, .keep_all = T)
+
+correlation_WHO
 ```
 
 ## Ex 3.d Make a scatter plot [3 points]
