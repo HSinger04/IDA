@@ -271,7 +271,7 @@ correlation_WHO <- data_WHO %>%
   # filter out rows with na values
   filter(!(is.na(FertilityRate) | is.na(LifeExpectancy))) %>%
   group_by(Region) %>%
-  # TODO: correlation scores appear double
+  # TODO: correlation scores appear double - make sure that doesn't happen
   mutate(correlation = cor(FertilityRate, LifeExpectancy)) 
 ```
 
