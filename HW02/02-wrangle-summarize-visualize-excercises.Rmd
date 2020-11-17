@@ -282,10 +282,39 @@ correlation_WHO
 
 Create a scatterplot (using `geom_point`) showing `FertilityRate` on the $x$-axis and `LifeExpectancy` on the $y$-axis. Add a linear regression line, using `geom_smooth`. (*Hint*: See Section 6.3.3 of the web-book). For good sports, check the documentation of `geom_smooth` to find an option that suppresses the gray area around the regression line (which is a confidence interval; a concept we will learn about later in the course). Finally, adjust the axis labels, so as not to show CamelCaseLabels but "Nice labels with spaces".
 
+```{r}
+data_WHO %>% 
+  ggplot(
+    #map "FertilityRate" onto x-axis
+    mapping = aes(x = FertilityRate, 
+    #map "LifeExpectancy" onto y-axis             
+                  y = LifeExpectancy))+
+    #add a scatter plot
+  geom_point()+
+    #add a linear regression line
+  geom_smooth(method = "lm", 
+    #remove the confidence interval            
+              se = FALSE)+
+    #change axis labes
+labs(x = 'Fertility rate', y = 'Life expectancy')
+```
+
 
 ## Ex 3.e Make a scatter plot facetted by region [2 points]
 
 Use `facet_wrap` to make six nicely arranged scatter plots, one for each level of `Region`, of `FertilityRate` against `LifeExpectancy` (as before: with linear regression lines w/o confidence intervals and nice axis labels). Make sure that each facet has its own range of values shown for the $x$- and $y$-axis, using the `scales` option of `facet_wrap`.
+
+```{r}
+data_WHO %>% 
+  ggplot(mapping = aes(x = FertilityRate, y = LifeExpectancy))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+labs(x = 'Fertility rate', y = 'Life expectancy')+
+  #arrange scatter plots one for each level of 'Region'
+  facet_wrap(~Region, 
+  #make each facet have its own range of values(make them free in one dimension)
+             scales = "free")
+```
 
 
 ## Ex 3.f Add labels to each facet [3 points]
