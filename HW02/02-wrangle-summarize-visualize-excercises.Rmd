@@ -305,7 +305,7 @@ labs(x = 'Fertility rate', y = 'Life expectancy')
 Use `facet_wrap` to make six nicely arranged scatter plots, one for each level of `Region`, of `FertilityRate` against `LifeExpectancy` (as before: with linear regression lines w/o confidence intervals and nice axis labels). Make sure that each facet has its own range of values shown for the $x$- and $y$-axis, using the `scales` option of `facet_wrap`.
 
 ```{r}
-data_WHO %>% 
+facet <- data_WHO %>% 
   ggplot(mapping = aes(x = FertilityRate, y = LifeExpectancy))+
   geom_point()+
   geom_smooth(method = "lm", se = FALSE)+
@@ -314,6 +314,8 @@ labs(x = 'Fertility rate', y = 'Life expectancy')+
   facet_wrap(~Region, 
   #make each facet have its own range of values(make them free in one dimension)
              scales = "free")
+
+facet
 ```
 
 
@@ -323,7 +325,10 @@ labs(x = 'Fertility rate', y = 'Life expectancy')+
 
 Add the information stored in `correlation_WHO` from Ex. 3.f to each facet using `geom_text`. The following code will help you.
 
-```{r, echo=TRUE, eval=FALSE}
+
+```{r}
+correlation_WHO <- ungroup(correlation_WHO)
+
 correlation_WHO <- 
   correlation_WHO %>% 
   mutate(
@@ -331,5 +336,8 @@ correlation_WHO <-
     y = c(70, 77, 70, 75, 72, 78), 
     correlation = round(correlation, 2)
   )
+
+facet+
+  geom_text(data = correlation_WHO, aes(x = x, y = y, label = correlation))
 ```
 
