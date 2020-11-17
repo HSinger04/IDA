@@ -314,7 +314,6 @@ labs(x = 'Fertility rate', y = 'Life expectancy')+
   facet_wrap(~Region, 
   #make each facet have its own range of values(make them free in one dimension)
              scales = "free")
-
 facet
 ```
 
