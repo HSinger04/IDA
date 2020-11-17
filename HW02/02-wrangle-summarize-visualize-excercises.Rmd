@@ -125,7 +125,8 @@ We will use the code from [Appendix D of the web-book](https://michael-franke.gi
 ```{r}
 data_BLJM_processed <- 
   data_BLJM %>% 
-  # creating column 'condition' by building entries from the first letter of option1 and option2 respectively, for each subject 
+  # creating column 'condition' by building entries from the first letter 
+  # of option1 and option2 respectively, for each subject 
   mutate(
     condition = str_c(str_sub(option2, 1, 1), str_sub(option1, 1, 1))
   ) %>% 
