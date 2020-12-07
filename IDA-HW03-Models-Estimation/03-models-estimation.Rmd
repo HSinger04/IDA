@@ -194,7 +194,7 @@ aida::summarize_sample_vector(samples_t, name = "test")
 
 Based on your intuitive understanding of 95% Bayesian credible intervals and the results from the previous exercise, what would you conclude about the relevant research question of whether the vaccine is effective.
 Answer: 
-With a certainty of 95%, we can assume that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
+Given this model and the provided data, we can assume with a certainty of 95% that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
 
 ## Ex 2.e Efficiency of the treatment [3 points]
 
@@ -207,6 +207,7 @@ $$
 Explain in your own words what this random variable represents.
 Answer: #TODO
 
+
 ## Ex 2.f Plot samples of $X_{\text{eff}}$ [2 points]
 
 Collect 1,000,000 samples of $X_{\text{eff}}$ and make a density plot.
@@ -214,7 +215,7 @@ Collect 1,000,000 samples of $X_{\text{eff}}$ and make a density plot.
 tibble(
   x = samples_t,
   y = samples_c,
-  x_eff = x/y
+  x_eff = x/y 
   ) %>% 
   ggplot(aes(x = x_eff)) +
   geom_density()
@@ -227,4 +228,16 @@ tibble(
 Use the function `aida::summarize_sample_vector` to obtain Bayesian estimates of $X_{\text{eff}}$ (mean posterior and 95% credible interval). Use these numbers to fill in the blanks in the sentence below. (**Caveat:** You might have to transpose the numbers in a way that fits what's expressed in this sentence.) Notice that you have now calculated a nicely interpretable estimate of uncertainty concerning the efficiency of the new BiNTec/Pfizer drug.
 
 > Given our model and the collected data, out best informed guess is that the vaccine reduces the risk of attracting Covid-19 by roughly ___ percent. Our margin of reasonable uncertainty is that the drug's efficiency lies roughly between a ___ percent risk reduction and a ___ percent risk reduction. 
+
+```{r}
+#TODO does this seem reasonable??
+vaccine_eff <- tibble(
+  x = samples_t,
+  y = samples_c,
+  x_eff = x/y 
+  ) 
+
+aida::summarize_sample_vector(vaccine_eff$x_eff, name = "efficiency factor Covid19 vaccine")
+```
+
 
