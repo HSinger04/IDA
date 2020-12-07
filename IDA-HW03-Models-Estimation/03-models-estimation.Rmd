@@ -80,7 +80,7 @@ n_samples <- 1e6
 tibble(
   x = rnorm(n_samples, 0, 1),
   y = rnorm(n_samples, 5 , 0.001),
-  z = rnorm(n_samples, x+y)
+  z = x+y
   ) %>% 
   ggplot(aes(x = z)) +
   geom_density()
@@ -97,15 +97,16 @@ The Irvin-Hall distribution is defined as the sum of $n$ independent draws from 
  $Z \sim \sum_{i=1}^n U_i$ is Irvin-Hall distributed with degree $n$. Use samples to plot the Irvine-Hall distribution for $n=2$, $n=3$ and $n=20$.
  
 ```{r}
-### something is not right here lol
+### TODO: plotting for irvin_hall does not work :( sampling seems to be working bc x-axis is changed
 plot_irwin_hall <- function(n_samples) {
 tibble(
   uni = runif(n_samples, 0, 1),
-  irvin_hall = runif(n_samples, sum(uni))
+  irvin_hall = sum(uni)
   ) %>% 
   ggplot(aes(x = irvin_hall)) +
   geom_density()
 }
+
 plot_irwin_hall(2)
 plot_irwin_hall(3)
 plot_irwin_hall(20)
