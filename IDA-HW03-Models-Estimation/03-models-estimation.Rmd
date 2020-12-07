@@ -89,7 +89,7 @@ tibble(
 ## Ex 1.b Increasing standard deviation of $Y$ in previous example [1 point]
 
 Describe in your own words how the shape of $Z$'s distribution will change if we increase the standard deviation of $Y$ to 1. You do not need to plot this, but you may.
-Z will become wider, that is, its standard deviation will be 2, instead of 0,001. 
+Z will become wider, that is, its standard deviation will be 2, instead of 1,001. 
 
 ## Ex 1.c Irvin-Hall distribution [4 points]
 
@@ -100,8 +100,8 @@ The Irvin-Hall distribution is defined as the sum of $n$ independent draws from 
 ### something is not right here lol
 plot_irwin_hall <- function(n_samples) {
 tibble(
-  uni = rdunif(n_samples, 0, 1),
-  irvin_hall = rdunif(n_samples, sum(uni))
+  uni = runif(n_samples, 0, 1),
+  irvin_hall = runif(n_samples, sum(uni))
   ) %>% 
   ggplot(aes(x = irvin_hall)) +
   geom_density()
