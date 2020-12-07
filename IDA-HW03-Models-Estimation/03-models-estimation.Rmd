@@ -89,6 +89,7 @@ tibble(
 ## Ex 1.b Increasing standard deviation of $Y$ in previous example [1 point]
 
 Describe in your own words how the shape of $Z$'s distribution will change if we increase the standard deviation of $Y$ to 1. You do not need to plot this, but you may.
+Answer:
 Z will become wider, that is, its standard deviation will be 2, instead of 1,001. 
 
 ## Ex 1.c Irvin-Hall distribution [4 points]
@@ -167,6 +168,7 @@ Based on the conventions used in the webbook, draw a graphical representation of
 ## Ex 2.b Specify the posterior distribution [2 points]
 
 Use conjugacy of the Binomial Model to compute a concise mathematical form of the posterior distribution of $P(\theta_c \mid N_c, k_c)$ and $P(\theta_t \mid N_t, k_t)$ each.
+Asnwer:
 Control: kc ~ Beta(Thetac | 1+126, 1+22000-126) = Beta(Thetac | 163, 21839)
 Test: kt ~ Beta(Thetat | 1+8, 1+22000-8) = Beta(Thetat | 9, 21993)
 
@@ -191,6 +193,7 @@ aida::summarize_sample_vector(samples_t, name = "test")
 ## Ex 2.e Interpret this result [4 points]
 
 Based on your intuitive understanding of 95% Bayesian credible intervals and the results from the previous exercise, what would you conclude about the relevant research question of whether the vaccine is effective.
+Answer: 
 With a certainty of 95%, we can assume that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
 
 ## Ex 2.e Efficiency of the treatment [3 points]
@@ -202,12 +205,19 @@ $$
 $$
 
 Explain in your own words what this random variable represents.
+Answer: #TODO
 
 ## Ex 2.f Plot samples of $X_{\text{eff}}$ [2 points]
 
 Collect 1,000,000 samples of $X_{\text{eff}}$ and make a density plot.
 ```{r}
-
+tibble(
+  x = samples_t,
+  y = samples_c,
+  x_eff = x/y
+  ) %>% 
+  ggplot(aes(x = x_eff)) +
+  geom_density()
 ```
 
 
