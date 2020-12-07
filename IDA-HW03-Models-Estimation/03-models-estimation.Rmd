@@ -176,16 +176,6 @@ Collect 1,000,000 samples from the posterior distributions specified in the prev
 ```{r}
 samples_c <- rbeta(1000000, 163, 21839)
 samples_t <- rbeta(1000000, 9, 21993)
-
-# alternative: composit of beta and binomial (but something is off)
-n_samples <- 1000000
-tibble(
-  prior_c = rbeta(n_samples, 163, 21839),
-  k_c = rbinom(n_samples, 22000, prior_c)
-  ) %>% 
-  ggplot(aes(x =k_c)) +
-  geom_density()
- 
 ```
 
 
@@ -201,7 +191,7 @@ aida::summarize_sample_vector(samples_t, name = "test")
 ## Ex 2.e Interpret this result [4 points]
 
 Based on your intuitive understanding of 95% Bayesian credible intervals and the results from the previous exercise, what would you conclude about the relevant research question of whether the vaccine is effective.
-With a certainty of 95%, we can assume that the probability to be infection by Covid19 without the vaccine was between 
+With a certainty of 95%, we can assume that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
 
 ## Ex 2.e Efficiency of the treatment [3 points]
 
