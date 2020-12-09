@@ -91,7 +91,7 @@ tibble(
 Describe in your own words how the shape of $Z$'s distribution will change if we increase the standard deviation of $Y$ to 1. You do not need to plot this, but you may.
 ## Answer:
 
-Z will become wider, that is, its standard deviation will be 2, instead of 1,001. 
+Z will become wider, that is, its standard deviation will be 2, instead of 1,001. The mean stays the same as before (i.e. 5).
 
 ## Ex 1.c Irvin-Hall distribution [4 points]
 
@@ -99,7 +99,6 @@ The Irvin-Hall distribution is defined as the sum of $n$ independent draws from 
  $Z \sim \sum_{i=1}^n U_i$ is Irvin-Hall distributed with degree $n$. Use samples to plot the Irvine-Hall distribution for $n=2$, $n=3$ and $n=20$.
  
 ```{r}
-# CHANGED
 irvin_hall <- function(degree) {
   
   n_samples <- 1e6
@@ -173,17 +172,20 @@ $$
 
 ## Ex 2.a Draw the model [3 points]
 
-# TODO
-
 Based on the conventions used in the webbook, draw a graphical representation of this model and include it in using Rmarkdown into the HTML output of your submission. You can use a photo of a hand-drawn model, or use any kind of software. Just don't waste too much time on the aesthetics! Make sure to include the picture in your ZIP-submission and integrate.
+
+## Answer
+
+![Graphical Representation.](./HW3Graph.jpg)
 
 ## Ex 2.b Specify the posterior distribution [2 points]
 
 Use conjugacy of the Binomial Model to compute a concise mathematical form of the posterior distribution of $P(\theta_c \mid N_c, k_c)$ and $P(\theta_t \mid N_t, k_t)$ each.
+
 ## Answer:
 
-Control: $ \theta_c \mid N_c, k_c  $ ~ Beta(1+162, 1+22000-162) = Beta(163, 21839)
-Test: $ \theta_t \mid N_t, k_t  $ ~ Beta(1+8, 1+22000-8) = Beta(9, 21993)
+Control: $\theta_c \mid N_c, k_c$   ~ Beta(1+162, 1+22000-162) = Beta(163, 21839)
+Test: $\theta_t \mid N_t, k_t$ ~ Beta(1+8, 1+22000-8) = Beta(9, 21993)
 
 ## Ex 2.c Collect samples from these posterior distributions [1 point]
 
@@ -208,6 +210,7 @@ aida::summarize_sample_vector(samples_t, name = "test")
 Based on your intuitive understanding of 95% Bayesian credible intervals and the results from the previous exercise, what would you conclude about the relevant research question of whether the vaccine is effective.
 
 ## Answer:
+
 Given this model and the provided data, we can assume with an estimated certainty of 95% that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
 If there are no differences between vaccinated and unvaccinated individuals with respect to confounding variables, we can calculate vaccine efficacy(VE) by this equation below.
 
@@ -252,11 +255,10 @@ tibble(
 ## Ex 2.f Interpret summary statistics of $X_{\text{eff}}$ [4 points]
 
 Use the function `aida::summarize_sample_vector` to obtain Bayesian estimates of $X_{\text{eff}}$ (mean posterior and 95% credible interval). Use these numbers to fill in the blanks in the sentence below. (**Caveat:** You might have to transpose the numbers in a way that fits what's expressed in this sentence.) Notice that you have now calculated a nicely interpretable estimate of uncertainty concerning the efficiency of the new BiNTec/Pfizer drug.
-TODO: transpose numbers somehow so they fit ?
+
 > Given our model and the collected data, out best informed guess is that the vaccine reduces the risk of attracting Covid-19 by roughly 0,056 percent. Our margin of reasonable uncertainty is that the drug's efficiency lies roughly between a 0,022 percent risk reduction and a 0,093 percent risk reduction. 
 
 ```{r}
-#TODO does this seem reasonable??
 vaccine_eff <- tibble(
   x = samples_t,
   y = samples_c,
