@@ -216,8 +216,9 @@ VE = 100(I_c - I_t)/I_t
 I_c = disease incidence in the controll group(unvaccinated group)
 I_t = disease incidence in the treatment group(vaccinated group)
 
-According to the calculation, VE = 91.8% ~ 96.8%
-Therefore, we can conclude that the vaccine is effective.
+VE = 100(0,0074-0,0004)/0,0074 = 94.5
+
+According to the calculation, the vaccine has 94.5% vaccine efficacy. Therefore, we can conclude that the vaccine is effective.
 
 ## Ex 2.e Efficiency of the treatment [3 points]
 
