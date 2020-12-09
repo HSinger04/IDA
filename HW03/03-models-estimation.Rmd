@@ -208,9 +208,16 @@ aida::summarize_sample_vector(samples_t, name = "test")
 Based on your intuitive understanding of 95% Bayesian credible intervals and the results from the previous exercise, what would you conclude about the relevant research question of whether the vaccine is effective.
 
 ## Answer:
-
-# TODO: still need to answer if vaccine is effective or not
 Given this model and the provided data, we can assume with an estimated certainty of 95% that the probability of infection by Covid19 without the vaccine should be between 0,0063% and 0,0086% with an expected value of 0,0074% (control group). With vaccine, the probability of infection should be between 0,0002% and 0,0007% with an expected value of 0,0004% (test group). 
+If there are no differences between vaccinated and unvaccinated individuals with respect to confounding variables, we can calculate vaccine efficacy(VE) by this equation below.
+
+VE = 100(I_c - I_t)/I_t
+
+I_c = disease incidence in the controll group(unvaccinated group)
+I_t = disease incidence in the treatment group(vaccinated group)
+
+According to the calculation, VE = 91.8% ~ 96.8%
+Therefore, we can conclude that the vaccine is effective.
 
 ## Ex 2.e Efficiency of the treatment [3 points]
 
