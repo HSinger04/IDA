@@ -1,7 +1,7 @@
 ---
 title: "Homework Sheet 4 -- Model comparison and hypothesis testing"
 date: 'Due: Wednesday, January 13 by 11:59 CET'
-author: ""
+author: "39"
 output: 
   html_document:
     toc: true
