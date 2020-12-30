@@ -63,18 +63,30 @@ Load the data you and/or your peers generated into a variable called `data_ST` a
 
 **Solution:** 
 
+```{r}
+data_ST <- read_csv("data-Simon-Task-minimal.csv")
+head(data_ST, n=7)
+```
+
 ## Ex 1.b Determine the number of participants [1 point]
 
 Use R to extract the number of participants in the data set.
 
 **Solution:**
 
+```{r}
+nrow(data_ST)
+```
 
 ## Ex 1.c Identify variables of interest [2 points]
 
 Based on the hypotheses formulated in [Chapter D.2 of the web-book](https://michael-franke.github.io/intro-data-analysis/simon-task.html), which of the columns in the data tibble represent the main indendent and dependent variables of interest?
 
 **Solution:**
+
+\# TODO: unsure if key_p_is_for counts as an independent variable or not
+independent: key_p_is_for, condition
+dependent: correctness, RT
 
 ## Ex 1.d By-participant mean correctness and mean RT [2 points]
 
@@ -130,11 +142,17 @@ $$
 
 Based on the conventions used in the webbook, draw a graphical representation of this model and include it using Rmarkdown into the HTML output of your submission. You can use a photo of a hand-drawn model, or use any kind of software. Just don’t waste too much time on the aesthetics! Make sure to include the picture in your ZIP-submission and integrate.
 
+![Graphical Representation.](./HW04Graph.jpg)
+
 ## Ex 2.b Specify the accuracy hypothesis formally [1 points]
 
 State the *accuracy hypothesis* (that the accuracy (i.e., the proportion of correct responses) is higher in the congruent condition than in the incongruent condition) formally as a mathematical statement about a single variable of the model from above.
 
 **Solution:**
+
+$$
+\delta > 0
+$$
 
 ## Ex 2.c Testing via estimation and Kruschke's ternary decision logic [10 points]
 
