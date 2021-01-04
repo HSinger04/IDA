@@ -67,6 +67,14 @@ Load the data you and/or your peers generated into a variable called `data_ST` a
 data_ST <- read_csv("data-Simon-Task-minimal.csv")
 head(data_ST, n=7)
 ```
+#TODO
+```{r}
+d <- data_ST %>% 
+  group_by(submission_id) %>% 
+  summarise(number =n())
+nrow(d)
+#39 participants, 120 trials for each. 39x120 = 4,680
+```
 
 ## Ex 1.b Determine the number of participants [1 point]
 
@@ -97,6 +105,18 @@ Plot the by-participant summary statistics in this tibble in a scatter plot, sho
 (Rationale for doing this: Even though we will not draw direct conclusions from this plot here, visualizing your data like shown here is usually a good way of getting familiar with what you are dealing with.))
 
 **Solution:**
+```{r}
+d_summary <- data_ST %>% 
+  group_by(submission_id) %>% 
+  summarize(mean_RT = mean(RT),
+            proportion_C = mean(ifelse(correctness == "correct", 1, 0)))
+
+d_summary
+
+d_summary %>% 
+  ggplot(aes(x = proportion_C, y = mean_RT)) + 
+  geom_point()
+```
 
 ## Ex 1.e Remove participants [3 points]
 
@@ -104,6 +124,22 @@ Remove all data from all participants who gave less than 50% correct answers or 
 Use R to output information about how many participants have been excluded in this way.
 
 **Solution:**
+```{r}
+d_summary <- d_summary %>% 
+  mutate(exclude = case_when(mean_RT < 350 ~ TRUE,
+                             mean_RT > 750 ~ TRUE,
+                             proportion_C < 0.5 ~ TRUE,
+                            TRUE ~ FALSE))
+
+#Data visualization - to see the excluded participants easily 
+d_summary %>% 
+  ggplot(aes(x = proportion_C, y = mean_RT)) +
+  geom_point() + 
+  geom_point(data = filter(d_summary, exclude == TRUE),
+             color = "skyblue", shape = "square", size = 2)
+
+#1 participant has been excluded
+```
 
 ## Ex 1.f Remove individual trials [3 points]
 
@@ -111,6 +147,31 @@ Exclude all trials with reaction times longer than 1 second or shorter than 100 
 Use R to output information about how many trials have been excluded in this way.
 
 **Solution:**
+#TODO
+```{r}
+data_ST <- filter(data_ST, RT > 100 & RT < 1000)
+data_ST
+nrow(data_ST)
+#nrow before the remove - nrow after the remove = the number of trials have been excluded.
+#4680 - 4565 = 115
+#115 trials have been excluded
+```
+
+```{r}
+data_ST %>% 
+  ggplot(aes(x = RT)) +
+  geom_histogram() +
+  geom_jitter(aes(x = RT, y = 1), alpha = 0.2, height = 200)
+
+message(
+  "exclude", 
+  nrow(filter(data_ST, RT <100)) + nrow(filter(data_ST, RT >100)), "trials based on too fast or too slow RTs")
+data_ST <- filter(data_ST, RT >100 & RT <1000)
+data_ST %>% 
+  ggplot(aes(x = RT)) + 
+  geom_histogram() + 
+  geom_jitter(aes(x = RT, y = 1), alpha = 0.2, height = 200)
+```
 
 ## Ex 1.g Show summary statistics [3 points]
 
@@ -119,6 +180,19 @@ Produce a tibble which shows in each row, one row for each condition, the overal
 What would you conclude based on these summary statistics about either or both of the relevant research hypotheses, as spelled out in [Chapter D.2 of the web-book](https://michael-franke.github.io/intro-data-analysis/simon-task.html)?
 
 **Solution:**
+```{r}
+data_Summary <- data_ST %>% 
+  group_by(condition) %>% 
+  summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
+data_Summary
+#proportion of correct answers is higher in the congruent trials
+# mean of reaction times is higher in the incongruent trials
+#We have to see if these differences are meaningful
+
+model_ST <- brm(mean_RT ~ condition + (condition|submission_id), filter(data_Summary, #TODO) )
+
+summary(model_ST)
+```
 
 # <span style = "color:firebrick">Exercise 2:</span> Testing the accuracy hypothesis [20 points]
 
