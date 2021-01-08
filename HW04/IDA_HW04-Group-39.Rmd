@@ -92,6 +92,9 @@ Based on the hypotheses formulated in [Chapter D.2 of the web-book](https://mich
 independent: key_p_is_for, condition
 dependent: correctness, RT
 
+Marie: Hypothesis 1: Congruency (independent variable) of stimulus and location affect reaction time (dependent variable): Reaction time for incongruent configurations > reaction time for congruent configurations. So we need to look at condition and RT for this one.
+Hypothesis 2: Congruency (independent variable) affects accuracy (dependent variable): Accuracy for incongruent configurations < accuracy for congruent configurations. So we need to look at condition and correctness.
+
 ## Ex 1.d By-participant mean correctness and mean RT [2 points]
 
 Create a tibble in which each row shows the proportion of "correct" answers and the mean reaction time for a different participant. So, this tibble will have as many rows as there are participants in the data set. (**Hint:** Use a sequence of `group_by` and `summarize`.)
