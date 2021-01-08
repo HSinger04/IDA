@@ -182,9 +182,10 @@ data_Summary <- data_ST %>%
   group_by(condition) %>% 
   summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
 data_Summary
-#proportion of correct answers is higher in the congruent trials
+# proportion of correct answers is higher in the congruent trials
 # mean of reaction times is higher in the incongruent trials
-#We have to see if these differences are meaningful
+# As we have to see if these differences are meaningful, we withhold judgement 
+# for now
 ```
 
 # <span style = "color:firebrick">Exercise 2:</span> Testing the accuracy hypothesis [20 points]
