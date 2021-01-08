@@ -75,13 +75,9 @@ Use R to extract the number of participants in the data set.
 **Solution:**
 
 ```{r}
-nrow(data_ST)
-```
-#TODO
-```{r}
 d <- data_ST %>% 
   group_by(submission_id) %>% 
-  summarise(number =n())
+  summarise(number =n ())
 nrow(d)
 #39 participants, 120 trials for each. 39x120 = 4,680
 ```
@@ -181,17 +177,17 @@ What would you conclude based on these summary statistics about either or both o
 
 **Solution:**
 ```{r}
-data_Summary <- data_ST %>% 
-  group_by(condition) %>% 
-  summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
-data_Summary
-#proportion of correct answers is higher in the congruent trials
-# mean of reaction times is higher in the incongruent trials
-#We have to see if these differences are meaningful
-
-model_ST <- brm(mean_RT ~ condition + (condition|submission_id), filter(data_Summary, #TODO) )
-
-summary(model_ST)
+# data_Summary <- data_ST %>% 
+#   group_by(condition) %>% 
+#   summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
+# data_Summary
+# #proportion of correct answers is higher in the congruent trials
+# # mean of reaction times is higher in the incongruent trials
+# #We have to see if these differences are meaningful
+# 
+# model_ST <- brm(mean_RT ~ condition + (condition|submission_id), filter(data_Summary, #TODO) )
+# 
+# summary(model_ST)
 ```
 
 # <span style = "color:firebrick">Exercise 2:</span> Testing the accuracy hypothesis [20 points]
