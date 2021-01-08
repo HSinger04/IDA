@@ -177,17 +177,13 @@ What would you conclude based on these summary statistics about either or both o
 
 **Solution:**
 ```{r}
-# data_Summary <- data_ST %>% 
-#   group_by(condition) %>% 
-#   summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
-# data_Summary
-# #proportion of correct answers is higher in the congruent trials
-# # mean of reaction times is higher in the incongruent trials
-# #We have to see if these differences are meaningful
-# 
-# model_ST <- brm(mean_RT ~ condition + (condition|submission_id), filter(data_Summary, #TODO) )
-# 
-# summary(model_ST)
+data_Summary <- data_ST %>% 
+  group_by(condition) %>% 
+  summarise(proportion_C = mean(correctness == "correct"), mean_RT = mean(RT))
+data_Summary
+#proportion of correct answers is higher in the congruent trials
+# mean of reaction times is higher in the incongruent trials
+#We have to see if these differences are meaningful
 ```
 
 # <span style = "color:firebrick">Exercise 2:</span> Testing the accuracy hypothesis [20 points]
@@ -243,6 +239,28 @@ To do this, follow these steps:
 5. draw conclusions from this computation about the research hypothesis, following Kruschke's ternary decision logic
 
 **Solution:**
+```{r}
+#1
+simon_data_4_Stan <- list(
+  N1 = nrow(data_ST %>% filter(condition == "congruent")),
+  k1 = nrow(data_ST %>% filter(condition == "congruent") %>% filter(correctness == "correct")),
+  N2 = nrow(data_ST %>% filter(condition == "incongruent")),
+  k2 = nrow(data_ST %>%  filter(condition == "incongruent") %>% filter(correctness == "correct"))
+)
+simon_data_4_Stan
+
+#2
+samples_1 <- rbeta(10000, 2207, 97)
+samples_2 <- rbeta(10000, 2069, 196)
+
+#3
+samples_delta <- samples_1 - samples_2
+
+#4
+aida::summarize_sample_vector(samples_delta, name = 'delta')
+
+#5 - The directional hypothesis delta > 0 contains the 95% credible interval in its entirety. Therefore, we would following the ternary decision logic, accept this hypothesis based on the data.
+```
 
 ## Ex 2.d Testing via comparison using an embedding model [7 points]
 
