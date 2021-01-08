@@ -143,14 +143,15 @@ Exclude all trials with reaction times longer than 1 second or shorter than 100 
 Use R to output information about how many trials have been excluded in this way.
 
 **Solution:**
-#TODO
+
 ```{r}
+original_num <- nrow(data_ST)
 data_ST <- filter(data_ST, RT > 100 & RT < 1000)
 data_ST
-nrow(data_ST)
 #nrow before the remove - nrow after the remove = the number of trials have been excluded.
 #4680 - 4565 = 115
 #115 trials have been excluded
+original_num - nrow(data_ST)
 ```
 
 ```{r}

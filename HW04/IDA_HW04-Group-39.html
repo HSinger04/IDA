@@ -614,9 +614,10 @@ summary {
 <div id="ex-1.f-remove-individual-trials-3-points" class="section level2">
 <h2>Ex 1.f Remove individual trials [3 points]</h2>
 <p>Exclude all trials with reaction times longer than 1 second or shorter than 100 ms. Use R to output information about how many trials have been excluded in this way.</p>
-<p><strong>Solution:</strong> #TODO</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>data_ST &lt;-<span class="st"> </span><span class="kw">filter</span>(data_ST, RT <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span>RT <span class="op">&lt;</span><span class="st"> </span><span class="dv">1000</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>data_ST</span></code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>original_num &lt;-<span class="st"> </span><span class="kw">nrow</span>(data_ST)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>data_ST &lt;-<span class="st"> </span><span class="kw">filter</span>(data_ST, RT <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span>RT <span class="op">&lt;</span><span class="st"> </span><span class="dv">1000</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>data_ST</span></code></pre></div>
 <pre><code>## # A tibble: 4,565 x 7
 ##    submission_id key_p_is_for timeSpent trial_number condition correctness    RT
 ##            &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;
@@ -631,8 +632,8 @@ summary {
 ##  9          1302 square            7.88            9 incongru… correct       336
 ## 10          1302 square            7.88           10 incongru… correct       360
 ## # … with 4,555 more rows</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">nrow</span>(data_ST)</span></code></pre></div>
-<pre><code>## [1] 4565</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>original_num <span class="op">-</span><span class="st"> </span><span class="kw">nrow</span>(data_ST)</span></code></pre></div>
+<pre><code>## [1] 115</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#nrow before the remove - nrow after the remove = the number of trials have been excluded.</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="co">#4680 - 4565 = 115</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a><span class="co">#115 trials have been excluded</span></span></code></pre></div>
