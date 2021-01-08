@@ -154,22 +154,6 @@ data_ST
 original_num - nrow(data_ST)
 ```
 
-```{r}
-data_ST %>% 
-  ggplot(aes(x = RT)) +
-  geom_histogram() +
-  geom_jitter(aes(x = RT, y = 1), alpha = 0.2, height = 200)
-
-message(
-  "exclude", 
-  nrow(filter(data_ST, RT <100)) + nrow(filter(data_ST, RT >100)), "trials based on too fast or too slow RTs")
-data_ST <- filter(data_ST, RT >100 & RT <1000)
-data_ST %>% 
-  ggplot(aes(x = RT)) + 
-  geom_histogram() + 
-  geom_jitter(aes(x = RT, y = 1), alpha = 0.2, height = 200)
-```
-
 ## Ex 1.g Show summary statistics [3 points]
 
 Produce a tibble which shows in each row, one row for each condition, the overall (group-level) proportion of correct answers and the mean of all reaction times per condition.
