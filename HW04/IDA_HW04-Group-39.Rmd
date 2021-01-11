@@ -243,10 +243,10 @@ samples_1 <- rbeta(10000, 2207, 97)
 samples_2 <- rbeta(10000, 2069, 196)
 
 #3
-samples_delta <- samples_1 - samples_2
+delta_samples <- samples_1 - samples_2
 
 #4
-aida::summarize_sample_vector(samples_delta, name = 'delta')
+aida::summarize_sample_vector(delta_samples, name = 'delta')
 
 #5 - The directional hypothesis delta > 0 contains the 95% credible interval in its entirety. Therefore, we would following the ternary decision logic, accept this hypothesis based on the data.
 ```
@@ -278,6 +278,14 @@ You could also give a mathematical proof, or any other (informal or formal) argu
 
 **Solution:**
 
+### Informal, short answer:
+
+Since our variable of interest $$ \delta $$ is symetrically distributed around the critical value 0, both the numerator and denominator have the same values. As such, the fraction results in 1, thus being safe to ignore.
+
+### More formal, longer answer: 
+
+As it is the case that $$ \delta \sim Beta(1,1) - Beta(1,1) = Unif(0,1) - Unif(0,1)  $$, delta is symmetrically distributed with 0 as the center value and -1 and 1 as lower and upper bounds. As such, $$ P_M(\theta \in I_0) = P(\delta > 0) = 0.5 = P(\delta \leq 0) = P_M(\theta \not \in I_0) $$ holds, so $$ \frac{P_M(\theta \not \in I_0)}{P_M(\theta \in I_0)} = 1 $$. As such, it is safe to ignore.
+
 Second, use the samples in `delta_samples` from the previous exercise to approximate:
 
 $$ 
@@ -287,9 +295,20 @@ $$
 $$
 
 **Solution:**
+```{r}
+boolean_samples <- case_when(
+  delta_samples > 0 ~ 1, TRUE ~ 0
+  )  
+
+# total number of samples that are in I_0
+total_in_I_0 <- sum(boolean_samples)
+# Inf occurs if denominator is 0, which is very likely in our example
+total_in_I_0 / (length(boolean_samples) - total_in_I_0)
+```
+
 
 Third, interpret this result.
 
 **Solution:**
 
-
+Since Inf is clearly > 100, it is decisive that our null hypothesis is the better explanation over the alternative hypothesis.
