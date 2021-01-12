@@ -88,7 +88,9 @@ Based on the hypotheses formulated in [Chapter D.2 of the web-book](https://mich
 
 **Solution:**
 
-There are following two hypotheses formulated in chapter D.2: Hypothesis 1: Congruency (independent variable) of stimulus and location affect reaction time (dependent variable): Reaction time for incongruent configurations > reaction time for congruent configurations. So we need to look at condition and RT for this one. Hypothesis 2: Congruency (independent variable) affects accuracy (dependent variable): Accuracy for incongruent configurations < accuracy for congruent configurations. As such, congruency is the independent variable, while correctness / accuracy and reaction time (RT) are the dependent ones.
+Congruency is the independent variable, while correctness / accuracy and reaction time (RT) are the dependent ones due to following reasons:
+
+There are following two hypotheses formulated in chapter D.2: Hypothesis 1: Congruency (independent variable) of stimulus and location affect reaction time (dependent variable): Reaction time for incongruent configurations > reaction time for congruent configurations. So we need to look at condition and RT for this one. Hypothesis 2: Congruency (independent variable) affects accuracy (dependent variable): Accuracy for incongruent configurations < accuracy for congruent configurations. 
 
 ## Ex 1.d By-participant mean correctness and mean RT [2 points]
 
