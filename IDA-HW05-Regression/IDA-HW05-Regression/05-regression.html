@@ -649,6 +649,20 @@ summary {
 <h2>Ex 2.b Plot the data [2 points]</h2>
 <p>Plot the data just like in the the first part of the web-book’s appendix D4.4 (proportion per condition). Use the web-book code as much as you like while making any necessary amendments.</p>
 <p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">group_by</span>(condition) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">num_condition =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">proportion_condition =</span> num_condition<span class="op">/</span><span class="kw">nrow</span>(IDA_data_KoF))</span></code></pre></div>
+<pre><code>## # A tibble: 7 x 3
+##   condition        num_condition proportion_condition
+##   &lt;ord&gt;                    &lt;int&gt;                &lt;dbl&gt;
+## 1 Condition 0                 85               0.0417
+## 2 Condition 1                 85               0.0417
+## 3 Condition 6                 85               0.0417
+## 4 Condition 9                 85               0.0417
+## 5 Condition 10                85               0.0417
+## 6 background check           425               0.208 
+## 7 filler                    1190               0.583</code></pre>
 </div>
 <div id="ex-2.c-run-logistic-regression-model-5-points" class="section level2">
 <h2>Ex 2.c Run logistic regression model [5 points]</h2>
@@ -683,39 +697,39 @@ summary {
 <p>Let’s get nasty! Let’s do what no good scientist should ever do. (We do it for practice and for rubbing it in that this is NOT what you should EVER do.)</p>
 <p>Suppose we did not like the outcome of the test for H1 above. So we are going to run a new analysis (for which there is no <em>prima facie</em> rationale) just to see if we cannot possibly squeeze out something that looks like an argument for the conclusion that we so crave to be supported. Worst of all, we stipulate -completely out of the blue- a potential gender effect on the understanding of linguistic presupposition (say what?).</p>
 <p>Obviously, what this exercise is really after is getting practice with interpreting <em>interaction terms</em> for categorical regression. So, look at the code below, try to understand what it does and then inspect the summary of the model fit shown here. Then answer the following question: based on this analysis and results shown in the summary, is there any reason to believe that (i) there is a difference in the answer behavior between self-identified male and self-identified female participants (i.e., is there a main effect of <code>gender</code>?), and (ii) is there any specific way in which gender impacts on the disposition to select “TRUE” in either of the two conditions (i.e., is there an interaction?). Identify the source of your conclusion by pointing out which numbers (or whatever) you draw on in the summary of the model fit.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>IDA_data_KoF_interaction &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Condition 0&quot;</span>, <span class="st">&quot;Condition 1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(gender)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="dt">gender =</span> <span class="kw">factor</span>(gender)</span>
-<span id="cb10-6"><a href="#cb10-6"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span><span class="kw">droplevels</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">select</span>(response, condition, gender)</span>
-<span id="cb10-9"><a href="#cb10-9"></a>  </span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co"># apply &#39;sum&#39; contrasts</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb10-13"><a href="#cb10-13"></a></span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co"># add intelligible name to the new contrast coding</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition)) &lt;-<span class="st"> &quot;:Cond1&quot;</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender)) &lt;-<span class="st"> &quot;:male&quot;</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a></span>
-<span id="cb10-18"><a href="#cb10-18"></a>fit_brms_KoF_interaction &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
-<span id="cb10-19"><a href="#cb10-19"></a>  <span class="co"># predict `response` in terms of `condition`</span></span>
-<span id="cb10-20"><a href="#cb10-20"></a>  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition <span class="op">*</span><span class="st"> </span>gender,</span>
-<span id="cb10-21"><a href="#cb10-21"></a>  <span class="co"># specify which data to use</span></span>
-<span id="cb10-22"><a href="#cb10-22"></a>  <span class="dt">data =</span> IDA_data_KoF_interaction,</span>
-<span id="cb10-23"><a href="#cb10-23"></a>  <span class="co"># logistic regression</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb10-25"><a href="#cb10-25"></a>  <span class="co"># weakly informative priors (slightly conservative)</span></span>
-<span id="cb10-26"><a href="#cb10-26"></a>  <span class="co">#   for `class = &#39;b&#39;` (i.e., all slopes)</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>),  <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</span>
-<span id="cb10-28"><a href="#cb10-28"></a>  <span class="co"># also collect samples from the prior (for point-valued testing)</span></span>
-<span id="cb10-29"><a href="#cb10-29"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
-<span id="cb10-30"><a href="#cb10-30"></a>  <span class="co"># take more than the usual samples (for numerical stability of testing)</span></span>
-<span id="cb10-31"><a href="#cb10-31"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
-<span id="cb10-32"><a href="#cb10-32"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">summary</span>(fit_brms_KoF_interaction)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>IDA_data_KoF_interaction &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Condition 0&quot;</span>, <span class="st">&quot;Condition 1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(gender)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb12-5"><a href="#cb12-5"></a>    <span class="dt">gender =</span> <span class="kw">factor</span>(gender)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="st">  </span><span class="kw">droplevels</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="st">  </span><span class="kw">select</span>(response, condition, gender)</span>
+<span id="cb12-9"><a href="#cb12-9"></a>  </span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co"># apply &#39;sum&#39; contrasts</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
+<span id="cb12-13"><a href="#cb12-13"></a></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="co"># add intelligible name to the new contrast coding</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition)) &lt;-<span class="st"> &quot;:Cond1&quot;</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender)) &lt;-<span class="st"> &quot;:male&quot;</span></span>
+<span id="cb12-17"><a href="#cb12-17"></a></span>
+<span id="cb12-18"><a href="#cb12-18"></a>fit_brms_KoF_interaction &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb12-19"><a href="#cb12-19"></a>  <span class="co"># predict `response` in terms of `condition`</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition <span class="op">*</span><span class="st"> </span>gender,</span>
+<span id="cb12-21"><a href="#cb12-21"></a>  <span class="co"># specify which data to use</span></span>
+<span id="cb12-22"><a href="#cb12-22"></a>  <span class="dt">data =</span> IDA_data_KoF_interaction,</span>
+<span id="cb12-23"><a href="#cb12-23"></a>  <span class="co"># logistic regression</span></span>
+<span id="cb12-24"><a href="#cb12-24"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb12-25"><a href="#cb12-25"></a>  <span class="co"># weakly informative priors (slightly conservative)</span></span>
+<span id="cb12-26"><a href="#cb12-26"></a>  <span class="co">#   for `class = &#39;b&#39;` (i.e., all slopes)</span></span>
+<span id="cb12-27"><a href="#cb12-27"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>),  <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</span>
+<span id="cb12-28"><a href="#cb12-28"></a>  <span class="co"># also collect samples from the prior (for point-valued testing)</span></span>
+<span id="cb12-29"><a href="#cb12-29"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
+<span id="cb12-30"><a href="#cb12-30"></a>  <span class="co"># take more than the usual samples (for numerical stability of testing)</span></span>
+<span id="cb12-31"><a href="#cb12-31"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
+<span id="cb12-32"><a href="#cb12-32"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">summary</span>(fit_brms_KoF_interaction)</span></code></pre></div>
 <pre><code>##  Family: bernoulli 
 ##   Links: mu = logit 
 ## Formula: response ~ condition * gender 
@@ -725,15 +739,15 @@ summary {
 ## 
 ## Population-Level Effects: 
 ##                             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                      -3.00      0.37    -3.79    -2.32 1.00    32601
-## condition:Cond1                 0.12      0.36    -0.60     0.85 1.00    33052
-## gender:male                    -0.22      0.36    -0.94     0.49 1.00    32913
-## condition:Cond1:gender:male    -0.12      0.36    -0.84     0.59 1.00    32970
+## Intercept                      -3.00      0.38    -3.79    -2.32 1.00    31786
+## condition:Cond1                 0.12      0.36    -0.60     0.84 1.00    32188
+## gender:male                    -0.23      0.37    -0.96     0.49 1.00    31024
+## condition:Cond1:gender:male    -0.12      0.36    -0.85     0.58 1.00    32170
 ##                             Tail_ESS
-## Intercept                      27075
-## condition:Cond1                25098
-## gender:male                    26334
-## condition:Cond1:gender:male    26896
+## Intercept                      26176
+## condition:Cond1                27962
+## gender:male                    25967
+## condition:Cond1:gender:male    27025
 ## 
 ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
