@@ -193,6 +193,35 @@ Use code from the web-book at will, but be mindful that you may have to make (mi
 Use R code to report how many participants (in Step 1) and trials (in step 2) are excluded.
 
 **Solution:**
+```{r}
+#1
+subject_error_rate <- IDA_data_KoF %>% 
+  filter(condition == "filler") %>% 
+  group_by(submission_id) %>% 
+  summarise(
+    proportion_correct = mean(correct_answer == response),
+    outlier_subject = proportion_correct <0.5
+  ) %>% 
+  arrange(proportion_correct)
+
+d_cleaned <-
+  full_join(IDA_data_KoF, subject_error_rate, by = "submission_id" ) %>% 
+  filter(outlier_subject == FALSE)
+
+nrow(IDA_data_KoF) - nrow(subject_error_rate)
+
+#2
+d_cleaned <- d_cleaned %>% 
+  filter(condition == "background check") %>% 
+  mutate(
+    background_correct = correct_answer == response
+  ) %>% 
+  select(submission_id, vignette, background_correct) %>% 
+  right_join(d_cleaned, by = c("submission_id", "vignette")) %>% 
+  filter(condition == "main" & background_correct == TRUE)
+    
+nrow(IDA_data_KoF) - nrow(d_cleaned)
+```
 
 ## Ex 2.b Plot the data [2 points]
 
