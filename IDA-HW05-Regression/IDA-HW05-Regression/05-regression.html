@@ -189,22 +189,6 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 <style type="text/css">
 a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
 a.anchor-section::before {content: '#';}
@@ -257,9 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -269,16 +253,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -287,9 +269,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -513,7 +495,7 @@ summary {
 <div id="instructions" class="section level1">
 <h1>Instructions</h1>
 <p><strong>Important!</strong> The <code>aida</code> package has been updated. Please run the following code to make sure your local version has these updates.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;michael-franke/aida-package&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;michael-franke/aida-package&quot;</span>)</a></code></pre></div>
 <ul>
 <li>Create an Rmd-file with your group number (equivalent to StudIP group) in the ‘author’ heading and answer the following questions.</li>
 <li>When all answers are ready, ‘Knit’ the document to produce a HTML file.</li>
@@ -537,8 +519,8 @@ summary {
 <div id="ex-1.a-prepare-data-1-point" class="section level2">
 <h2>Ex 1.a Prepare data [1 point]</h2>
 <p>Create a variable <code>data_MC_excerpt</code> that contains all and only the relevant columns from the MC data set. The dependent variable should be the first column.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>data_MC_excerpt &lt;-<span class="st"> </span>aida<span class="op">::</span>data_MC_cleaned <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span>... </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">data_MC_excerpt &lt;-<span class="st"> </span>aida<span class="op">::</span>data_MC_cleaned <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span>... </a></code></pre></div>
 <p><strong>Solution</strong></p>
 </div>
 <div id="ex-1.b-get-the-empirical-differences-between-means-2-points" class="section level2">
@@ -549,19 +531,19 @@ summary {
 <li>the mean RT for condition <code>discrimination</code> minus the mean RT for condition <code>goNoGo</code></li>
 </ol>
 <p>and store the result in the variables provided below (keep the brackets so that the values assigned show in the Rmarkdown output):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>(<span class="st">`</span><span class="dt">goNoGo-reaction</span><span class="st">`</span>       &lt;-<span class="st">  </span>... )</span>
-<span id="cb3-2"><a href="#cb3-2"></a>(<span class="st">`</span><span class="dt">discrimination-goNoGo</span><span class="st">`</span> &lt;-<span class="st">  </span>... )</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">(<span class="st">`</span><span class="dt">goNoGo-reaction</span><span class="st">`</span>       &lt;-<span class="st">  </span>... )</a>
+<a class="sourceLine" id="cb3-2" title="2">(<span class="st">`</span><span class="dt">discrimination-goNoGo</span><span class="st">`</span> &lt;-<span class="st">  </span>... )</a></code></pre></div>
 <p><strong>Solution:</strong></p>
 </div>
 <div id="ex-1.c-build-predictor-matrix-5-points" class="section level2">
 <h2>Ex 1.c Build predictor matrix [5 points]</h2>
 <p>Add three columns to the data tibble <code>data_MC_excerpt</code>, like shown below. These columns should contain the numerical values to obtain so-called <strong>simple difference coding</strong> (as discussed in the initial video of Chapter 14, after ca. 10 minutes).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>data_MC_excerpt &lt;-<span class="st"> </span>data_MC_excerpt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">grand_mean  =</span> ..., </span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="st">`</span><span class="dt">goNoGo-reaction</span><span class="st">`</span> =<span class="st"> </span>...,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="st">`</span><span class="dt">discrimination-goNoGo</span><span class="st">`</span> =<span class="st"> </span>...</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">data_MC_excerpt &lt;-<span class="st"> </span>data_MC_excerpt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="dt">grand_mean  =</span> ..., </a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="st">`</span><span class="dt">goNoGo-reaction</span><span class="st">`</span> =<span class="st"> </span>...,</a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="st">`</span><span class="dt">discrimination-goNoGo</span><span class="st">`</span> =<span class="st"> </span>...</a>
+<a class="sourceLine" id="cb4-6" title="6">  )</a></code></pre></div>
 <p><strong>Solution:</strong></p>
 </div>
 <div id="ex-1.d-run-a-bayesian-regression-model-3-points" class="section level2">
@@ -590,22 +572,22 @@ summary {
 <li><strong>H3</strong>: The disposition towards “TRUE” judgements is lower for C9 (where the presupposition is topical) than for C10 (where the presupposition is not topical and occurs under negation).</li>
 </ul>
 <p>Load the data as follows (also applying some massaging, similar to what’s done in the web-book):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>IDA_data_KoF &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data_KoF-IDA-2020.csv&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="co"># discard practice trials</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">filter</span>(type <span class="op">!=</span><span class="st"> &quot;practice&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co"># add a &#39;condition&#39; variable</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="dt">condition =</span> <span class="kw">case_when</span>(</span>
-<span id="cb5-7"><a href="#cb5-7"></a>      type <span class="op">==</span><span class="st"> &quot;special&quot;</span> <span class="op">~</span><span class="st"> &quot;background check&quot;</span>,</span>
-<span id="cb5-8"><a href="#cb5-8"></a>      type <span class="op">==</span><span class="st"> &quot;main&quot;</span> <span class="op">~</span><span class="st"> </span><span class="kw">str_c</span>(<span class="st">&quot;Condition &quot;</span>, condition),</span>
-<span id="cb5-9"><a href="#cb5-9"></a>      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;filler&quot;</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>    ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="st">      </span><span class="kw">factor</span>( </span>
-<span id="cb5-12"><a href="#cb5-12"></a>        <span class="dt">ordered =</span> T,</span>
-<span id="cb5-13"><a href="#cb5-13"></a>        <span class="dt">levels =</span> <span class="kw">c</span>(<span class="kw">str_c</span>(<span class="st">&quot;Condition &quot;</span>, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">10</span>)), <span class="st">&quot;background check&quot;</span>, <span class="st">&quot;filler&quot;</span>)</span>
-<span id="cb5-14"><a href="#cb5-14"></a>      )</span>
-<span id="cb5-15"><a href="#cb5-15"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">correct_answer =</span> correct)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">IDA_data_KoF &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data_KoF-IDA-2020.csv&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="co"># discard practice trials</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">filter</span>(type <span class="op">!=</span><span class="st"> &quot;practice&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb5-5" title="5">    <span class="co"># add a &#39;condition&#39; variable</span></a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="dt">condition =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb5-7" title="7">      type <span class="op">==</span><span class="st"> &quot;special&quot;</span> <span class="op">~</span><span class="st"> &quot;background check&quot;</span>,</a>
+<a class="sourceLine" id="cb5-8" title="8">      type <span class="op">==</span><span class="st"> &quot;main&quot;</span> <span class="op">~</span><span class="st"> </span><span class="kw">str_c</span>(<span class="st">&quot;Condition &quot;</span>, condition),</a>
+<a class="sourceLine" id="cb5-9" title="9">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;filler&quot;</span></a>
+<a class="sourceLine" id="cb5-10" title="10">    ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="st">      </span><span class="kw">factor</span>( </a>
+<a class="sourceLine" id="cb5-12" title="12">        <span class="dt">ordered =</span> T,</a>
+<a class="sourceLine" id="cb5-13" title="13">        <span class="dt">levels =</span> <span class="kw">c</span>(<span class="kw">str_c</span>(<span class="st">&quot;Condition &quot;</span>, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">10</span>)), <span class="st">&quot;background check&quot;</span>, <span class="st">&quot;filler&quot;</span>)</a>
+<a class="sourceLine" id="cb5-14" title="14">      )</a>
+<a class="sourceLine" id="cb5-15" title="15">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">correct_answer =</span> correct)</a></code></pre></div>
 <div id="ex-2.a-clean-the-data-3-points" class="section level2">
 <h2>Ex 2.a Clean the data [3 points]</h2>
 <p>Just like in the web-book we are going to clean the data by performing the following two steps in sequence:</p>
@@ -616,44 +598,44 @@ summary {
 <p>Use code from the web-book at will, but be mindful that you may have to make (minor) changes (e.g., variable naming).</p>
 <p>Use R code to report how many participants (in Step 1) and trials (in step 2) are excluded.</p>
 <p><strong>Solution:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#1</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>subject_error_rate &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;filler&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">group_by</span>(submission_id) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="dt">proportion_correct =</span> <span class="kw">mean</span>(correct_answer <span class="op">==</span><span class="st"> </span>response),</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="dt">outlier_subject =</span> proportion_correct <span class="op">&lt;</span><span class="fl">0.5</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">arrange</span>(proportion_correct)</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a>d_cleaned &lt;-</span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="st">  </span><span class="kw">full_join</span>(IDA_data_KoF, subject_error_rate, <span class="dt">by =</span> <span class="st">&quot;submission_id&quot;</span> ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="st">  </span><span class="kw">filter</span>(outlier_subject <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</span>
-<span id="cb6-14"><a href="#cb6-14"></a></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="kw">nrow</span>(IDA_data_KoF) <span class="op">-</span><span class="st"> </span><span class="kw">nrow</span>(subject_error_rate)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co">#1</span></a>
+<a class="sourceLine" id="cb6-2" title="2">subject_error_rate &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;filler&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(submission_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="dt">proportion_correct =</span> <span class="kw">mean</span>(correct_answer <span class="op">==</span><span class="st"> </span>response),</a>
+<a class="sourceLine" id="cb6-7" title="7">    <span class="dt">outlier_subject =</span> proportion_correct <span class="op">&lt;</span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb6-8" title="8">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="st">  </span><span class="kw">arrange</span>(proportion_correct)</a>
+<a class="sourceLine" id="cb6-10" title="10"></a>
+<a class="sourceLine" id="cb6-11" title="11">d_cleaned &lt;-</a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="st">  </span><span class="kw">full_join</span>(IDA_data_KoF, subject_error_rate, <span class="dt">by =</span> <span class="st">&quot;submission_id&quot;</span> ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="st">  </span><span class="kw">filter</span>(outlier_subject <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-14" title="14"></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="kw">nrow</span>(IDA_data_KoF) <span class="op">-</span><span class="st"> </span><span class="kw">nrow</span>(subject_error_rate)</a></code></pre></div>
 <pre><code>## [1] 1955</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#2</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>d_cleaned &lt;-<span class="st"> </span>d_cleaned <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;background check&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb8-5"><a href="#cb8-5"></a>    <span class="dt">background_correct =</span> correct_answer <span class="op">==</span><span class="st"> </span>response</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">select</span>(submission_id, vignette, background_correct) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  </span><span class="kw">right_join</span>(d_cleaned, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;submission_id&quot;</span>, <span class="st">&quot;vignette&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;main&quot;</span> <span class="op">&amp;</span><span class="st"> </span>background_correct <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>    </span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="kw">nrow</span>(IDA_data_KoF) <span class="op">-</span><span class="st"> </span><span class="kw">nrow</span>(d_cleaned)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co">#2</span></a>
+<a class="sourceLine" id="cb8-2" title="2">d_cleaned &lt;-<span class="st"> </span>d_cleaned <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;background check&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb8-5" title="5">    <span class="dt">background_correct =</span> correct_answer <span class="op">==</span><span class="st"> </span>response</a>
+<a class="sourceLine" id="cb8-6" title="6">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="st">  </span><span class="kw">select</span>(submission_id, vignette, background_correct) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="st">  </span><span class="kw">right_join</span>(d_cleaned, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;submission_id&quot;</span>, <span class="st">&quot;vignette&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">==</span><span class="st"> &quot;main&quot;</span> <span class="op">&amp;</span><span class="st"> </span>background_correct <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-10" title="10">    </a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="kw">nrow</span>(IDA_data_KoF) <span class="op">-</span><span class="st"> </span><span class="kw">nrow</span>(d_cleaned)</a></code></pre></div>
 <pre><code>## [1] 2040</code></pre>
 </div>
 <div id="ex-2.b-plot-the-data-2-points" class="section level2">
 <h2>Ex 2.b Plot the data [2 points]</h2>
 <p>Plot the data just like in the the first part of the web-book’s appendix D4.4 (proportion per condition). Use the web-book code as much as you like while making any necessary amendments.</p>
 <p><strong>Solution:</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>IDA_data_KoF_plot &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">group_by</span>(condition) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">num_condition =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">proportion_condition =</span> num_condition<span class="op">/</span><span class="kw">nrow</span>(IDA_data_KoF))</span>
-<span id="cb10-5"><a href="#cb10-5"></a>IDA_data_KoF_plot</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">IDA_data_KoF_plot &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(condition) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">num_condition =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">proportion_condition =</span> num_condition<span class="op">/</span><span class="kw">nrow</span>(IDA_data_KoF))</a>
+<a class="sourceLine" id="cb10-5" title="5">IDA_data_KoF_plot</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 3
 ##   condition        num_condition proportion_condition
 ##   &lt;ord&gt;                    &lt;int&gt;                &lt;dbl&gt;
@@ -676,9 +658,9 @@ summary {
 </ul>
 <p>Finally, also add a call of <code>summary(...)</code> to show the summary of the fitted model in the Rmarkdown output.</p>
 <p><strong>Solution:</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#make the ordered factor &#39;condition&#39; a character vector</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>IDA_data_KoF_plot &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(IDA_data_KoF_plot))</span>
-<span id="cb12-3"><a href="#cb12-3"></a>IDA_data_KoF_plot</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co">#make the ordered factor &#39;condition&#39; a character vector</span></a>
+<a class="sourceLine" id="cb12-2" title="2">IDA_data_KoF_plot &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(IDA_data_KoF_plot))</a>
+<a class="sourceLine" id="cb12-3" title="3">IDA_data_KoF_plot</a></code></pre></div>
 <pre><code>##                               V1          V2          V3          V4
 ## condition            Condition 0 Condition 1 Condition 6 Condition 9
 ## num_condition                 85          85          85          85
@@ -687,16 +669,16 @@ summary {
 ## condition            Condition 10 background check     filler
 ## num_condition                  85              425       1190
 ## proportion_condition   0.04166667       0.20833333 0.58333333</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>IDA_data_KoF_plot =<span class="st"> </span><span class="kw">brm</span>(</span>
-<span id="cb14-2"><a href="#cb14-2"></a>  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition,</span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb14-4"><a href="#cb14-4"></a>  <span class="dt">data =</span> aida<span class="op">::</span>data_KoF_cleaned,</span>
-<span id="cb14-5"><a href="#cb14-5"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</span>
-<span id="cb14-6"><a href="#cb14-6"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
-<span id="cb14-7"><a href="#cb14-7"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a>)</span>
-<span id="cb14-9"><a href="#cb14-9"></a></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="kw">summary</span>(IDA_data_KoF_plot)<span class="op">$</span>fixed[,<span class="kw">c</span>(<span class="st">&quot;l-95% CI&quot;</span>, <span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;u-95% CI&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">IDA_data_KoF_plot =<span class="st"> </span><span class="kw">brm</span>(</a>
+<a class="sourceLine" id="cb14-2" title="2">  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition,</a>
+<a class="sourceLine" id="cb14-3" title="3">  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">data =</span> aida<span class="op">::</span>data_KoF_cleaned,</a>
+<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</a>
+<a class="sourceLine" id="cb14-6" title="6">  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</a>
+<a class="sourceLine" id="cb14-7" title="7">  <span class="dt">iter =</span> <span class="dv">20000</span></a>
+<a class="sourceLine" id="cb14-8" title="8">)</a>
+<a class="sourceLine" id="cb14-9" title="9"></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="kw">summary</span>(IDA_data_KoF_plot)<span class="op">$</span>fixed[,<span class="kw">c</span>(<span class="st">&quot;l-95% CI&quot;</span>, <span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;u-95% CI&quot;</span>)]</a></code></pre></div>
 <pre><code>##                        l-95% CI  Estimate   u-95% CI
 ## Intercept            -2.9237276 -2.159519 -1.4883163
 ## conditionCondition1  -2.4728948 -1.078869  0.1300953
@@ -725,39 +707,39 @@ summary {
 <p>Let’s get nasty! Let’s do what no good scientist should ever do. (We do it for practice and for rubbing it in that this is NOT what you should EVER do.)</p>
 <p>Suppose we did not like the outcome of the test for H1 above. So we are going to run a new analysis (for which there is no <em>prima facie</em> rationale) just to see if we cannot possibly squeeze out something that looks like an argument for the conclusion that we so crave to be supported. Worst of all, we stipulate -completely out of the blue- a potential gender effect on the understanding of linguistic presupposition (say what?).</p>
 <p>Obviously, what this exercise is really after is getting practice with interpreting <em>interaction terms</em> for categorical regression. So, look at the code below, try to understand what it does and then inspect the summary of the model fit shown here. Then answer the following question: based on this analysis and results shown in the summary, is there any reason to believe that (i) there is a difference in the answer behavior between self-identified male and self-identified female participants (i.e., is there a main effect of <code>gender</code>?), and (ii) is there any specific way in which gender impacts on the disposition to select “TRUE” in either of the two conditions (i.e., is there an interaction?). Identify the source of your conclusion by pointing out which numbers (or whatever) you draw on in the summary of the model fit.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>IDA_data_KoF_interaction &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Condition 0&quot;</span>, <span class="st">&quot;Condition 1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(gender)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb16-5"><a href="#cb16-5"></a>    <span class="dt">gender =</span> <span class="kw">factor</span>(gender)</span>
-<span id="cb16-6"><a href="#cb16-6"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="st">  </span><span class="kw">droplevels</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  </span><span class="kw">select</span>(response, condition, gender)</span>
-<span id="cb16-9"><a href="#cb16-9"></a>  </span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co"># apply &#39;sum&#39; contrasts</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</span>
-<span id="cb16-13"><a href="#cb16-13"></a></span>
-<span id="cb16-14"><a href="#cb16-14"></a><span class="co"># add intelligible name to the new contrast coding</span></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition)) &lt;-<span class="st"> &quot;:Cond1&quot;</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender)) &lt;-<span class="st"> &quot;:male&quot;</span></span>
-<span id="cb16-17"><a href="#cb16-17"></a></span>
-<span id="cb16-18"><a href="#cb16-18"></a>fit_brms_KoF_interaction &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
-<span id="cb16-19"><a href="#cb16-19"></a>  <span class="co"># predict `response` in terms of `condition`</span></span>
-<span id="cb16-20"><a href="#cb16-20"></a>  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition <span class="op">*</span><span class="st"> </span>gender,</span>
-<span id="cb16-21"><a href="#cb16-21"></a>  <span class="co"># specify which data to use</span></span>
-<span id="cb16-22"><a href="#cb16-22"></a>  <span class="dt">data =</span> IDA_data_KoF_interaction,</span>
-<span id="cb16-23"><a href="#cb16-23"></a>  <span class="co"># logistic regression</span></span>
-<span id="cb16-24"><a href="#cb16-24"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb16-25"><a href="#cb16-25"></a>  <span class="co"># weakly informative priors (slightly conservative)</span></span>
-<span id="cb16-26"><a href="#cb16-26"></a>  <span class="co">#   for `class = &#39;b&#39;` (i.e., all slopes)</span></span>
-<span id="cb16-27"><a href="#cb16-27"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>),  <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</span>
-<span id="cb16-28"><a href="#cb16-28"></a>  <span class="co"># also collect samples from the prior (for point-valued testing)</span></span>
-<span id="cb16-29"><a href="#cb16-29"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
-<span id="cb16-30"><a href="#cb16-30"></a>  <span class="co"># take more than the usual samples (for numerical stability of testing)</span></span>
-<span id="cb16-31"><a href="#cb16-31"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
-<span id="cb16-32"><a href="#cb16-32"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">summary</span>(fit_brms_KoF_interaction)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">IDA_data_KoF_interaction &lt;-<span class="st"> </span>IDA_data_KoF <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="kw">filter</span>(condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Condition 0&quot;</span>, <span class="st">&quot;Condition 1&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(gender)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb16-5" title="5">    <span class="dt">gender =</span> <span class="kw">factor</span>(gender)</a>
+<a class="sourceLine" id="cb16-6" title="6">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="st">  </span><span class="kw">droplevels</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="st">  </span><span class="kw">select</span>(response, condition, gender)</a>
+<a class="sourceLine" id="cb16-9" title="9">  </a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co"># apply &#39;sum&#39; contrasts</span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender) &lt;-<span class="st"> </span><span class="kw">contr.sum</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb16-13" title="13"></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co"># add intelligible name to the new contrast coding</span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>condition)) &lt;-<span class="st"> &quot;:Cond1&quot;</span></a>
+<a class="sourceLine" id="cb16-16" title="16"><span class="kw">colnames</span>(<span class="kw">contrasts</span>(IDA_data_KoF_interaction<span class="op">$</span>gender)) &lt;-<span class="st"> &quot;:male&quot;</span></a>
+<a class="sourceLine" id="cb16-17" title="17"></a>
+<a class="sourceLine" id="cb16-18" title="18">fit_brms_KoF_interaction &lt;-<span class="st"> </span><span class="kw">brm</span>(</a>
+<a class="sourceLine" id="cb16-19" title="19">  <span class="co"># predict `response` in terms of `condition`</span></a>
+<a class="sourceLine" id="cb16-20" title="20">  <span class="dt">formula =</span> response <span class="op">~</span><span class="st"> </span>condition <span class="op">*</span><span class="st"> </span>gender,</a>
+<a class="sourceLine" id="cb16-21" title="21">  <span class="co"># specify which data to use</span></a>
+<a class="sourceLine" id="cb16-22" title="22">  <span class="dt">data =</span> IDA_data_KoF_interaction,</a>
+<a class="sourceLine" id="cb16-23" title="23">  <span class="co"># logistic regression</span></a>
+<a class="sourceLine" id="cb16-24" title="24">  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</a>
+<a class="sourceLine" id="cb16-25" title="25">  <span class="co"># weakly informative priors (slightly conservative)</span></a>
+<a class="sourceLine" id="cb16-26" title="26">  <span class="co">#   for `class = &#39;b&#39;` (i.e., all slopes)</span></a>
+<a class="sourceLine" id="cb16-27" title="27">  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>),  <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</a>
+<a class="sourceLine" id="cb16-28" title="28">  <span class="co"># also collect samples from the prior (for point-valued testing)</span></a>
+<a class="sourceLine" id="cb16-29" title="29">  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</a>
+<a class="sourceLine" id="cb16-30" title="30">  <span class="co"># take more than the usual samples (for numerical stability of testing)</span></a>
+<a class="sourceLine" id="cb16-31" title="31">  <span class="dt">iter =</span> <span class="dv">20000</span></a>
+<a class="sourceLine" id="cb16-32" title="32">)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">summary</span>(fit_brms_KoF_interaction)</a></code></pre></div>
 <pre><code>##  Family: bernoulli 
 ##   Links: mu = logit 
 ## Formula: response ~ condition * gender 

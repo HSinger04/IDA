@@ -208,19 +208,25 @@ d_cleaned <-
   full_join(IDA_data_KoF, subject_error_rate, by = "submission_id" ) %>% 
   filter(outlier_subject == FALSE)
 
+d_cleaned
+
 nrow(IDA_data_KoF) - nrow(subject_error_rate)
 
 #2
 d_cleaned <- d_cleaned %>% 
-  filter(condition == "background check") %>% 
+  filter( condition == "background check") %>% 
   mutate(
     background_correct = correct_answer == response
   ) %>% 
   select(submission_id, vignette, background_correct) %>% 
   right_join(d_cleaned, by = c("submission_id", "vignette")) %>% 
-  filter(condition == "main" & background_correct == TRUE)
+  # keep only the main trials which have a correct corresponding background check: Is not included in the task, not sure if we should do this
+  filter((condition == "Condition 0" | condition == "Condition 1" | condition == "Condition 6" | condition == "Condition 9" | condition == "Condition 10") & background_correct == TRUE)
     
 nrow(IDA_data_KoF) - nrow(d_cleaned)
+
+d_cleaned
+
 ```
 
 ## Ex 2.b Plot the data [2 points]
