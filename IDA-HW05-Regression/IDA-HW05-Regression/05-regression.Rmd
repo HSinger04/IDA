@@ -205,17 +205,18 @@ subject_error_rate <- IDA_data_KoF %>%
     proportion_correct = mean(correct_answer == response),
     outlier_subject = proportion_correct < 0.5
   ) %>% 
-  arrange(proportion_correct)
+  arrange(proportion_correct) # keep only those who have TRUE boolean in proportion_correct
 
 # keep only subjects who have a high enough subject_error_rate
 d_cleaned <-
   full_join(IDA_data_KoF, subject_error_rate, by = "submission_id" ) %>% 
   filter(outlier_subject == FALSE)
 # Compute how many subjects were excluded
-nrow(IDA_data_KoF) - nrow(subject_error_rate)
+nrow(IDA_data_KoF) - nrow(subject_error_rate) 
 
 
 #2
+before_cleanse <- nrow(d_cleaned)
 d_cleaned <- d_cleaned %>% 
   filter(condition == "background check") %>% 
   mutate(
@@ -224,11 +225,10 @@ d_cleaned <- d_cleaned %>%
   select(submission_id, vignette, background_correct) %>% 
   right_join(d_cleaned, by = c("submission_id", "vignette")) %>% 
   # keep only the main trials which have a correct corresponding background check
-  filter((condition == "Condition 0" | condition == "Condition 1" | condition == "Condition 6" | condition == "Condition 9" | condition == "Condition 10") & background_correct == TRUE)
+  filter(type == "main" & background_correct == TRUE)
     
-nrow(IDA_data_KoF) - nrow(d_cleaned)
+before_cleanse - nrow(d_cleaned)
 
-d_cleaned
 
 ```
 
@@ -281,21 +281,23 @@ Finally, also add a call of `summary(...)` to show the summary of the fitted mod
 **Solution:**
 ```{r}
 #make the ordered factor 'condition' a character vector
+is.ordered(d_cleaned$condition)
 d_cleaned <- d_cleaned %>%
   mutate(condition = as.character(condition))
 d_cleaned
+is.ordered(d_cleaned$condition)
+#TODO: I thought they wanted to make sure condition is no longer ordered, but it was not in the first place. do you know what they want here?
 
-#
 kingOfFrance_fit = brm(
   formula = response ~ condition,
-  family = bernoulli(link = "logit"),
+  family = bernoulli(link = "logit"),  # use Bernoulli as likelihood function because condition is a binary variable 
   data = d_cleaned,
   prior = prior(student_t(1, 0, 2), class = 'b'),
   sample_prior = 'yes',
   iter = 20000
 )
 
-summary(IDA_data_KoF_plot)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
+summary(kingOfFrance_fit)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 ```
 
 
@@ -303,13 +305,14 @@ summary(IDA_data_KoF_plot)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 
 Use the `brms::hypotheses` function to test the three hypotheses stated above.
 For each case interpret the results and formulate a conclusion such as "does/does not provide evidence" or "accept/reject hypothesis" according to the results.
+TODO: interpretation
 
 ### Hypothesis 1: C0 > C1
 
 **Solution:**
 ```{r}
-hypothesis(kingOfFrance_fit, "conditionCondition0 > conditionCondition1")
-# Where did C0 go????
+hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
+# TODO: intercept codes for condition0 right?
 ```
 
 
@@ -317,7 +320,7 @@ hypothesis(kingOfFrance_fit, "conditionCondition0 > conditionCondition1")
 
 **Solution:**
 ```{r}
-hypothesis(kingOfFrance_fit, "conditionCondition0 = conditionCondition6")
+hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
 ```
 
 
