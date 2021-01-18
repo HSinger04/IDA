@@ -281,12 +281,14 @@ Finally, also add a call of `summary(...)` to show the summary of the fitted mod
 **Solution:**
 ```{r}
 #make the ordered factor 'condition' a character vector
-is.ordered(d_cleaned$condition)
 d_cleaned <- d_cleaned %>%
   mutate(condition = as.character(condition))
 d_cleaned
-is.ordered(d_cleaned$condition)
+#is.ordered(d_cleaned$condition)
 #TODO: I thought they wanted to make sure condition is no longer ordered, but it was not in the first place. do you know what they want here?
+d_relevant <- d_cleaned %>%
+  select(condition, response)
+head(d_relevant,5)
 
 kingOfFrance_fit = brm(
   formula = response ~ condition,
@@ -314,7 +316,7 @@ TODO: interpretation
 hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
 # TODO: intercept codes for condition0 right?
 ```
-
+**Solution** The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis. 
 
 ### Hypothesis 2: C0 = C6
 
@@ -322,7 +324,8 @@ hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
 ```{r}
 hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
 ```
-
+**Solution**
+TODO: Evidence Ratio (Bayes Factor) and Posterior Probability are NA, which should not happen -> we have set proper priors and allowed sampling from prior. Why?
 
 ### Hypothesis 3: C9 < C10
 
@@ -330,7 +333,8 @@ hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
 ```{r}
 hypothesis(kingOfFrance_fit, "conditionCondition9 < conditionCondition10")
 ```
-
+**Solution**
+The Evidence ratio is positive and high, as well as the posterior probability. This means that the data provides evidence in favor of the hypothesis. 
 
 ## Ex 2.e Interaction with `gender` [6 points]
 
@@ -387,3 +391,4 @@ summary(fit_brms_KoF_interaction)
 ```
 
 **Solution:**
+TODO
