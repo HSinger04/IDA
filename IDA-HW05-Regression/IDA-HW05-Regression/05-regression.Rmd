@@ -230,10 +230,11 @@ Use the web-book code as much as you like while making any necessary amendments.
 
 **Solution:**
 ```{r}
-IDA_data_KoF %>% 
+IDA_data_KoF_plot <- IDA_data_KoF %>% 
   group_by(condition) %>% 
   summarise(num_condition = n()) %>% 
   mutate(proportion_condition = num_condition/nrow(IDA_data_KoF))
+IDA_data_KoF_plot
 ```
 
 ## Ex 2.c Run logistic regression model [5 points]
@@ -251,10 +252,10 @@ Finally, also add a call of `summary(...)` to show the summary of the fitted mod
 **Solution:**
 ```{r}
 #make the ordered factor 'condition' a character vector
-IDA_data_KoF <- as.data.frame(t(IDA_data_KoF))
-IDA_data_KoF
+IDA_data_KoF_plot <- as.data.frame(t(IDA_data_KoF_plot))
+IDA_data_KoF_plot
 
-IDA_data_KoF = brm(
+IDA_data_KoF_plot = brm(
   formula = response ~ condition,
   family = bernoulli(link = "logit"),
   data = aida::data_KoF_cleaned,
@@ -263,7 +264,7 @@ IDA_data_KoF = brm(
   iter = 20000
 )
 
-summary(IDA_data_KoF)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
+summary(IDA_data_KoF_plot)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 ```
 
 
