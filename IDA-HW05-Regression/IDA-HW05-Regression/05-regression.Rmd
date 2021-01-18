@@ -249,6 +249,22 @@ Make sure to also do the following:
 Finally, also add a call of `summary(...)` to show the summary of the fitted model in the Rmarkdown output.
 
 **Solution:**
+```{r}
+#make the ordered factor 'condition' a character vector
+IDA_data_KoF <- as.data.frame(t(IDA_data_KoF))
+IDA_data_KoF
+
+IDA_data_KoF = brm(
+  formula = response ~ condition,
+  family = bernoulli(link = "logit"),
+  data = aida::data_KoF_cleaned,
+  prior = prior(student_t(1, 0, 2), class = 'b'),
+  sample_prior = 'yes',
+  iter = 20000
+)
+
+summary(IDA_data_KoF)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
+```
 
 
 ## Ex 2.d Test hypotheses [12 points]
