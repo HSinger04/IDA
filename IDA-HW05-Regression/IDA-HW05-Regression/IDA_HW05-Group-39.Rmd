@@ -1,15 +1,15 @@
 ---
 title: "Homework Sheet 5 -- Regression modeling"
 date: 'Due: Wednesday, January 20 by 11:59 CET'
-author: ""
+author: "39"
 output: 
   html_document:
-    toc: true
-    toc_depth: 2
-    highlight: tango
+  toc: true
+toc_depth: 2
+highlight: tango
 ---
-
-```{r setup, include=FALSE}
+  
+  ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, error = F, message = F, warning = F)
 
@@ -40,7 +40,7 @@ scale_colour_discrete <- function(...) {
   scale_colour_manual(..., values = project_colors)
 }
 scale_fill_discrete <- function(...) {
-   scale_fill_manual(..., values = project_colors)
+  scale_fill_manual(..., values = project_colors)
 } 
 
 # nicer global knitr options
@@ -59,9 +59,9 @@ remotes::install_github("michael-franke/aida-package")
 * Create an Rmd-file with your group number (equivalent to StudIP group) in the 'author' heading and answer the following questions.
 * When all answers are ready, 'Knit' the document to produce a HTML file.
 * Create a ZIP archive called "IDA_HW05-Group-XYZ.zip" (where 'XYZ' is *your* group number) containing:
-   * an R Markdown file "IDA_HW05-Group-XYZ.Rmd"
-   * a knitted HTML document "IDA_HW05-Group-XYZ.html"
-   * any other files necessary to compile your Rmarkdown to HTML (data, pictures etc.)
+  * an R Markdown file "IDA_HW05-Group-XYZ.Rmd"
+* a knitted HTML document "IDA_HW05-Group-XYZ.html"
+* any other files necessary to compile your Rmarkdown to HTML (data, pictures etc.)
 * Upload the ZIP archive on Stud.IP in your group folder before the deadline (see above). You may upload as many times as you like before the deadline, only your final submission will count.
 * If you run `brms::brm` in an R code chunk, make sure to include `results='hide'` as an option to that code chunk to suppress the output of Stan.
 
@@ -72,8 +72,8 @@ We also would like to get more comfortable with testing hypotheses about regress
 Towards this end, we will construct a design matrix by hand to implement **simple difference coding**.
 We use the non-informative Bayesian regression model to efficiently sample from the posterior and test hypotheses about the Mental Chronometry data.
 In particular we are interested in the hypotheses spelled out in Appendix D.1.1.2 of the web-book, namely:
-
-- mean reaction times are lower for data from the 'reaction' block than for the 'goNoGo' block
+  
+  - mean reaction times are lower for data from the 'reaction' block than for the 'goNoGo' block
 - mean reaction times are lower for data from the 'goNoGo' block than for the 'discrimination' block
 
 ## Ex 1.a Prepare data [1 point]
@@ -81,48 +81,51 @@ In particular we are interested in the hypotheses spelled out in Appendix D.1.1.
 Create a variable `data_MC_excerpt` that contains all and only the relevant columns from the MC data set.
 The dependent variable should be the first column.
 
-```{r, eval = F}
+**Solution:**
+  
+```{r}
 data_MC_excerpt <- aida::data_MC_cleaned %>% 
-  ... 
+  select(RT, block)
+data_MC_excerpt
 ```
-
-**Solution**
 
 ## Ex 1.b Get the empirical differences between means [2 points]
 
 
 Compute the following differences:
-
-1. the mean RT for condition `goNoGo` minus the mean RT for condition `reaction`
+  
+  1. the mean RT for condition `goNoGo` minus the mean RT for condition `reaction`
 2. the mean RT for condition `discrimination` minus the mean RT for condition `goNoGo`
 
 and store the result in the variables provided below (keep the brackets so that the values assigned show in the Rmarkdown output):
-
-```{r, eval = F}
-
-(`goNoGo-reaction`       <-  ... )
-(`discrimination-goNoGo` <-  ... )
-
+  
+  **Solution:**
+  
+```{r}
+data_MC_summary <- data_MC_excerpt %>%
+  group_by(block) %>%
+  summarise(mean = mean(RT))
+(data_MC_summary)
+(`goNoGo-reaction`       <-  data_MC_summary[2,2]-data_MC_summary[3,2])
+(`discrimination-goNoGo` <-  data_MC_summary[1,2]-data_MC_summary[2,2])
 ```
-
-**Solution:**
 
 ## Ex 1.c Build predictor matrix [5 points]
 
 Add three columns to the data tibble `data_MC_excerpt`, like shown below.
 These columns should contain the numerical values to obtain so-called **simple difference coding** (as discussed in the initial video of Chapter 14, after ca. 10 minutes).
 
-```{r, eval = F}
-data_MC_excerpt <- data_MC_excerpt %>% 
+**Solution:**
+  
+```{r}
+data_MC_excerpt <- data_MC_excerpt %>%
+  group_by(block) %>%
   mutate(
-    grand_mean  = ..., 
-    `goNoGo-reaction` = ...,
-    `discrimination-goNoGo` = ...
+    grand_mean  = 1, 
+    `goNoGo-reaction` = ifelse(block == "discrimination", -2/3, 1/3),
+    `discrimination-goNoGo` = ifelse(block == "reaction", 2/3, -1/3)
   )
 ```
-
-
-**Solution:**
 
 
 ## Ex 1.d Run a Bayesian regression model [3 points]
@@ -131,7 +134,16 @@ Use the function `aida::get_samples_regression_noninformative` to obtain 10,000 
 (Hint: Use `as.matrix` to extract the predictor matrix from the tibble you created in the previous step.)
 
 **Solution:**
-
+  
+```{r}
+# leave out block col for matrix conversion since matrix values will be of
+# type string instead of dbl otherwise
+MC_matrix <- data_MC_excerpt[-2] 
+MC_matrix <- MC_matrix %>% as.matrix
+input_MC <- MC_matrix[,2:4]
+output_MC <- MC_matrix[,1]
+samples <- aida::get_samples_regression_noninformative(input_MC, output_MC, n_samples=10000)
+```
 
 ## Ex 1.e Summary statistics [2 point]
 
@@ -139,6 +151,16 @@ Use the function `aida::get_samples_regression_noninformative` to obtain 10,000 
 Use the function `aida::summarize_sample_vector` to show Bayesian summary statistics for the two most relevant parameters (given the hypotheses we are interested in for the Mental Chronometry experiment).
 
 **Solution:**
+  
+```{r}
+(samples %>% 
+    pull("goNoGo-reaction") %>% 
+    aida::summarize_sample_vector(., name="goNoGo-reaction"))
+
+(samples %>% 
+    pull("discrimination-goNoGo") %>%
+    aida::summarize_sample_vector(., name="discrimination-goNoGo"))
+```
 
 ## Ex 1.f Interpret your results [7 points]
 
@@ -146,7 +168,6 @@ Interpret these results using a Kruschke-style logic applied to (non-ROPEd) inte
 In doing so, state clearly what the coefficients encode, what the numerical results of the last step mean, and what you would conclude from all this regarding any potential evidence (or lack thereof) for or against the research hypotheses.
 
 **Solution:**
-
 
 # <span style = "color:firebrick">Exercise 2:</span> Analyzing the King of France [28 points]
 
@@ -387,3 +408,4 @@ summary(fit_brms_KoF_interaction)
 ```
 
 **Solution:**
+                                                                    
