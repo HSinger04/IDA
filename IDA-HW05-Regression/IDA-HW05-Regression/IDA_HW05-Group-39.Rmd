@@ -170,14 +170,15 @@ In doing so, state clearly what the coefficients encode, what the numerical resu
 **Solution:**
 
 TODO: possible needs to be corrected, see how the final coding looks like
-We are looking at two hypotheses: That the 
+We are looking at two hypotheses: That the
+
 * mean reaction time for ‘goNoGo’ minus the mean reaction time for ‘reaction’ is higher than 0
 * mean reaction time for ‘discrimination’ minus the mean reaction time for ‘goNoGo’ is higher than 0
 
 The coefficients shown in 1.e respectively show the mean and the 95% HDI of the approximation of the posterior distribution for 
 
-* mean reaction time for ‘reaction’ minus mean reaction time for ‘goNoGo’
-* mean reaction time for ‘goNoGo’ minus mean reaction time for ‘discrimination’
+* mean reaction time for ‘reaction’ minus mean reaction time for ‘goNoGo’.
+* mean reaction time for ‘goNoGo’ minus mean reaction time for ‘discrimination’.
 
 As we can clearly see that the additive inverse of the coefficients' HDIs is completely contained in $(0, \infty)$, according to a Kruschke-style logic, we would **accept** both our formulated hypotheses.   
 
