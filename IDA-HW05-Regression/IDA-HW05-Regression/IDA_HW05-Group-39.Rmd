@@ -239,15 +239,12 @@ subject_error_rate <- IDA_data_KoF %>%
     outlier_subject = proportion_correct < 0.5
   ) %>% 
   arrange(proportion_correct) # keep only those who have TRUE boolean in proportion_correct
-
 # keep only subjects who have a high enough subject_error_rate
 d_cleaned <-
   full_join(IDA_data_KoF, subject_error_rate, by = "submission_id" ) %>% 
   filter(outlier_subject == FALSE)
 # Compute how many subjects were excluded
 nrow(IDA_data_KoF) - nrow(subject_error_rate) 
-
-
 #2
 before_cleanse <- nrow(d_cleaned)
 d_cleaned <- d_cleaned %>% 
@@ -261,8 +258,6 @@ d_cleaned <- d_cleaned %>%
   filter(type == "main" & background_correct == TRUE)
     
 before_cleanse - nrow(d_cleaned)
-
-
 ```
 
 ## Ex 2.b Plot the data [2 points]
@@ -277,7 +272,6 @@ IDA_data_KoF_plot <- IDA_data_KoF %>%
   summarise(num_condition = n()) %>% 
   mutate(proportion_condition = num_condition/nrow(IDA_data_KoF))
 IDA_data_KoF_plot
-
 d_cleaned %>% 
   # drop unused factor levels
   droplevels() %>% 
@@ -296,7 +290,6 @@ d_cleaned %>%
   ylab("") + xlab("") + ggtitle("Proportion of 'TRUE' responses per condition") +
   theme(legend.position = "none") +
   scale_fill_manual(values = project_colors)
-
 ```
 
 ## Ex 2.c Run logistic regression model [5 points]
@@ -314,13 +307,14 @@ Finally, also add a call of `summary(...)` to show the summary of the fitted mod
 **Solution:**
 ```{r}
 #make the ordered factor 'condition' a character vector
-is.ordered(d_cleaned$condition)
 d_cleaned <- d_cleaned %>%
   mutate(condition = as.character(condition))
 d_cleaned
-is.ordered(d_cleaned$condition)
+#is.ordered(d_cleaned$condition)
 #TODO: I thought they wanted to make sure condition is no longer ordered, but it was not in the first place. do you know what they want here?
-
+d_relevant <- d_cleaned %>%
+  select(condition, response)
+head(d_relevant,5)
 kingOfFrance_fit = brm(
   formula = response ~ condition,
   family = bernoulli(link = "logit"),  # use Bernoulli as likelihood function because condition is a binary variable 
@@ -329,7 +323,6 @@ kingOfFrance_fit = brm(
   sample_prior = 'yes',
   iter = 20000
 )
-
 summary(kingOfFrance_fit)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 ```
 
@@ -347,7 +340,7 @@ TODO: interpretation
 hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
 # TODO: intercept codes for condition0 right?
 ```
-
+**Solution** The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis. 
 
 ### Hypothesis 2: C0 = C6
 
@@ -355,7 +348,8 @@ hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
 ```{r}
 hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
 ```
-
+**Solution**
+TODO: Evidence Ratio (Bayes Factor) and Posterior Probability are NA, which should not happen -> we have set proper priors and allowed sampling from prior. Why?
 
 ### Hypothesis 3: C9 < C10
 
@@ -363,7 +357,8 @@ hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
 ```{r}
 hypothesis(kingOfFrance_fit, "conditionCondition9 < conditionCondition10")
 ```
-
+**Solution**
+The Evidence ratio is positive and high, as well as the posterior probability. This means that the data provides evidence in favor of the hypothesis. 
 
 ## Ex 2.e Interaction with `gender` [6 points]
 
@@ -392,11 +387,9 @@ IDA_data_KoF_interaction <- IDA_data_KoF %>%
 # apply 'sum' contrasts
 contrasts(IDA_data_KoF_interaction$condition) <- contr.sum(2)
 contrasts(IDA_data_KoF_interaction$gender) <- contr.sum(2)
-
 # add intelligible name to the new contrast coding
 colnames(contrasts(IDA_data_KoF_interaction$condition)) <- ":Cond1"
 colnames(contrasts(IDA_data_KoF_interaction$gender)) <- ":male"
-
 fit_brms_KoF_interaction <- brm(
   # predict `response` in terms of `condition`
   formula = response ~ condition * gender,
@@ -420,4 +413,4 @@ summary(fit_brms_KoF_interaction)
 ```
 
 **Solution:**
-                                                                    
+TODO
