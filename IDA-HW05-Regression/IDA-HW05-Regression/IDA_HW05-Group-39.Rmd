@@ -303,7 +303,7 @@ Make sure to also do the following:
 Finally, also add a call of `summary(...)` to show the summary of the fitted model in the Rmarkdown output.
 
 **Solution:**
-```{r}
+```{r, results = 'hide'}
 #make the ordered factor 'condition' a character vector
 d_cleaned <- d_cleaned %>%
   mutate(condition = as.character(condition))
@@ -320,6 +320,8 @@ kingOfFrance_fit = brm(
   sample_prior = 'yes',
   iter = 20000
 )
+```
+```{r}
 summary(kingOfFrance_fit)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 ```
 
@@ -335,7 +337,7 @@ For each case interpret the results and formulate a conclusion such as "does/doe
 ```{r}
 hypothesis(kingOfFrance_fit, "conditionCondition1 < 0")
 ```
-**Solution** With an evidence ratio of just 3, our model provides only very weak evidence in favor of the hypothesis. In this case, withholding judgement about the hypothesis is probably wisest. 
+**Solution** With an evidence ratio of ~3 and a posterior probability of ~0.75, our model provides only very weak evidence in favor of the hypothesis. In this case, withholding judgement about the hypothesis is probably wisest. 
 
 ### Hypothesis 2: C0 = C6
 
@@ -408,33 +410,20 @@ summary(fit_brms_KoF_interaction)
 ```
 
 **Solution:**
-We can set the following hypothesis.
-(1)H1: There is a difference in the answer behavior between self-identified male and self-identified female participants.
-(2)H2: Gender impacts on the disposition to select “TRUE” in either of the two conditions
 
-We can see that 'Sum coding' is used for this data with following evidence.
+#### Hypothesis (i):
 
-- evidence 1: # apply 'sum' contrasts
-contrasts(IDA_data_KoF_interaction$condition) <- contr.sum(2)
-contrasts(IDA_data_KoF_interaction$gender) <- contr.sum(2)
-
-- evidence 2: Because this is the linear model with sum contrast, the main effects should be interpreted relative to the intercept of the model.
-Therefore, -0.23(Estimate of gender:male) is the difference between the mean score for male compared to the grand mean.
-So, the main effect of male is (-3.00) + (-0.23) = -3.23, and the main effect of female is (-3.00)-(-0.23) = -2.77.
-Thus, we can calculate the difference between the main effect(male-female) by -3.21 - (-2.77) = -0.46, and we can see that the estimate (-0.23) is exactly half of it.
-
-we can test the hypothesis using following codes.
-
-(1)
 ```{r}
 brms::hypothesis(fit_brms_KoF_interaction, "gender:male < 0" )
 ```
 
-The evidence ratio and the posterior probability are positive, but the evidence ratio is low. This means that the data provide mere information for the main effect of gender.
+The evidence ratio and the posterior probability are both low. This means that the data provide very weak evidence in favor of the existence for a main effect of gender.
 
-(2)
+#### Hypothesis (ii):
+
 ```{r}
-brms::hypothesis(fit_brms_KoF_interaction, "condition:Cond1:gender:male > 0" )
+(brms::hypothesis(fit_brms_KoF_interaction, "condition:Cond1:gender:male = 0" ))
+(brms::hypothesis(fit_brms_KoF_interaction, "condition:Cond1:gender:male > 0" ))
 ```
 
-Both evidence ratio and the posterior probability are positive, but very low. This means that there is no evidence for interaction.
+The evidence ratio and posterior probability are very close to 1 for both the point-value and interval-valued hypotheses, so it's best that we withhold judgement about hypothesis (ii).

@@ -536,7 +536,6 @@ samples &lt;- aida::get_samples_regression_noninformative(input_MC, output_MC, n
 <h2>Ex 1.f Interpret your results [7 points]</h2>
 <p>Interpret these results using a Kruschke-style logic applied to (non-ROPEd) interval-based hypotheses. In doing so, state clearly what the coefficients encode, what the numerical results of the last step mean, and what you would conclude from all this regarding any potential evidence (or lack thereof) for or against the research hypotheses.</p>
 <p><strong>Solution:</strong></p>
-<p>TODO: possible needs to be corrected, see how the final coding looks like We are looking at two hypotheses: That the</p>
 <ul>
 <li>mean reaction time for ‘goNoGo’ minus the mean reaction time for ‘reaction’ is higher than 0</li>
 <li>mean reaction time for ‘discrimination’ minus the mean reaction time for ‘goNoGo’ is higher than 0</li>
@@ -640,7 +639,7 @@ before_cleanse - nrow(d_cleaned)</code></pre>
 <div id="ex-2.b-plot-the-data-2-points" class="section level2">
 <h2>Ex 2.b Plot the data [2 points]</h2>
 <p>Plot the data just like in the the first part of the web-book’s appendix D4.4 (proportion per condition). Use the web-book code as much as you like while making any necessary amendments.</p>
-<p><strong>Solution:</strong> TODO: They probably want figure D1 here :()</p>
+<p><strong>Solution:</strong></p>
 <pre class="r"><code>IDA_data_KoF_plot &lt;- IDA_data_KoF %&gt;% 
   group_by(condition) %&gt;% 
   summarise(num_condition = n()) %&gt;% 
@@ -690,89 +689,61 @@ IDA_data_KoF_plot</code></pre>
 <pre class="r"><code>#make the ordered factor &#39;condition&#39; a character vector
 d_cleaned &lt;- d_cleaned %&gt;%
   mutate(condition = as.character(condition))
-d_cleaned</code></pre>
-<pre><code>## # A tibble: 363 x 26
-##    submission_id vignette background_corr~ QUD      RT   age comments condition
-##            &lt;dbl&gt; &lt;chr&gt;    &lt;lgl&gt;            &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    
-##  1          1232 3        TRUE             NA    16519    20 &lt;NA&gt;     Conditio~
-##  2          1232 4        TRUE             NA    10454    20 &lt;NA&gt;     Conditio~
-##  3          1232 2        TRUE             NA     3682    20 &lt;NA&gt;     Conditio~
-##  4          1232 1        TRUE             NA    19602    20 &lt;NA&gt;     Conditio~
-##  5          1227 1        TRUE             NA     4006    21 &lt;NA&gt;     Conditio~
-##  6          1227 3        TRUE             NA     2211    21 &lt;NA&gt;     Conditio~
-##  7          1227 4        TRUE             NA     8564    21 &lt;NA&gt;     Conditio~
-##  8          1227 2        TRUE             NA     8528    21 &lt;NA&gt;     Conditio~
-##  9          1199 1        TRUE             NA     3447    18 &lt;NA&gt;     Conditio~
-## 10          1199 5        TRUE             NA     6520    18 &lt;NA&gt;     Conditio~
-## # ... with 353 more rows, and 18 more variables: correct_answer &lt;lgl&gt;,
-## #   education &lt;chr&gt;, endTime &lt;dbl&gt;, experiment_id &lt;dbl&gt;, gender &lt;chr&gt;,
-## #   languages &lt;chr&gt;, option1 &lt;lgl&gt;, option2 &lt;lgl&gt;, question &lt;chr&gt;,
-## #   response &lt;lgl&gt;, startDate &lt;chr&gt;, startTime &lt;dbl&gt;, timeSpent &lt;dbl&gt;,
-## #   trial_name &lt;chr&gt;, trial_number &lt;dbl&gt;, type &lt;chr&gt;, proportion_correct &lt;dbl&gt;,
-## #   outlier_subject &lt;lgl&gt;</code></pre>
-<pre class="r"><code>#is.ordered(d_cleaned$condition)
-#TODO: I thought they wanted to make sure condition is no longer ordered, but it was not in the first place. do you know what they want here?
+d_cleaned
+
 d_relevant &lt;- d_cleaned %&gt;%
   select(condition, response)
-head(d_relevant,5)</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   condition   response
-##   &lt;chr&gt;       &lt;lgl&gt;   
-## 1 Condition 0 TRUE    
-## 2 Condition 9 TRUE    
-## 3 Condition 6 TRUE    
-## 4 Condition 1 TRUE    
-## 5 Condition 9 FALSE</code></pre>
-<pre class="r"><code>kingOfFrance_fit = brm(
+head(d_relevant,5)
+kingOfFrance_fit = brm(
   formula = response ~ condition,
   family = bernoulli(link = &quot;logit&quot;),  # use Bernoulli as likelihood function because condition is a binary variable 
   data = d_cleaned,
   prior = prior(student_t(1, 0, 2), class = &#39;b&#39;),
   sample_prior = &#39;yes&#39;,
   iter = 20000
-)
-summary(kingOfFrance_fit)$fixed[,c(&quot;l-95% CI&quot;, &quot;Estimate&quot;, &quot;u-95% CI&quot;)]</code></pre>
+)</code></pre>
+<pre class="r"><code>summary(kingOfFrance_fit)$fixed[,c(&quot;l-95% CI&quot;, &quot;Estimate&quot;, &quot;u-95% CI&quot;)]</code></pre>
 <pre><code>##                       l-95% CI   Estimate   u-95% CI
-## Intercept            -3.687152 -2.6979345 -1.8720729
-## conditionCondition1  -1.966597 -0.4819046  0.8465658
-## conditionCondition10  2.783713  3.7860050  4.9097044
-## conditionCondition6   1.975530  2.9411173  4.0457558
-## conditionCondition9   1.878091  2.8339870  3.9211444</code></pre>
+## Intercept            -3.681365 -2.6927458 -1.8619831
+## conditionCondition1  -1.924667 -0.4811843  0.8432086
+## conditionCondition10  2.776566  3.7811192  4.9084280
+## conditionCondition6   1.968349  2.9336372  4.0282468
+## conditionCondition9   1.876277  2.8295914  3.9055416</code></pre>
 </div>
 <div id="ex-2.d-test-hypotheses-12-points" class="section level2">
 <h2>Ex 2.d Test hypotheses [12 points]</h2>
-<p>Use the <code>brms::hypotheses</code> function to test the three hypotheses stated above. For each case interpret the results and formulate a conclusion such as “does/does not provide evidence” or “accept/reject hypothesis” according to the results. TODO: interpretation</p>
+<p>Use the <code>brms::hypotheses</code> function to test the three hypotheses stated above. For each case interpret the results and formulate a conclusion such as “does/does not provide evidence” or “accept/reject hypothesis” according to the results.</p>
 <div id="hypothesis-1-c0-c1" class="section level3">
 <h3>Hypothesis 1: C0 &gt; C1</h3>
 <p><strong>Solution:</strong></p>
-<pre class="r"><code>hypothesis(kingOfFrance_fit, &quot;Intercept &gt; conditionCondition1&quot;)</code></pre>
+<pre class="r"><code>hypothesis(kingOfFrance_fit, &quot;conditionCondition1 &lt; 0&quot;)</code></pre>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
-## 1 (Intercept)-(cond... &gt; 0    -2.22      1.05    -3.97    -0.52       0.02
+## 1 (conditionConditi... &lt; 0    -0.48       0.7    -1.67     0.63       3.07
 ##   Post.Prob Star
-## 1      0.02     
+## 1      0.75     
 ## ---
 ## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p><strong>Solution</strong> The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis.</p>
+<p><strong>Solution</strong> With an evidence ratio of ~3 and a posterior probability of ~0.75, our model provides only very weak evidence in favor of the hypothesis. In this case, withholding judgement about the hypothesis is probably wisest.</p>
 </div>
 <div id="hypothesis-2-c0-c6" class="section level3">
 <h3>Hypothesis 2: C0 = C6</h3>
 <p><strong>Solution:</strong></p>
-<pre class="r"><code>hypothesis(kingOfFrance_fit, &quot;Intercept = conditionCondition6&quot;)</code></pre>
+<pre class="r"><code>hypothesis(kingOfFrance_fit, &quot;conditionCondition6 = 0&quot;)</code></pre>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
-## 1 (Intercept)-(cond... = 0    -5.64      0.96    -7.68    -3.91         NA
+## 1 (conditionConditi... = 0     2.93      0.53     1.97     4.03          0
 ##   Post.Prob Star
-## 1        NA    *
+## 1         0    *
 ## ---
 ## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p><strong>Solution</strong> TODO: Evidence Ratio (Bayes Factor) and Posterior Probability are NA, which should not happen -&gt; we have set proper priors and allowed sampling from prior. Why?</p>
+<p><strong>Solution</strong> With an evidence ratio and posterior probability of 0 for the hypothesis, the model does provide decisive evidence for rejecting our hypothesis.</p>
 </div>
 <div id="hypothesis-3-c9-c10" class="section level3">
 <h3>Hypothesis 3: C9 &lt; C10</h3>
@@ -780,7 +751,7 @@ summary(kingOfFrance_fit)$fixed[,c(&quot;l-95% CI&quot;, &quot;Estimate&quot;, &
 <pre class="r"><code>hypothesis(kingOfFrance_fit, &quot;conditionCondition9 &lt; conditionCondition10&quot;)</code></pre>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
-## 1 (conditionConditi... &lt; 0    -0.95      0.36    -1.55    -0.36     276.78
+## 1 (conditionConditi... &lt; 0    -0.95      0.36    -1.54    -0.37     299.75
 ##   Post.Prob Star
 ## 1         1    *
 ## ---
@@ -788,7 +759,7 @@ summary(kingOfFrance_fit)$fixed[,c(&quot;l-95% CI&quot;, &quot;Estimate&quot;, &
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p><strong>Solution</strong> The Evidence ratio is positive and high, as well as the posterior probability. This means that the data provides evidence in favor of the hypothesis.</p>
+<p><strong>Solution</strong> With an evidence ratio of ~300 and posterior probability of 1 for the hypothesis, the model does provide decisive evidence for accepting our hypothesis.</p>
 </div>
 </div>
 <div id="ex-2.e-interaction-with-gender-6-points" class="section level2">
@@ -836,33 +807,26 @@ fit_brms_KoF_interaction &lt;- brm(
 ## 
 ## Population-Level Effects: 
 ##                             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## Intercept                      -2.99      0.37    -3.79    -2.32 1.00    30439
-## condition:Cond1                 0.12      0.36    -0.59     0.84 1.00    29973
-## gender:male                    -0.22      0.36    -0.95     0.48 1.00    29501
-## condition:Cond1:gender:male    -0.12      0.37    -0.85     0.59 1.00    29990
+## Intercept                      -3.00      0.37    -3.78    -2.32 1.00    33683
+## condition:Cond1                 0.12      0.36    -0.59     0.85 1.00    32339
+## gender:male                    -0.22      0.36    -0.95     0.48 1.00    31282
+## condition:Cond1:gender:male    -0.12      0.36    -0.84     0.57 1.00    34754
 ##                             Tail_ESS
-## Intercept                      27446
-## condition:Cond1                26407
-## gender:male                    25522
-## condition:Cond1:gender:male    26734
+## Intercept                      27059
+## condition:Cond1                27076
+## gender:male                    28612
+## condition:Cond1:gender:male    28143
 ## 
 ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
-<p><strong>Solution:</strong> We can set the following hypothesis. (1)H1: There is a difference in the answer behavior between self-identified male and self-identified female participants. (2)H2: Gender impacts on the disposition to select “TRUE” in either of the two conditions</p>
-<p>We can see that ‘Sum coding’ is used for this data with following evidence.</p>
-<ul>
-<li><p>evidence 1: # apply ‘sum’ contrasts contrasts(IDA_data_KoF_interaction<span class="math inline">\(condition) &lt;- contr.sum(2) contrasts(IDA_data_KoF_interaction\)</span>gender) &lt;- contr.sum(2)</p></li>
-<li><p>evidence 2: Because this is the linear model with sum contrast, the main effects should be interpreted relative to the intercept of the model. Therefore, -0.23(Estimate of gender:male) is the difference between the mean score for male compared to the grand mean. So, the main effect of male is (-3.00) + (-0.23) = -3.23, and the main effect of female is (-3.00)-(-0.23) = -2.77. Thus, we can calculate the difference between the main effect(male-female) by -3.21 - (-2.77) = -0.46, and we can see that the estimate (-0.23) is exactly half of it.</p></li>
-</ul>
-<p>we can test the hypothesis using following codes.</p>
-<ol style="list-style-type: decimal">
-<li></li>
-</ol>
+<p><strong>Solution:</strong></p>
+<div id="hypothesis-i" class="section level4">
+<h4>Hypothesis (i):</h4>
 <pre class="r"><code>brms::hypothesis(fit_brms_KoF_interaction, &quot;gender:male &lt; 0&quot; )</code></pre>
 <pre><code>## Hypothesis Tests for class b:
 ##          Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob
-## 1 (gender:male) &lt; 0    -0.22      0.36    -0.83     0.37        2.8      0.74
+## 1 (gender:male) &lt; 0    -0.22      0.36    -0.82     0.37       2.78      0.74
 ##   Star
 ## 1     
 ## ---
@@ -870,14 +834,25 @@ fit_brms_KoF_interaction &lt;- brm(
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p>The evidence ratio and the posterior probability are positive, but the evidence ratio is low. This means that the data provide mere information for the main effect of gender.</p>
-<ol start="2" style="list-style-type: decimal">
-<li></li>
-</ol>
-<pre class="r"><code>brms::hypothesis(fit_brms_KoF_interaction, &quot;condition:Cond1:gender:male &gt; 0&quot; )</code></pre>
+<p>The evidence ratio and the posterior probability are both low. This means that the data provide very weak evidence in favor of the existence for a main effect of gender.</p>
+</div>
+<div id="hypothesis-ii" class="section level4">
+<h4>Hypothesis (ii):</h4>
+<pre class="r"><code>(brms::hypothesis(fit_brms_KoF_interaction, &quot;condition:Cond1:gender:male = 0&quot; ))</code></pre>
 <pre><code>## Hypothesis Tests for class b:
 ##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
-## 1 (condition:Cond1:... &gt; 0    -0.12      0.37    -0.72     0.47        0.6
+## 1 (condition:Cond1:... = 0    -0.12      0.36    -0.84     0.57       1.23
+##   Post.Prob Star
+## 1      0.55     
+## ---
+## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<pre class="r"><code>(brms::hypothesis(fit_brms_KoF_interaction, &quot;condition:Cond1:gender:male &gt; 0&quot; ))</code></pre>
+<pre><code>## Hypothesis Tests for class b:
+##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
+## 1 (condition:Cond1:... &gt; 0    -0.12      0.36    -0.72     0.46       0.58
 ##   Post.Prob Star
 ## 1      0.37     
 ## ---
@@ -885,7 +860,8 @@ fit_brms_KoF_interaction &lt;- brm(
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<p>Both evidence ratio and the posterior probability are positive, but very low. This means that there is no evidence for interaction.</p>
+<p>The evidence ratio and posterior probability are very close to 1 for both the point-value and interval-valued hypotheses, so it’s best that we withhold judgement about hypothesis (ii).</p>
+</div>
 </div>
 </div>
 
