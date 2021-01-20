@@ -339,7 +339,6 @@ TODO: interpretation
 **Solution:**
 ```{r}
 hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
-# TODO: intercept codes for condition0 right?
 ```
 **Solution** The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis. 
 
@@ -414,4 +413,33 @@ summary(fit_brms_KoF_interaction)
 ```
 
 **Solution:**
-TODO
+We can set the following hypothesis.
+(1)H1: There is a difference in the answer behavior between self-identified male and self-identified female participants.
+(2)H2: Gender impacts on the disposition to select “TRUE” in either of the two conditions
+
+We can see that 'Sum coding' is used for this data with following evidence.
+
+- evidence 1: # apply 'sum' contrasts
+contrasts(IDA_data_KoF_interaction$condition) <- contr.sum(2)
+contrasts(IDA_data_KoF_interaction$gender) <- contr.sum(2)
+
+- evidence 2: Because this is the linear model with sum contrast, the main effects should be interpreted relative to the intercept of the model.
+Therefore, -0.23(Estimate of gender:male) is the difference between the mean score for male compared to the grand mean.
+So, the main effect of male is (-3.00) + (-0.23) = -3.23, and the main effect of female is (-3.00)-(-0.23) = -2.77.
+Thus, we can calculate the difference between the main effect(male-female) by -3.21 - (-2.77) = -0.46, and we can see that the estimate (-0.23) is exactly half of it.
+
+we can test the hypothesis using following codes.
+
+(1)
+```{r}
+brms::hypothesis(fit_brms_KoF_interaction, "gender:male < 0" )
+```
+
+The evidence ratio and the posterior probability are positive, but the evidence ratio is low. This means that the data provide mere information for the main effect of gender.
+
+(2)
+```{r}
+brms::hypothesis(fit_brms_KoF_interaction, "condition:Cond1:gender:male > 0" )
+```
+
+Both evidence ratio and the posterior probability are positive, but very low. This means that there is no evidence for interaction.
