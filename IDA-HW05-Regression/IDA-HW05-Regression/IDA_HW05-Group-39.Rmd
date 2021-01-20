@@ -169,9 +169,6 @@ In doing so, state clearly what the coefficients encode, what the numerical resu
 
 **Solution:**
 
-TODO: possible needs to be corrected, see how the final coding looks like
-We are looking at two hypotheses: That the
-
 * mean reaction time for ‘goNoGo’ minus the mean reaction time for ‘reaction’ is higher than 0
 * mean reaction time for ‘discrimination’ minus the mean reaction time for ‘goNoGo’ is higher than 0
 
@@ -266,7 +263,7 @@ before_cleanse - nrow(d_cleaned)
 Plot the data just like in the the first part of the web-book's appendix D4.4 (proportion per condition). 
 Use the web-book code as much as you like while making any necessary amendments.
 
-**Solution:** TODO: They probably want figure D1 here :()
+**Solution:** 
 ```{r}
 IDA_data_KoF_plot <- IDA_data_KoF %>% 
   group_by(condition) %>% 
@@ -311,8 +308,7 @@ Finally, also add a call of `summary(...)` to show the summary of the fitted mod
 d_cleaned <- d_cleaned %>%
   mutate(condition = as.character(condition))
 d_cleaned
-#is.ordered(d_cleaned$condition)
-#TODO: I thought they wanted to make sure condition is no longer ordered, but it was not in the first place. do you know what they want here?
+
 d_relevant <- d_cleaned %>%
   select(condition, response)
 head(d_relevant,5)
@@ -332,24 +328,23 @@ summary(kingOfFrance_fit)$fixed[,c("l-95% CI", "Estimate", "u-95% CI")]
 
 Use the `brms::hypotheses` function to test the three hypotheses stated above.
 For each case interpret the results and formulate a conclusion such as "does/does not provide evidence" or "accept/reject hypothesis" according to the results.
-TODO: interpretation
 
 ### Hypothesis 1: C0 > C1
 
 **Solution:**
 ```{r}
-hypothesis(kingOfFrance_fit, "Intercept > conditionCondition1")
+hypothesis(kingOfFrance_fit, "conditionCondition1 < 0")
 ```
-**Solution** The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis. 
+**Solution** With an evidence ratio of just 3, our model provides only very weak evidence in favor of the hypothesis. In this case, withholding judgement about the hypothesis is probably wisest. 
 
 ### Hypothesis 2: C0 = C6
 
 **Solution:**
 ```{r}
-hypothesis(kingOfFrance_fit, "Intercept = conditionCondition6")
+hypothesis(kingOfFrance_fit, "conditionCondition6 = 0")
 ```
 **Solution**
-TODO: Evidence Ratio (Bayes Factor) and Posterior Probability are NA, which should not happen -> we have set proper priors and allowed sampling from prior. Why?
+With an evidence ratio and posterior probability of 0 for the hypothesis, the model does provide decisive evidence for rejecting our hypothesis.
 
 ### Hypothesis 3: C9 < C10
 
@@ -358,7 +353,7 @@ TODO: Evidence Ratio (Bayes Factor) and Posterior Probability are NA, which shou
 hypothesis(kingOfFrance_fit, "conditionCondition9 < conditionCondition10")
 ```
 **Solution**
-The Evidence ratio is positive and high, as well as the posterior probability. This means that the data provides evidence in favor of the hypothesis. 
+With an evidence ratio of ~300 and posterior probability  of 1 for the hypothesis, the model does provide decisive evidence for accepting our hypothesis.
 
 ## Ex 2.e Interaction with `gender` [6 points]
 

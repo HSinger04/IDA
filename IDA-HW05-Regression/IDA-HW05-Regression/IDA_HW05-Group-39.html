@@ -536,11 +536,15 @@ samples &lt;- aida::get_samples_regression_noninformative(input_MC, output_MC, n
 <h2>Ex 1.f Interpret your results [7 points]</h2>
 <p>Interpret these results using a Kruschke-style logic applied to (non-ROPEd) interval-based hypotheses. In doing so, state clearly what the coefficients encode, what the numerical results of the last step mean, and what you would conclude from all this regarding any potential evidence (or lack thereof) for or against the research hypotheses.</p>
 <p><strong>Solution:</strong></p>
-<p>TODO: possible needs to be corrected, see how the final coding looks like We are looking at two hypotheses: That the * mean reaction time for ‘goNoGo’ minus the mean reaction time for ‘reaction’ is higher than 0 * mean reaction time for ‘discrimination’ minus the mean reaction time for ‘goNoGo’ is higher than 0</p>
+<p>TODO: possible needs to be corrected, see how the final coding looks like We are looking at two hypotheses: That the</p>
+<ul>
+<li>mean reaction time for ‘goNoGo’ minus the mean reaction time for ‘reaction’ is higher than 0</li>
+<li>mean reaction time for ‘discrimination’ minus the mean reaction time for ‘goNoGo’ is higher than 0</li>
+</ul>
 <p>The coefficients shown in 1.e respectively show the mean and the 95% HDI of the approximation of the posterior distribution for</p>
 <ul>
-<li>mean reaction time for ‘reaction’ minus mean reaction time for ‘goNoGo’</li>
-<li>mean reaction time for ‘goNoGo’ minus mean reaction time for ‘discrimination’</li>
+<li>mean reaction time for ‘reaction’ minus mean reaction time for ‘goNoGo’.</li>
+<li>mean reaction time for ‘goNoGo’ minus mean reaction time for ‘discrimination’.</li>
 </ul>
 <p>As we can clearly see that the additive inverse of the coefficients’ HDIs is completely contained in <span class="math inline">\((0, \infty)\)</span>, according to a Kruschke-style logic, we would <strong>accept</strong> both our formulated hypotheses.</p>
 </div>
@@ -752,7 +756,6 @@ summary(kingOfFrance_fit)$fixed[,c(&quot;l-95% CI&quot;, &quot;Estimate&quot;, &
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<pre class="r"><code># TODO: intercept codes for condition0 right?</code></pre>
 <p><strong>Solution</strong> The evidence ratio and posterior probability are positive, but low. This indicates that the data does provide some (but not much) evidence in favor of the hypothesis.</p>
 </div>
 <div id="hypothesis-2-c0-c6" class="section level3">
@@ -846,7 +849,43 @@ fit_brms_KoF_interaction &lt;- brm(
 ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
-<p><strong>Solution:</strong> TODO</p>
+<p><strong>Solution:</strong> We can set the following hypothesis. (1)H1: There is a difference in the answer behavior between self-identified male and self-identified female participants. (2)H2: Gender impacts on the disposition to select “TRUE” in either of the two conditions</p>
+<p>We can see that ‘Sum coding’ is used for this data with following evidence.</p>
+<ul>
+<li><p>evidence 1: # apply ‘sum’ contrasts contrasts(IDA_data_KoF_interaction<span class="math inline">\(condition) &lt;- contr.sum(2) contrasts(IDA_data_KoF_interaction\)</span>gender) &lt;- contr.sum(2)</p></li>
+<li><p>evidence 2: Because this is the linear model with sum contrast, the main effects should be interpreted relative to the intercept of the model. Therefore, -0.23(Estimate of gender:male) is the difference between the mean score for male compared to the grand mean. So, the main effect of male is (-3.00) + (-0.23) = -3.23, and the main effect of female is (-3.00)-(-0.23) = -2.77. Thus, we can calculate the difference between the main effect(male-female) by -3.21 - (-2.77) = -0.46, and we can see that the estimate (-0.23) is exactly half of it.</p></li>
+</ul>
+<p>we can test the hypothesis using following codes.</p>
+<ol style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>brms::hypothesis(fit_brms_KoF_interaction, &quot;gender:male &lt; 0&quot; )</code></pre>
+<pre><code>## Hypothesis Tests for class b:
+##          Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob
+## 1 (gender:male) &lt; 0    -0.22      0.36    -0.83     0.37        2.8      0.74
+##   Star
+## 1     
+## ---
+## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<p>The evidence ratio and the posterior probability are positive, but the evidence ratio is low. This means that the data provide mere information for the main effect of gender.</p>
+<ol start="2" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>brms::hypothesis(fit_brms_KoF_interaction, &quot;condition:Cond1:gender:male &gt; 0&quot; )</code></pre>
+<pre><code>## Hypothesis Tests for class b:
+##                 Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
+## 1 (condition:Cond1:... &gt; 0    -0.12      0.37    -0.72     0.47        0.6
+##   Post.Prob Star
+## 1      0.37     
+## ---
+## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<p>Both evidence ratio and the posterior probability are positive, but very low. This means that there is no evidence for interaction.</p>
 </div>
 </div>
 
