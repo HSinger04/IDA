@@ -104,6 +104,17 @@ Learning speed is a metric factor, which ranges from at least 60 to theoreticall
 Accuracy is a metric factor ranging from 0-1.
 Learning strategy is a 
 
+Solution:
+> independent variables
+: critical attribute(CA) vs family resemblance(FR)
+: easily-verbalizable-features vs not-easily-verbalizable features
+
+> categorical factors
+
+> unordered
+
+> within-subject for the CA vs FR independent variable
+  between-subject for the easily-verbalizable-features vs not-easily-verbalizable features
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
 We load the data:
