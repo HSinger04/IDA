@@ -103,7 +103,7 @@ Task: easily verbalized condition -> some preference, not easily verbalized cond
 What kind of experiment is this? I.e., which independent (explanatory) variables are there? Are they metric or categorical factors? If factors, how many levels (ordered, unordered?) do they have? Any within- or between-subjects manipulations?
 
 Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. 
-Learning speed is a metric factor, which ranges from at least 60 to theoretically plus infinity?
+Learning speed is a metric factor, which ranges from at least 60 to 400?
 Accuracy is a metric factor ranging from 0-1.
 
 Solution:
@@ -159,7 +159,7 @@ Include the first 10 lines of your `d_tidy` to the HTML output.
 d_tidy <- d %>%
   select(., -seq(26,35)) %>%
   pivot_longer(., cols = seq(6,25), names_to = "trial_label", values_to = "response") 
-head(d_tidy)
+d_tidy
 ```
 
 
@@ -172,12 +172,56 @@ The trials of types `exception_1` and `exception_2` differ with respect to the e
 Trials of type `exception_1` expect response "B" under CA.
 Add also a column called `expected_repsonse` containing the expected responses for each trial type (assuming strategy CA, where that is relevant).
 
+-> look at table of T1-10 configurations, evaluate which category CA would choose -> add column -> expected B = exception_1, expected A = exception_2
+
+```{r} 
+# TODO check for which decision the CA strategy would make for 1-5 and 6-10 respectively (brain tired)
+d_tidy <- d_tidy %>% group_by(trial_label) %>% mutate(trial_type = case_when(
+str_detect(trial_label, "A") ~ "category_A",
+str_detect(trial_label, "B") ~ "category_B",
+# needs to come before "T[1-5]"
+str_detect(trial_label, "T10") ~ "exception_2",
+str_detect(trial_label, "T[1-5]") ~ "exception_1",
+str_detect(trial_label, "T[6-9]") ~ "exception_2",
+TRUE ~ "error"
+))
+d_tidy
+
+d_tidy <- d_tidy %>% group_by(trial_label) %>% mutate(expected_response = case_when(
+str_detect(trial_label, "A") ~ "A",
+str_detect(trial_label, "B") ~ "B",
+# needs to come before "T[1-5]"
+str_detect(trial_label, "T10") ~ "A",
+str_detect(trial_label, "T[1-5]") ~ "B",
+str_detect(trial_label, "T[6-9]") ~ "A",
+TRUE ~ "error"
+))
+```
+
+
 ## Ex 2.d Double-check relevant summary stats by B&M [3 points]
 
 Checking other researchers' results is not imprudent, but part of a healthy self-correcting and cooperative scientific community.
 Therefore, add to the tibble in `d` columns `CA_check` and `Accuracy_check`, calculating these values yourself from the information stored in columns `trial_type` and `expected_response` of `d_tidy`.
 (NB: you may want to use some form of 'joining' tibbles, or you just produce two single vectors `CA_check` and `Accuracy_check`.)
 Finally, use R (e.g., functions like `all` or `any`) to check if your calculations agree the information provided in columns `CA` and `Accuracy` of `d`.
+```{r}
+d_ca_check <- d_tidy %>%
+  filter(!str_detect(trial_label, "[AB]")) %>%
+  group_by(Subj) %>% 
+  mutate(CA_check = mean(as.character(response) == as.character(expected_response)))
+d_accuracy_check <- d_tidy %>%
+    filter(str_detect(trial_label, "[AB]")) %>%
+  group_by(Subj) %>% 
+  mutate(Accuracy_check = mean(as.character(response) == as.character(expected_response)))
+
+d_ca_check
+d_accuracy_check
+
+all(d_ca_check["CA_check"] == d_ca_check["CA"])
+all(d_accuracy_check["Accuracy_check"] == d_accuracy_check["Accuracy"])
+```
+
 
 ## Ex 2.e Summary statistics [3 points]
 
@@ -196,6 +240,38 @@ tribble(
   "CA", "NV", "...", "...", "...",
   "CA", "VB", "...", "...", "..."
 )
+
+# Solution:
+d_VB <- d_tidy %>% 
+  filter(Cond == "VB") %>% 
+  group_by(Subj) %>% 
+  summarise(Trials = mean(Trials), Accuracy = mean(Accuracy), CA = mean(CA))
+
+d_NV <- d_tidy %>% 
+  filter(Cond == "NV") %>% 
+  group_by(Subj) %>% 
+  summarise(Trials = mean(Trials), Accuracy = mean(Accuracy), CA = mean(CA))
+
+VB_acc <- aida::bootstrapped_CI(d_VB$Accuracy)
+VB_trials <- aida::bootstrapped_CI(d_VB$Trials)
+VB_ca <- aida::bootstrapped_CI(d_VB$CA)
+NV_acc <- aida::bootstrapped_CI(d_NV$Accuracy)
+NV_trials <- aida::bootstrapped_CI(d_NV$Trials)
+NV_ca <- aida::bootstrapped_CI(d_NV$CA)
+
+measure <- c("Trials", "Trials", "Accuracy", "Accuracy", "CA", "CA") 
+cond <- c("NV", "VB","NV", "VB","NV", "VB")
+
+summary_stats <- full_join(NV_trials, VB_trials) %>% 
+  full_join(., NV_acc) %>% 
+  full_join(., VB_acc) %>% 
+  full_join(., NV_ca) %>% 
+  full_join(., VB_ca) %>%
+  mutate(measure = measure, Cond = cond) %>%
+  select(measure, Cond, lower, mean, upper)
+
+summary_stats
+
 ```
 
 # <span style = "color:firebrick">Exercise 3:</span> Vizualization [7 points]
