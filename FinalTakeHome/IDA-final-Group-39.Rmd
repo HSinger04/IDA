@@ -73,7 +73,7 @@ We will refer to these research hypotheses here as "Learning Speed", "Accuracy" 
 
 Here's a formulation of the "Strategy" hypothesis:
 
-> "Strategy": The proportion of categorization choices for each subject, which are indicative of a 'critical attribute' categorization strategy (as stored in variable `CA` and derived from choices in the critical trials `T1` ... `T10`), is larger for the "easily verbalizable" condition (level `VB` of variable `Cond`), than in the "not-easily verbalizable" condition (level `NB` of variable `Cond`).
+  > "Strategy": The proportion of categorization choices for each subject, which are indicative of a 'critical attribute' categorization strategy (as stored in variable `CA` and derived from choices in the critical trials `T1` ... `T10`), is larger for the "easily verbalizable" condition (level `VB` of variable `Cond`), than in the "not-easily verbalizable" condition (level `NB` of variable `Cond`).
 
 Formulate the remaining two hypotheses in natural language as precisely as possible, using -wherever possible- reference to the names and/or values of variables in the data set supplied by B&M, following the above example.
 (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)
@@ -94,6 +94,9 @@ Make a short statement for each hypothesis, e.g., "find evidence for/against" or
 Solution: TODO include measures from t-Tests?
 > "Learning Speed": Learning rate for 'easily verbalize' condition was not significantly different from learning rate in 'not-easily verbalize' condition, so evidence against the hypothesis. 
 > "Accuracy": Accuracy was significantly higher in 'easily verbalize' condition than in 'not-easily verbalized condition', so evidence in favor of the hypothesis. 
+> "Strategy": Which hypothesis are we supposed to compare to? 
+Paper: easily verbalized condition -> preference for CA, not-easily verbalized condition -> preference for FR
+Task: easily verbalized condition -> some preference, not easily verbalized condition -> less preference for CA than the other preference
 
 ## Ex 1.c Kind of experiment [1 point]
 
@@ -102,7 +105,6 @@ What kind of experiment is this? I.e., which independent (explanatory) variables
 Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. 
 Learning speed is a metric factor, which ranges from at least 60 to theoretically plus infinity?
 Accuracy is a metric factor ranging from 0-1.
-Learning strategy is a 
 
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
