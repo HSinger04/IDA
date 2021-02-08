@@ -1,7 +1,7 @@
 * 68 participants in Experiment I (uni students: See Methods -> Participants), 70 ooriginally, but two excluded
 * Data:
  * Stimuli:
-  * easily-verbalizable (Materials > Stimuli):
+    * easily-verbalizable (Materials > Stimuli):
 **** spots (two vs. four)
 **** eyes (two vs. three)
 **** ear colour (teal vs. orange)
