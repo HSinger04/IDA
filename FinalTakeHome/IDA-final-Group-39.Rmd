@@ -132,6 +132,18 @@ Use R to retrieve:
 
 - the number of participants contained in the data set
 - the number of times each condition (NV and VB) occurs in the data
+```{r}
+num_participants <- d %>% 
+  group_by(Subj) %>% 
+  nrow
+
+num_condition <- d %>% 
+  group_by(Cond) %>% 
+  count()
+num_NV <- num_condition[1,2]
+num_VB <- num_condition[2,2]
+```
+
 
 ## Ex 2.b Tidy up Part 1 [2 points]
 
@@ -142,6 +154,14 @@ So, `d_tidy` will include one row for each individual categorization trial of ea
 Since we will not be analyzing the "single-feature trials" (T11-T20), exclude these.
 Name the two new columns you will create by pivoting `trial_label` and `response`.
 Include the first 10 lines of your `d_tidy` to the HTML output. 
+
+```{r}
+d_tidy <- d %>%
+  select(., -seq(26,35)) %>%
+  pivot_longer(., cols = seq(6,25), names_to = "trial_label", values_to = "response") 
+head(d_tidy)
+```
+
 
 ## Ex 2.c Tidy up Part 2 [2 points]
 
