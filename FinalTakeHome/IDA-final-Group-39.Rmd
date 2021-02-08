@@ -73,7 +73,7 @@ We will refer to these research hypotheses here as "Learning Speed", "Accuracy" 
 
 Here's a formulation of the "Strategy" hypothesis:
 
-> "Strategy": The proportion of categorization choices for each subject, which are indicative of a 'critical attribute' categorization strategy (as stored in variable `CA` and derived from choices in the critical trials `T1` ... `T10`), is larger for the "easily verbalizable" condition (level `VB` of variable `Cond`), than in the "not-easily verbalizable" condition (level `NB` of variable `Cond`).
+  > "Strategy": The proportion of categorization choices for each subject, which are indicative of a 'critical attribute' categorization strategy (as stored in variable `CA` and derived from choices in the critical trials `T1` ... `T10`), is larger for the "easily verbalizable" condition (level `VB` of variable `Cond`), than in the "not-easily verbalizable" condition (level `NB` of variable `Cond`).
 
 Formulate the remaining two hypotheses in natural language as precisely as possible, using -wherever possible- reference to the names and/or values of variables in the data set supplied by B&M, following the above example.
 (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)
@@ -94,6 +94,9 @@ Make a short statement for each hypothesis, e.g., "find evidence for/against" or
 Solution: TODO include measures from t-Tests?
 > "Learning Speed": Learning rate for 'easily verbalize' condition was not significantly different from learning rate in 'not-easily verbalize' condition, so evidence against the hypothesis. 
 > "Accuracy": Accuracy was significantly higher in 'easily verbalize' condition than in 'not-easily verbalized condition', so evidence in favor of the hypothesis. 
+> "Strategy": Which hypothesis are we supposed to compare to? 
+Paper: easily verbalized condition -> preference for CA, not-easily verbalized condition -> preference for FR
+Task: easily verbalized condition -> some preference, not easily verbalized condition -> less preference for CA than the other preference
 
 ## Ex 1.c Kind of experiment [1 point]
 
@@ -102,8 +105,18 @@ What kind of experiment is this? I.e., which independent (explanatory) variables
 Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. 
 Learning speed is a metric factor, which ranges from at least 60 to theoretically plus infinity?
 Accuracy is a metric factor ranging from 0-1.
-Learning strategy is a 
 
+Solution:
+> independent variables
+: critical attribute(CA) vs family resemblance(FR)
+: easily-verbalizable-features vs not-easily-verbalizable features
+
+> categorical factors
+
+> unordered
+
+> within-subject for the CA vs FR independent variable
+  between-subject for the easily-verbalizable-features vs not-easily-verbalizable features
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
 We load the data:
@@ -119,6 +132,18 @@ Use R to retrieve:
 
 - the number of participants contained in the data set
 - the number of times each condition (NV and VB) occurs in the data
+```{r}
+num_participants <- d %>% 
+  group_by(Subj) %>% 
+  nrow
+
+num_condition <- d %>% 
+  group_by(Cond) %>% 
+  count()
+num_NV <- num_condition[1,2]
+num_VB <- num_condition[2,2]
+```
+
 
 ## Ex 2.b Tidy up Part 1 [2 points]
 
@@ -129,6 +154,14 @@ So, `d_tidy` will include one row for each individual categorization trial of ea
 Since we will not be analyzing the "single-feature trials" (T11-T20), exclude these.
 Name the two new columns you will create by pivoting `trial_label` and `response`.
 Include the first 10 lines of your `d_tidy` to the HTML output. 
+
+```{r}
+d_tidy <- d %>%
+  select(., -seq(26,35)) %>%
+  pivot_longer(., cols = seq(6,25), names_to = "trial_label", values_to = "response") 
+head(d_tidy)
+```
+
 
 ## Ex 2.c Tidy up Part 2 [2 points]
 
