@@ -79,8 +79,11 @@ Formulate the remaining two hypotheses in natural language as precisely as possi
 (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)
 
 Solution: 
-> "Learning Speed": The number of trials before making a correct categorization in 12 trials in a row (minimum 60 previous trials, variable 'Trials' TODO) is smaller for the "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
-> "Accuracy": The rate of accuracy on the training items in the test phase (variable 'Accuracy') is higher for "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
+Easily verbalized items will be learned faster and retained better in memory.
+> "Learning Speed": The learning speed for easily verbalized is higher than for not-easily verbalized.
+The number of trials before making a correct categorization in 12 trials in a row (minimum 60 previous trials, variable 'Trials' TODO) is smaller for the "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
+> "Accuracy": accuracy is higher for easily verbalized than for not-easily verbalized.
+The rate of accuracy on the training items in the test phase (variable 'Accuracy') is higher for "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
 
 ## Ex 1.b Previous results [3 points]
 
@@ -88,9 +91,13 @@ What results do B&M report for these three hypotheses?
 Make a short statement for each hypothesis, e.g., "find evidence for/against" or "find no evidence", for each hypothesis.
 (Don't overthink this! The question is about what the authors conclude from their analyses. No need to go down the rabbit hole here and triple-check whether you would draw similar conclusions from the reported analyses.)
 
+
 ## Ex 1.c Kind of experiment [1 point]
 
 What kind of experiment is this? I.e., which independent (explanatory) variables are there? Are they metric or categorical factors? If factors, how many levels (ordered, unordered?) do they have? Any within- or between-subjects manipulations?
+
+Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. 
+Learning speed is a metric factor (at least 60)
 
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
