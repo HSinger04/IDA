@@ -78,6 +78,10 @@ Here's a formulation of the "Strategy" hypothesis:
 Formulate the remaining two hypotheses in natural language as precisely as possible, using -wherever possible- reference to the names and/or values of variables in the data set supplied by B&M, following the above example.
 (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)
 
+Solution: 
+> "Learning Speed": The number of trials before making a correct categorization in 12 trials in a row (minimum 60 previous trials, variable 'Trials' TODO) is smaller for the "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
+> "Accuracy": The rate of accuracy on the training items in the test phase (variable 'Accuracy') is higher for "easily verbalize" condition (level 'VB' of variable 'Cond') than for the "not-easily verbalize" condition (level 'NB' of variable 'Cond').
+
 ## Ex 1.b Previous results [3 points]
 
 What results do B&M report for these three hypotheses?
