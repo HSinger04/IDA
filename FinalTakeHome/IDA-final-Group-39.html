@@ -560,7 +560,7 @@ summary {
 <div id="ex-1.c-kind-of-experiment-1-point" class="section level2">
 <h2>Ex 1.c Kind of experiment [1 point]</h2>
 <p>What kind of experiment is this? I.e., which independent (explanatory) variables are there? Are they metric or categorical factors? If factors, how many levels (ordered, unordered?) do they have? Any within- or between-subjects manipulations?</p>
-<p>Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. Learning speed is a metric factor, which ranges from at least 60 to 400. Accuracy, CA and FR are a metric factors ranging from 0-1 in steps of 0.1. The relationship between CA and FR for a subject is as follows: FR = 1 - CA. # TODO</p>
+<p>Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. Learning speed is a metric factor, which ranges from at least 60 to 400. # TODO: Are CA, FR and Accuracy actually considered metric? They are generated from a bernoulli dist. Accuracy, CA and FR are a metric factors ranging from 0-1 in steps of 0.1. The relationship between CA and FR for a subject is as follows: FR = 1 - CA. # TODO</p>
 <p>Solution: &gt; independent variables : critical attribute(CA) vs family resemblance(FR) : easily-verbalizable-features vs not-easily-verbalizable features</p>
 <blockquote>
 <p>categorical factors</p>
@@ -616,7 +616,6 @@ summary {
 <div id="ex-2.c-tidy-up-part-2-2-points" class="section level2">
 <h2>Ex 2.c Tidy up Part 2 [2 points]</h2>
 <p>The tibble in <code>d_tidy</code> now contains a data column with entries like <code>TA1</code> or <code>T10</code>, but actually <code>TA1</code> and <code>T10</code> are quite different types of trials. So, let’s clean up and structure some more. Introduce a new column called <code>trial_type</code>, which contains the information whether each row’s trial is from one of the four categories: <code>category_A</code>, <code>category_B</code>, <code>exception_1</code>, or <code>exception_2</code>. The trials of types <code>exception_1</code> and <code>exception_2</code> differ with respect to the expected response under the “characteristic attribute” (CA) strategy. Trials of type <code>exception_1</code> expect response “B” under CA. Add also a column called <code>expected_repsonse</code> containing the expected responses for each trial type (assuming strategy CA, where that is relevant).</p>
-<p>-&gt; look at table of T1-10 configurations, evaluate which category CA would choose -&gt; add column -&gt; expected B = exception_1, expected A = exception_2</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co"> check for which decision the CA strategy would make for 1-5 and 6-10 respectively (brain tired)</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>d_tidy &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(trial_label) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">trial_type =</span> <span class="kw">case_when</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;A&quot;</span>) <span class="op">~</span><span class="st"> &quot;category_A&quot;</span>,</span>
@@ -785,13 +784,12 @@ summary {
 <span id="cb21-6"><a href="#cb21-6"></a>fit_ls &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
 <span id="cb21-7"><a href="#cb21-7"></a>  <span class="dt">formula =</span> Trials <span class="op">~</span><span class="st"> </span>Cond,</span>
 <span id="cb21-8"><a href="#cb21-8"></a>  <span class="dt">data =</span> d_unique,</span>
-<span id="cb21-9"><a href="#cb21-9"></a>  <span class="co"># </span><span class="al">TODO</span><span class="co">: uncomment below</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a>  <span class="co">#prior = prior(student_t(1, 0, 100),  class = &#39;b&#39;),</span></span>
-<span id="cb21-11"><a href="#cb21-11"></a>  <span class="co">#sample_prior = &#39;yes&#39;,</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>),  <span class="dt">class =</span> <span class="st">&#39;b&#39;</span>),</span>
+<span id="cb21-10"><a href="#cb21-10"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
+<span id="cb21-11"><a href="#cb21-11"></a>  <span class="co"># </span><span class="al">TODO</span><span class="co">: change back to 20k</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="dt">iter =</span> <span class="dv">1000</span></span>
 <span id="cb21-13"><a href="#cb21-13"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: merge with previous block</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>(<span class="kw">summary</span>(fit_ls))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>(<span class="kw">summary</span>(fit_ls))</span></code></pre></div>
 <pre><code>##  Family: gaussian 
 ##   Links: mu = identity; sigma = identity 
 ## Formula: Trials ~ Cond 
@@ -801,12 +799,12 @@ summary {
 ## 
 ## Population-Level Effects: 
 ##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## Intercept    75.17      9.32    56.07    92.54 1.00    27403    22632
-## CondNV        6.93     11.50   -15.78    29.62 1.00    29753    24967
+## Intercept    75.31      9.25    56.13    92.73 1.00    28794    22909
+## CondNV        6.74     11.34   -15.42    29.09 1.00    32668    27450
 ## 
 ## Family Specific Parameters: 
 ##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sigma    47.19      4.29    39.76    56.45 1.00    27731    23062
+## sigma    47.16      4.33    39.63    56.68 1.00    27101    22952
 ## 
 ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -815,59 +813,111 @@ summary {
 <span id="cb24-2"><a href="#cb24-2"></a>brms<span class="op">::</span><span class="kw">hypothesis</span>(fit_ls, <span class="st">&quot;CondNV &gt; 0&quot;</span>)</span></code></pre></div>
 <pre><code>## Hypothesis Tests for class b:
 ##     Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
-## 1 (CondNV) &gt; 0     6.93      11.5   -11.93    25.94        2.7      0.73     
+## 1 (CondNV) &gt; 0     6.74     11.34   -11.93    25.35       2.64      0.72     
 ## ---
 ## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: As text, include analysis</span></span></code></pre></div>
+<p>** Analysis ** With an evidence ratio of around 2.5, we have evidence that is hardly worth ink or breath in favor of our hypothesis that learning speed is higher for the easily verbalized condition than for the non-easily verbalized condition (stated in 1.a). Also, the credible interval’s lower bound is below the critical value of 0, as is the upper bound above 0. As such, the model and data provide no substantial evidence in favor of or against this hypothesis, so we withhold judgement.</p>
 </div>
 <div id="ex-4.b-testing-the-accuracy-hypothesis-8-points" class="section level2">
 <h2>Ex 4.b Testing the “Accuracy” hypothesis [8 points]</h2>
 <p>B&amp;M test the “Accuracy” hypothesis based on the assumption that the measures in <code>Accuracy</code> are normally distributed. If you can, explain in one concise sentence why this normality assumption might be criticized in the case at hand. If you cannot think of a different analysis you like better, follow this strategy to test the “Accuracy” hypothesis with a Bayesian regression model following the same general approach as in the previous exercise. If you can think of an analysis you might prefer, do that (for 2 extra points). Use the same priors as in the previous exercise.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>fit_acc &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
-<span id="cb27-2"><a href="#cb27-2"></a>  <span class="dt">formula =</span> Accuracy <span class="op">~</span><span class="st"> </span>Cond,</span>
-<span id="cb27-3"><a href="#cb27-3"></a>  <span class="dt">data =</span> d_unique,</span>
-<span id="cb27-4"><a href="#cb27-4"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>), <span class="dt">class=</span><span class="st">&#39;b&#39;</span>),</span>
-<span id="cb27-5"><a href="#cb27-5"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
-<span id="cb27-6"><a href="#cb27-6"></a>  <span class="dt">iter =</span> <span class="dv">20000</span></span>
-<span id="cb27-7"><a href="#cb27-7"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">summary</span>(fit_acc)</span></code></pre></div>
-<pre><code>##  Family: gaussian 
-##   Links: mu = identity; sigma = identity 
-## Formula: Accuracy ~ Cond 
-##    Data: d_unique (Number of observations: 68) 
-## Samples: 4 chains, each with iter = 20000; warmup = 10000; thin = 1;
-##          total post-warmup samples = 40000
+<p>** Solution **</p>
+<p>We think that a normal distribution is inappropriate here, since the data is plausibly generated by a Bernoulli distribution.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>d_acc &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="st">  </span><span class="kw">group_by</span>(Subj) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">correct =</span> response <span class="op">==</span><span class="st"> </span>expected_response) <span class="op">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Cond =</span> <span class="kw">factor</span>(Cond))</span>
+<span id="cb26-6"><a href="#cb26-6"></a>  </span>
+<span id="cb26-7"><a href="#cb26-7"></a></span>
+<span id="cb26-8"><a href="#cb26-8"></a>fit_acc &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="dt">formula =</span> correct <span class="op">~</span><span class="st"> </span>Cond,</span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="dt">data =</span> d_acc,</span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>), <span class="dt">class=</span><span class="st">&#39;b&#39;</span>),</span>
+<span id="cb26-13"><a href="#cb26-13"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
+<span id="cb26-14"><a href="#cb26-14"></a>  <span class="co"># </span><span class="al">TODO</span><span class="co">: change back to 20k</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>  <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">summary</span>(fit_acc)</span></code></pre></div>
+<pre><code>##  Family: bernoulli 
+##   Links: mu = logit 
+## Formula: correct ~ Cond 
+##    Data: d_acc (Number of observations: 680) 
+## Samples: 4 chains, each with iter = 1000; warmup = 500; thin = 1;
+##          total post-warmup samples = 2000
 ## 
 ## Population-Level Effects: 
 ##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## Intercept     0.93      0.03     0.88     0.98 1.00    39560    27990
-## CondNV       -0.13      0.04    -0.20    -0.05 1.00    39083    29564
-## 
-## Family Specific Parameters: 
-##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sigma     0.16      0.01     0.13     0.19 1.00    34934    29395
+## Intercept     2.60      0.22     2.16     3.04 1.00      889      920
+## CondNV       -1.21      0.26    -1.71    -0.72 1.00      963     1062
 ## 
 ## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># mu_NV &lt; mu_VB is our hypothesis</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>brms<span class="op">::</span><span class="kw">hypothesis</span>(fit_acc, <span class="st">&quot;CondNV &lt; 0&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># mu_NV &lt; mu_VB is our hypothesis</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>brms<span class="op">::</span><span class="kw">hypothesis</span>(fit_acc, <span class="st">&quot;CondNV &lt; 0&quot;</span>)</span></code></pre></div>
 <pre><code>## Hypothesis Tests for class b:
 ##     Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
-## 1 (CondNV) &lt; 0    -0.13      0.04    -0.19    -0.07    1903.76         1    *
+## 1 (CondNV) &lt; 0    -1.21      0.26    -1.64    -0.79        Inf         1    *
 ## ---
 ## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
 ## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
 ## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: analysis and think of why gaussian might not be good</span></span></code></pre></div>
+<p>With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition. As such, we accept our hypothesis.</p>
 </div>
 <div id="ex-4.c-testing-the-strategy-hypothesis-8-points" class="section level2">
 <h2>Ex 4.c Testing the “Strategy” hypothesis [8 points]</h2>
 <p>Test the “Strategy” hypothesis in the way that you think is best appropriate (but using a method that we have covered in class).</p>
+<p>** Solution ** Like in 4.b, we think that a normal distribution is inappropriate here, since the data is plausibly generated by a Bernoulli distribution.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>d_ca &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="st">  </span><span class="kw">group_by</span>(Subj) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">is_ca =</span> response <span class="op">==</span><span class="st"> </span>expected_response) <span class="op">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Cond =</span> <span class="kw">factor</span>(Cond))</span>
+<span id="cb31-6"><a href="#cb31-6"></a>  </span>
+<span id="cb31-7"><a href="#cb31-7"></a></span>
+<span id="cb31-8"><a href="#cb31-8"></a>fit_ca &lt;-<span class="st"> </span><span class="kw">brm</span>(</span>
+<span id="cb31-9"><a href="#cb31-9"></a>  <span class="dt">formula =</span> is_ca <span class="op">~</span><span class="st"> </span>Cond,</span>
+<span id="cb31-10"><a href="#cb31-10"></a>  <span class="dt">data =</span> d_ca,</span>
+<span id="cb31-11"><a href="#cb31-11"></a>  <span class="dt">family =</span> <span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb31-12"><a href="#cb31-12"></a>  <span class="dt">prior =</span> <span class="kw">prior</span>(<span class="kw">student_t</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">100</span>), <span class="dt">class=</span><span class="st">&#39;b&#39;</span>),</span>
+<span id="cb31-13"><a href="#cb31-13"></a>  <span class="dt">sample_prior =</span> <span class="st">&#39;yes&#39;</span>,</span>
+<span id="cb31-14"><a href="#cb31-14"></a>  <span class="co"># </span><span class="al">TODO</span><span class="co">: change back to 20k</span></span>
+<span id="cb31-15"><a href="#cb31-15"></a>  <span class="dt">iter =</span> <span class="dv">1000</span></span>
+<span id="cb31-16"><a href="#cb31-16"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">summary</span>(fit_ca)</span></code></pre></div>
+<pre><code>##  Family: bernoulli 
+##   Links: mu = logit 
+## Formula: is_ca ~ Cond 
+##    Data: d_ca (Number of observations: 680) 
+## Samples: 4 chains, each with iter = 1000; warmup = 500; thin = 1;
+##          total post-warmup samples = 2000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     1.52      0.14     1.26     1.79 1.00     1304     1306
+## CondNV       -1.44      0.18    -1.79    -1.11 1.00     1531     1117
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># mu_NV &lt; mu_VB is our hypothesis</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>brms<span class="op">::</span><span class="kw">hypothesis</span>(fit_ca, <span class="st">&quot;CondNV &lt; 0&quot;</span>)</span></code></pre></div>
+<pre><code>## Hypothesis Tests for class b:
+##     Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob Star
+## 1 (CondNV) &lt; 0    -1.44      0.18    -1.73    -1.15        Inf         1    *
+## ---
+## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: answer</span></span></code></pre></div>
+<p>With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the proportion of categorization choices for each subject, which are indicative of a ‘critical attribute’ categorization strategy, than in the “not-easily verbalizable” condition. As such, we accept our hypothesis.</p>
 </div>
 </div>
 <div id="exercise-5-challenge-question-comparison-to-anova-analysis-5-points" class="section level1">
