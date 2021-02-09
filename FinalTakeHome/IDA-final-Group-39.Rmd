@@ -277,6 +277,7 @@ summary_stats <- full_join(NV_trials, VB_trials) %>%
   select(measure, Cond, lower, mean, upper)
 
 summary_stats
+d_tidy
 
 ```
 
@@ -419,5 +420,18 @@ Use conjugacy (starting from flat priors) to quickly sample from a Bayesian post
 (**Hint:** Did you really think you could take this final w/o addressing an issue translatable into a question about whether some stupid coin is fair or biased on some way or other?)
 
 **Solution:**
-
+The hypothesis tested for in the analysis of strategy model fit is whether model type (CA vs FR) has an influence on the model fit (scores), so whether there is a general preference for one strategy.
 The reported main effect of category amounts to saying that participants seem to have favored choices indicative of a "characterizing attribute" (CA) strategy. 
+This can be modeled as a coin flip: One either adopts method AC or method FR and there might be a total bias towards one strategy. With conjungate priors, we can assume a fair coin, add the data and then estimate what the bias parameter would need to be in order to generate this data. For that, we could
+1. look at trials: how many of all decisions adopted a CA strategy? -> this would look at a general bias towards CA, not taking into consideration that bias would be distributed differently across subjects
+2. look at subjects: how many of all subjects adopted a CA strategy? -> for this, we would need to somehow transform the score into a binary decision. This would alter the data, we would lose information and we would no longer look at the influence of model on the scores, but on a different variable -> probably not useful!
+Afterwards, Kruschke can then help decide if this bias is believable or not. 
+```{r}
+```
+
+$$
+\begin{align*}
+  P(\theta) & = Beta(1,1) \\
+  P(\theta_c \mid N, k) & = \text{Beta}(\theta_c, 1+k, 1 + N - k) \\
+\end{align*}
+$$
