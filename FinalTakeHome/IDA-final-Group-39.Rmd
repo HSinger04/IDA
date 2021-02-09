@@ -286,14 +286,48 @@ Visualize the data relevant for addressing the "Learning Speed" hypothesis.
 Use a histogram with the most fine-grained binning which is reasonable given the nature of the data (i.e., manipulate argument `binwidth` in function `geom_histogram`).
 Use two facets, one for each relevant level of the categorical predictor.
 
+```{r}
+d_unique <- d_tidy %>% 
+  group_by(Subj) %>% 
+  distinct(Subj, .keep_all = TRUE)
+
+bins_trials <- d_unique["Trials"] %>% unique %>% nrow
+
+d_unique %>% 
+  ggplot(aes(x = Trials)) +
+  # TODO: binwidth or bins? Also, bins_trials * 2 or just bins_trials?
+  geom_histogram(bins=bins_trials) +
+  facet_wrap(Cond ~ .)
+```
+
 ## Ex 3.b Vizualize the "Accuracy" data [2 points]
 
 Make a histogram plot, using facets, for the data relevant to the "Accuracy" hypothesis.
+
+```{r}
+bins_acc <- d_unique["Accuracy"] %>% unique %>% nrow
+
+d_unique %>% 
+  ggplot(aes(x = Accuracy)) +
+  # TODO: binwidth or bins? Also, bins_acc * 2 or just bins_acc?
+  geom_histogram(bins=bins_acc) +
+  facet_wrap(Cond ~ .)
+```
 
 ## Ex 3.c Vizualize the "Strategy" data [2 points]
 
 Plot the data for the "Strategy" hypothesis.
 You can use a histogram and facets here as well.
+
+```{r}
+bins_ca <- d_unique["CA"] %>% unique %>% nrow
+
+d_unique %>% 
+  ggplot(aes(x = CA)) +
+  # TODO: binwidth or bins? Also, bins_ca * 2 or just bins_ca?
+  geom_histogram(bins=bins_ca) +
+  facet_wrap(Cond ~ .)
+```
 
 # <span style = "color:firebrick">Exercise 4:</span> Hypothesis testing [22 points]
 

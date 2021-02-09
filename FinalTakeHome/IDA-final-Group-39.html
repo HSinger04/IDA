@@ -496,8 +496,6 @@ summary {
 <li><a href="#ex-1.a-identify-the-research-hypotheses-4-points">Ex 1.a Identify the research hypotheses [4 points]</a></li>
 <li><a href="#ex-1.b-previous-results-3-points">Ex 1.b Previous results [3 points]</a></li>
 <li><a href="#ex-1.c-kind-of-experiment-1-point">Ex 1.c Kind of experiment [1 point]</a></li>
-</ul></li>
-<li><a href="#exercise-2-inspect-the-data-12-points"><span style="color:firebrick">Exercise 2:</span> Inspect the data [12 points]</a><ul>
 <li><a href="#ex-2.a-get-some-counts-2-points">Ex 2.a Get some counts [2 points]</a></li>
 <li><a href="#ex-2.b-tidy-up-part-1-2-points">Ex 2.b Tidy up Part 1 [2 points]</a></li>
 <li><a href="#ex-2.c-tidy-up-part-2-2-points">Ex 2.c Tidy up Part 2 [2 points]</a></li>
@@ -545,20 +543,30 @@ summary {
 <p>“Strategy”: The proportion of categorization choices for each subject, which are indicative of a ‘critical attribute’ categorization strategy (as stored in variable <code>CA</code> and derived from choices in the critical trials <code>T1</code> … <code>T10</code>), is larger for the “easily verbalizable” condition (level <code>VB</code> of variable <code>Cond</code>), than in the “not-easily verbalizable” condition (level <code>NB</code> of variable <code>Cond</code>).</p>
 </blockquote>
 <p>Formulate the remaining two hypotheses in natural language as precisely as possible, using -wherever possible- reference to the names and/or values of variables in the data set supplied by B&amp;M, following the above example. (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)</p>
+<p>Solution: Private: Easily verbalized items will be learned faster and retained better in memory. &gt; “Learning Speed”: Private: The learning speed for the easily verbalized condition is higher than for the not-easily verbalized condition. The number of trials before making a correct categorization in 12 trials in a row (minimum 60 previous trials, variable ‘Trials’ TODO) is smaller for the “easily verbalize” condition (level ‘VB’ of variable ‘Cond’) than for the “not-easily verbalize” condition (level ‘NB’ of variable ‘Cond’). &gt; “Accuracy”: Private: Accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition. The rate of accuracy on the training items in the test phase (variable ‘Accuracy’) is higher for “easily verbalize” condition (level ‘VB’ of variable ‘Cond’) than for the “not-easily verbalize” condition (level ‘NB’ of variable ‘Cond’).</p>
 </div>
 <div id="ex-1.b-previous-results-3-points" class="section level2">
 <h2>Ex 1.b Previous results [3 points]</h2>
 <p>What results do B&amp;M report for these three hypotheses? Make a short statement for each hypothesis, e.g., “find evidence for/against” or “find no evidence”, for each hypothesis. (Don’t overthink this! The question is about what the authors conclude from their analyses. No need to go down the rabbit hole here and triple-check whether you would draw similar conclusions from the reported analyses.)</p>
+<p>Solution: TODO include measures from t-Tests? &gt; “Learning Speed”: Learning rate for ‘easily verbalize’ condition was not significantly different from learning rate in ‘not-easily verbalize’ condition, so evidence against the hypothesis. &gt; “Accuracy”: Accuracy was significantly higher in ‘easily verbalize’ condition than in ‘not-easily verbalized condition’, so evidence in favor of the hypothesis. &gt; “Strategy”: Which hypothesis are we supposed to compare to? Paper: easily verbalized condition -&gt; preference for CA, not-easily verbalized condition -&gt; preference for FR Task: easily verbalized condition -&gt; some preference, not easily verbalized condition -&gt; less preference for CA than the other preference</p>
 </div>
 <div id="ex-1.c-kind-of-experiment-1-point" class="section level2">
 <h2>Ex 1.c Kind of experiment [1 point]</h2>
 <p>What kind of experiment is this? I.e., which independent (explanatory) variables are there? Are they metric or categorical factors? If factors, how many levels (ordered, unordered?) do they have? Any within- or between-subjects manipulations?</p>
-</div>
-</div>
-<div id="exercise-2-inspect-the-data-12-points" class="section level1">
-<h1><span style="color:firebrick">Exercise 2:</span> Inspect the data [12 points]</h1>
+<p>Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. Learning speed is a metric factor, which ranges from at least 60 to 400? Accuracy is a metric factor ranging from 0-1.</p>
+<p>Solution: &gt; independent variables : critical attribute(CA) vs family resemblance(FR) : easily-verbalizable-features vs not-easily-verbalizable features</p>
+<blockquote>
+<p>categorical factors</p>
+</blockquote>
+<blockquote>
+<p>unordered</p>
+</blockquote>
+<blockquote>
+<p>within-subject for the CA vs FR independent variable between-subject for the easily-verbalizable-features vs not-easily-verbalizable features # <span style="color:firebrick">Exercise 2:</span> Inspect the data [12 points]</p>
+</blockquote>
 <p>We load the data:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>d &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;BM_data.csv&#39;</span>)</span></code></pre></div>
+</div>
 <div id="ex-2.a-get-some-counts-2-points" class="section level2">
 <h2>Ex 2.a Get some counts [2 points]</h2>
 <p>Use R to retrieve:</p>
@@ -566,18 +574,128 @@ summary {
 <li>the number of participants contained in the data set</li>
 <li>the number of times each condition (NV and VB) occurs in the data</li>
 </ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>num_participants &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw">group_by</span>(Subj) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span>nrow</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>num_condition &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw">group_by</span>(Cond) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">count</span>()</span>
+<span id="cb2-8"><a href="#cb2-8"></a>num_NV &lt;-<span class="st"> </span>num_condition[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb2-9"><a href="#cb2-9"></a>num_VB &lt;-<span class="st"> </span>num_condition[<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
 </div>
 <div id="ex-2.b-tidy-up-part-1-2-points" class="section level2">
 <h2>Ex 2.b Tidy up Part 1 [2 points]</h2>
 <p>In some of our subsequent analyses, we will be interested in the categorization decision of each subject for each critical experimental trial. For this purpose, the data in <code>d</code> is not tidy. Use common <code>dplyr</code> functions to create a new variable <code>d_tidy</code> which contains the same data as <code>d</code> (except for data from T11-T20) in a tidy format. So, <code>d_tidy</code> will include one row for each individual categorization trial of each subject. Since we will not be analyzing the “single-feature trials” (T11-T20), exclude these. Name the two new columns you will create by pivoting <code>trial_label</code> and <code>response</code>. Include the first 10 lines of your <code>d_tidy</code> to the HTML output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>d_tidy &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">select</span>(., <span class="op">-</span><span class="kw">seq</span>(<span class="dv">26</span>,<span class="dv">35</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">pivot_longer</span>(., <span class="dt">cols =</span> <span class="kw">seq</span>(<span class="dv">6</span>,<span class="dv">25</span>), <span class="dt">names_to =</span> <span class="st">&quot;trial_label&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;response&quot;</span>) </span>
+<span id="cb3-4"><a href="#cb3-4"></a>d_tidy</span></code></pre></div>
+<pre><code>## # A tibble: 1,360 x 9
+##     Subj Cond   Feat Trials Accuracy    CA    FR trial_label response
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;   
+##  1     2 VB        5     60        1   0.9   0.1 TA1         A       
+##  2     2 VB        5     60        1   0.9   0.1 TA2         A       
+##  3     2 VB        5     60        1   0.9   0.1 TA3         A       
+##  4     2 VB        5     60        1   0.9   0.1 TA4         A       
+##  5     2 VB        5     60        1   0.9   0.1 TA5         A       
+##  6     2 VB        5     60        1   0.9   0.1 TB1         B       
+##  7     2 VB        5     60        1   0.9   0.1 TB2         B       
+##  8     2 VB        5     60        1   0.9   0.1 TB3         B       
+##  9     2 VB        5     60        1   0.9   0.1 TB4         B       
+## 10     2 VB        5     60        1   0.9   0.1 TB5         B       
+## # … with 1,350 more rows</code></pre>
 </div>
 <div id="ex-2.c-tidy-up-part-2-2-points" class="section level2">
 <h2>Ex 2.c Tidy up Part 2 [2 points]</h2>
 <p>The tibble in <code>d_tidy</code> now contains a data column with entries like <code>TA1</code> or <code>T10</code>, but actually <code>TA1</code> and <code>T10</code> are quite different types of trials. So, let’s clean up and structure some more. Introduce a new column called <code>trial_type</code>, which contains the information whether each row’s trial is from one of the four categories: <code>category_A</code>, <code>category_B</code>, <code>exception_1</code>, or <code>exception_2</code>. The trials of types <code>exception_1</code> and <code>exception_2</code> differ with respect to the expected response under the “characteristic attribute” (CA) strategy. Trials of type <code>exception_1</code> expect response “B” under CA. Add also a column called <code>expected_repsonse</code> containing the expected responses for each trial type (assuming strategy CA, where that is relevant).</p>
+<p>-&gt; look at table of T1-10 configurations, evaluate which category CA would choose -&gt; add column -&gt; expected B = exception_1, expected A = exception_2</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co"> check for which decision the CA strategy would make for 1-5 and 6-10 respectively (brain tired)</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>d_tidy &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(trial_label) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">trial_type =</span> <span class="kw">case_when</span>(</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;A&quot;</span>) <span class="op">~</span><span class="st"> &quot;category_A&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;B&quot;</span>) <span class="op">~</span><span class="st"> &quot;category_B&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># needs to come before &quot;T[1-5]&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T10&quot;</span>) <span class="op">~</span><span class="st"> &quot;exception_2&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T[1-5]&quot;</span>) <span class="op">~</span><span class="st"> &quot;exception_1&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T[6-9]&quot;</span>) <span class="op">~</span><span class="st"> &quot;exception_2&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;error&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>))</span>
+<span id="cb5-11"><a href="#cb5-11"></a>d_tidy</span></code></pre></div>
+<pre><code>## # A tibble: 1,360 x 10
+## # Groups:   trial_label [20]
+##     Subj Cond   Feat Trials Accuracy    CA    FR trial_label response trial_type
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;     
+##  1     2 VB        5     60        1   0.9   0.1 TA1         A        category_A
+##  2     2 VB        5     60        1   0.9   0.1 TA2         A        category_A
+##  3     2 VB        5     60        1   0.9   0.1 TA3         A        category_A
+##  4     2 VB        5     60        1   0.9   0.1 TA4         A        category_A
+##  5     2 VB        5     60        1   0.9   0.1 TA5         A        category_A
+##  6     2 VB        5     60        1   0.9   0.1 TB1         B        category_B
+##  7     2 VB        5     60        1   0.9   0.1 TB2         B        category_B
+##  8     2 VB        5     60        1   0.9   0.1 TB3         B        category_B
+##  9     2 VB        5     60        1   0.9   0.1 TB4         B        category_B
+## 10     2 VB        5     60        1   0.9   0.1 TB5         B        category_B
+## # … with 1,350 more rows</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>d_tidy &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(trial_label) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">expected_response =</span> <span class="kw">case_when</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;A&quot;</span>) <span class="op">~</span><span class="st"> &quot;A&quot;</span>,</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;B&quot;</span>) <span class="op">~</span><span class="st"> &quot;B&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># needs to come before &quot;T[1-5]&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T10&quot;</span>) <span class="op">~</span><span class="st"> &quot;A&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T[1-5]&quot;</span>) <span class="op">~</span><span class="st"> &quot;B&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;T[6-9]&quot;</span>) <span class="op">~</span><span class="st"> &quot;A&quot;</span>,</span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;error&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>))</span></code></pre></div>
 </div>
 <div id="ex-2.d-double-check-relevant-summary-stats-by-bm-3-points" class="section level2">
 <h2>Ex 2.d Double-check relevant summary stats by B&amp;M [3 points]</h2>
 <p>Checking other researchers’ results is not imprudent, but part of a healthy self-correcting and cooperative scientific community. Therefore, add to the tibble in <code>d</code> columns <code>CA_check</code> and <code>Accuracy_check</code>, calculating these values yourself from the information stored in columns <code>trial_type</code> and <code>expected_response</code> of <code>d_tidy</code>. (NB: you may want to use some form of ‘joining’ tibbles, or you just produce two single vectors <code>CA_check</code> and <code>Accuracy_check</code>.) Finally, use R (e.g., functions like <code>all</code> or <code>any</code>) to check if your calculations agree the information provided in columns <code>CA</code> and <code>Accuracy</code> of <code>d</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>d_ca_check &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">group_by</span>(Subj) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">CA_check =</span> <span class="kw">mean</span>(<span class="kw">as.character</span>(response) <span class="op">==</span><span class="st"> </span><span class="kw">as.character</span>(expected_response)))</span>
+<span id="cb8-5"><a href="#cb8-5"></a>d_accuracy_check &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="st">    </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">group_by</span>(Subj) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Accuracy_check =</span> <span class="kw">mean</span>(<span class="kw">as.character</span>(response) <span class="op">==</span><span class="st"> </span><span class="kw">as.character</span>(expected_response)))</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a>d_ca_check</span></code></pre></div>
+<pre><code>## # A tibble: 680 x 12
+## # Groups:   Subj [68]
+##     Subj Cond   Feat Trials Accuracy    CA    FR trial_label response trial_type
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;     
+##  1     2 VB        5     60        1   0.9   0.1 T1          B        exception…
+##  2     2 VB        5     60        1   0.9   0.1 T2          B        exception…
+##  3     2 VB        5     60        1   0.9   0.1 T3          B        exception…
+##  4     2 VB        5     60        1   0.9   0.1 T4          B        exception…
+##  5     2 VB        5     60        1   0.9   0.1 T5          B        exception…
+##  6     2 VB        5     60        1   0.9   0.1 T6          A        exception…
+##  7     2 VB        5     60        1   0.9   0.1 T7          A        exception…
+##  8     2 VB        5     60        1   0.9   0.1 T8          B        exception…
+##  9     2 VB        5     60        1   0.9   0.1 T9          A        exception…
+## 10     2 VB        5     60        1   0.9   0.1 T10         A        exception…
+## # … with 670 more rows, and 2 more variables: expected_response &lt;chr&gt;,
+## #   CA_check &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>d_accuracy_check</span></code></pre></div>
+<pre><code>## # A tibble: 680 x 12
+## # Groups:   Subj [68]
+##     Subj Cond   Feat Trials Accuracy    CA    FR trial_label response trial_type
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;     
+##  1     2 VB        5     60        1   0.9   0.1 TA1         A        category_A
+##  2     2 VB        5     60        1   0.9   0.1 TA2         A        category_A
+##  3     2 VB        5     60        1   0.9   0.1 TA3         A        category_A
+##  4     2 VB        5     60        1   0.9   0.1 TA4         A        category_A
+##  5     2 VB        5     60        1   0.9   0.1 TA5         A        category_A
+##  6     2 VB        5     60        1   0.9   0.1 TB1         B        category_B
+##  7     2 VB        5     60        1   0.9   0.1 TB2         B        category_B
+##  8     2 VB        5     60        1   0.9   0.1 TB3         B        category_B
+##  9     2 VB        5     60        1   0.9   0.1 TB4         B        category_B
+## 10     2 VB        5     60        1   0.9   0.1 TB5         B        category_B
+## # … with 670 more rows, and 2 more variables: expected_response &lt;chr&gt;,
+## #   Accuracy_check &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">all</span>(d_ca_check[<span class="st">&quot;CA_check&quot;</span>] <span class="op">==</span><span class="st"> </span>d_ca_check[<span class="st">&quot;CA&quot;</span>])</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">all</span>(d_accuracy_check[<span class="st">&quot;Accuracy_check&quot;</span>] <span class="op">==</span><span class="st"> </span>d_accuracy_check[<span class="st">&quot;Accuracy&quot;</span>])</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="ex-2.e-summary-statistics-3-points" class="section level2">
 <h2>Ex 2.e Summary statistics [3 points]</h2>
@@ -591,6 +709,15 @@ summary {
 ## 4 Accuracy VB    ...   ...   ...  
 ## 5 CA       NV    ...   ...   ...  
 ## 6 CA       VB    ...   ...   ...</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   measure  Cond   lower   mean   upper
+##   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Trials   NV    76.0   89.5   106.   
+## 2 Trials   VB    68.6   82.7   100.   
+## 3 Accuracy NV     0.738  0.8     0.859
+## 4 Accuracy VB     0.891  0.929   0.965
+## 5 CA       NV     0.406  0.521   0.627
+## 6 CA       VB     0.721  0.821   0.906</code></pre>
 </div>
 </div>
 <div id="exercise-3-vizualization-7-points" class="section level1">
