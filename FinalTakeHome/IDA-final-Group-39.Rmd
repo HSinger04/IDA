@@ -1,7 +1,7 @@
 ---
 title: "Final take-home exam"
 date: 'Due: Wednesday, February 10 by 08:00 pm CET'
-author: ""
+author: "39"
 output: 
   html_document:
     toc: true
@@ -78,16 +78,15 @@ Here's a formulation of the "Strategy" hypothesis:
 Formulate the remaining two hypotheses in natural language as precisely as possible, using -wherever possible- reference to the names and/or values of variables in the data set supplied by B&M, following the above example.
 (That is, if some hypothesis relates to a dependent or independent variable, then add the information of where in the data set this variable is stored, and/or which values of it you are referring to precisely.)
 
-Solution: 
+**Solution**
 
 Private: Easily verbalized items will be learned faster and retained better in memory.
 
-  > "Learning Speed": Private: The learning speed for the easily verbalized condition is higher than for the not-easily verbalized condition. 
-The number of trials before making a correct categorization in 12 trials in a row (minimum 60 trials) (as stored in variable `Trials` \# TODO: unclear if TA1-TB5 should be mentioned
-or not, since they are for testing, not training AFAIK) is smaller for the "easily verbalize" condition (level `VB` of variable `Cond`) than for the "not-easily verbalize" condition (level `NB` of variable `Cond`).
+  > "Learning Speed": <!-- Private: The learning speed for the easily verbalized condition is higher than for the not-easily verbalized condition. --> 
+The number of trials before making a correct categorization in 12 trials in a row (minimum 60 trials) (as stored in variable `Trials`) is smaller for the "easily verbalize" condition (level `VB` of variable `Cond`) than for the "not-easily verbalize" condition (level `NB` of variable `Cond`).
 
 
-  > "Accuracy": Private: Accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition.
+  > "Accuracy": <!-- Private: Accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition. -->
 The proportion of correctly classifying the training items in the test phase (as stored in variable `Accuracy` and derived from choices in the critical trials `TA1` ... `TA5` and `TB1` ... `TB5`) is higher for "easily verbalize" condition (level `VB` of variable `Cond`) than for the "not-easily verbalize" condition (level `NB` of variable `Cond`).
 
 ## Ex 1.b Previous results [3 points]
@@ -96,9 +95,12 @@ What results do B&M report for these three hypotheses?
 Make a short statement for each hypothesis, e.g., "find evidence for/against" or "find no evidence", for each hypothesis.
 (Don't overthink this! The question is about what the authors conclude from their analyses. No need to go down the rabbit hole here and triple-check whether you would draw similar conclusions from the reported analyses.)
 
-Solution: TODO include measures from t-Tests?
+**Solution**
+
   > "Learning Speed": Learning rate for the 'easily verbalize' condition and the 'not-easily verbalize' condition did not differ significantly from one another, so evidence against the hypothesis. 
+  
   > "Accuracy": Accuracy was significantly higher in 'easily verbalize' condition than in 'not-easily verbalized condition', so evidence in favor of the hypothesis. 
+  
   > "Strategy": \# TODO: Task: easily verbalized condition -> some preference, not easily verbalized condition -> less preference for CA than the other preference
 
 ## Ex 1.c Kind of experiment [1 point]
@@ -138,6 +140,9 @@ Use R to retrieve:
 
 - the number of participants contained in the data set
 - the number of times each condition (NV and VB) occurs in the data
+
+**Solution**
+
 ```{r}
 num_participants <- d %>% 
   group_by(Subj) %>% 
@@ -146,8 +151,9 @@ num_participants <- d %>%
 num_condition <- d %>% 
   group_by(Cond) %>% 
   count()
-num_NV <- num_condition[1,2]
-num_VB <- num_condition[2,2]
+
+(num_NV <- num_condition[1,2])
+(num_VB <- num_condition[2,2])
 ```
 
 
@@ -160,6 +166,8 @@ So, `d_tidy` will include one row for each individual categorization trial of ea
 Since we will not be analyzing the "single-feature trials" (T11-T20), exclude these.
 Name the two new columns you will create by pivoting `trial_label` and `response`.
 Include the first 10 lines of your `d_tidy` to the HTML output. 
+
+**Solution**
 
 ```{r}
 d_tidy <- d %>%
@@ -178,8 +186,9 @@ The trials of types `exception_1` and `exception_2` differ with respect to the e
 Trials of type `exception_1` expect response "B" under CA.
 Add also a column called `expected_repsonse` containing the expected responses for each trial type (assuming strategy CA, where that is relevant).
 
+**Solution**
+
 ```{r} 
-# TODO check for which decision the CA strategy would make for 1-5 and 6-10 respectively (brain tired)
 d_tidy <- d_tidy %>% group_by(trial_label) %>% mutate(trial_type = case_when(
 str_detect(trial_label, "A") ~ "category_A",
 str_detect(trial_label, "B") ~ "category_B",
@@ -189,7 +198,6 @@ str_detect(trial_label, "T[1-5]") ~ "exception_1",
 str_detect(trial_label, "T[6-9]") ~ "exception_2",
 TRUE ~ "error"
 ))
-d_tidy
 
 d_tidy <- d_tidy %>% group_by(trial_label) %>% mutate(expected_response = case_when(
 str_detect(trial_label, "A") ~ "A",
@@ -200,6 +208,8 @@ str_detect(trial_label, "T[1-5]") ~ "B",
 str_detect(trial_label, "T[6-9]") ~ "A",
 TRUE ~ "error"
 ))
+
+d_tidy
 ```
 
 
@@ -210,6 +220,7 @@ Therefore, add to the tibble in `d` columns `CA_check` and `Accuracy_check`, cal
 (NB: you may want to use some form of 'joining' tibbles, or you just produce two single vectors `CA_check` and `Accuracy_check`.)
 Finally, use R (e.g., functions like `all` or `any`) to check if your calculations agree the information provided in columns `CA` and `Accuracy` of `d`.
 ```{r}
+# TODO: We need to actually add this to d or d_tidy (compare with forum)
 d_ca_check <- d_tidy %>%
   filter(!str_detect(trial_label, "[AB]")) %>%
   group_by(Subj) %>% 
@@ -244,8 +255,11 @@ tribble(
   "CA", "NV", "...", "...", "...",
   "CA", "VB", "...", "...", "..."
 )
+```
 
-# Solution:
+**Solution**
+
+```{r}
 d_VB <- d_tidy %>% 
   filter(Cond == "VB") %>% 
   group_by(Subj) %>% 
@@ -290,18 +304,22 @@ Visualize the data relevant for addressing the "Learning Speed" hypothesis.
 Use a histogram with the most fine-grained binning which is reasonable given the nature of the data (i.e., manipulate argument `binwidth` in function `geom_histogram`).
 Use two facets, one for each relevant level of the categorical predictor.
 
+**Solution**
+
 ```{r}
 d_unique <- d_tidy %>% 
   group_by(Subj) %>% 
   distinct(Subj, .keep_all = TRUE) %>%
    select(Subj, Cond, Trials, Accuracy, CA)
 
-bins_trials <- d_unique["Trials"] %>% unique %>% nrow
-
+# TODO: remove
+#d_unique %>% filter(Cond == "VB") %>% .["Trials"] %>% unique %>% nrow
 d_unique %>% 
   ggplot(aes(x = Trials)) +
-  # TODO: binwidth or bins? Also, bins_trials * 2 or just bins_trials?
-  geom_histogram(bins=bins_trials) +
+  # Some values still look glued together, but we think that this is a
+  # good trade off point for having bins as thick as possible while still 
+  # preventing values from being glued together in the histogram.
+  geom_histogram(binwidth=1) +
   facet_wrap(Cond ~ .)
 ```
 
@@ -310,12 +328,9 @@ d_unique %>%
 Make a histogram plot, using facets, for the data relevant to the "Accuracy" hypothesis.
 
 ```{r}
-bins_acc <- d_unique["Accuracy"] %>% unique %>% nrow
-
 d_unique %>% 
   ggplot(aes(x = Accuracy)) +
-  # TODO: binwidth or bins? Also, bins_acc * 2 or just bins_acc?
-  geom_histogram(bins=bins_acc) +
+  geom_histogram(binwidth=0.05) +
   facet_wrap(Cond ~ .)
 ```
 
@@ -325,12 +340,9 @@ Plot the data for the "Strategy" hypothesis.
 You can use a histogram and facets here as well.
 
 ```{r}
-bins_ca <- d_unique["CA"] %>% unique %>% nrow
-
 d_unique %>% 
   ggplot(aes(x = CA)) +
-  # TODO: binwidth or bins? Also, bins_ca * 2 or just bins_ca?
-  geom_histogram(bins=bins_ca) +
+  geom_histogram(binwidth=0.05) +
   facet_wrap(Cond ~ .)
 ```
 
@@ -343,26 +355,26 @@ Make sure to also record samples from the prior (even if we don't need them), an
 Test the hypothesis with `brms::hypothesis` and interpret the outcome with explicit mentioning of the quantities you base your interpretation on.
 
 ```{r, results='hide'}
-
-d_unique <- d_unique %>%
-  mutate(
-    Cond = factor(Cond)
-  )
-
-fit_ls <- brm(
-  formula = Trials ~ Cond,
-  data = d_unique,
-  prior = prior(student_t(1, 0, 100),  class = 'b'),
-  sample_prior = 'yes',
-  # TODO: change back to 20k
-  iter = 1000
-)
+# 
+# d_unique <- d_unique %>%
+#   mutate(
+#     Cond = factor(Cond)
+#   )
+# 
+# fit_ls <- brm(
+#   formula = Trials ~ Cond,
+#   data = d_unique,
+#   prior = prior(student_t(1, 0, 100),  class = 'b'),
+#   sample_prior = 'yes',
+#   # TODO: change back to 20k
+#   iter = 10
+# )
 ```
 
 ```{r}
-(summary(fit_ls))
-# mu_NV > mu_VB is our hypothesis
-brms::hypothesis(fit_ls, "CondNV > 0")
+# (summary(fit_ls))
+# # mu_NV > mu_VB is our hypothesis
+# brms::hypothesis(fit_ls, "CondNV > 0")
 ```
 ** Analysis **
 With an evidence ratio of around 2.5, we have evidence that is hardly worth ink or breath in favor of our hypothesis that learning speed is higher for the easily verbalized condition than for the non-easily verbalized condition (stated in 1.a). Also, the credible interval's lower bound is below the critical value of 0, as is the upper bound above 0. As such, the model and data provide no substantial evidence in favor of or against this hypothesis, so we withhold judgement. 
@@ -375,7 +387,7 @@ If you cannot think of a different analysis you like better, follow this strateg
 If you can think of an analysis you might prefer, do that (for 2 extra points).
 Use the same priors as in the previous exercise.
 
-** Solution **
+**Solution**
 
 We think that a normal distribution is inappropriate here, since the data is 
 plausibly generated by a Bernoulli distribution.
@@ -383,26 +395,26 @@ plausibly generated by a Bernoulli distribution.
 ```{r, results='hide'}
 d_acc <- d_tidy %>%
   filter(str_detect(trial_label, "[AB]")) %>%
-  group_by(Subj) %>% 
+  group_by(Subj) %>%
   mutate(correct = response == expected_response) %>%
   mutate(Cond = factor(Cond))
-  
 
-fit_acc <- brm(
-  formula = correct ~ Cond,
-  data = d_acc,
-  family = bernoulli(link = "logit"),
-  prior = prior(student_t(1, 0, 100), class='b'),
-  sample_prior = 'yes',
-  # TODO: change back to 20k
-  iter = 1000
-)
+
+# fit_acc <- brm(
+#   formula = correct ~ Cond,
+#   data = d_acc,
+#   family = bernoulli(link = "logit"),
+#   prior = prior(student_t(1, 0, 100), class='b'),
+#   sample_prior = 'yes',
+#   # TODO: change back to 20k
+#   iter = 10
+#)
 ```
 
 ```{r}
-summary(fit_acc)
-# mu_NV < mu_VB is our hypothesis
-brms::hypothesis(fit_acc, "CondNV < 0")
+# summary(fit_acc)
+# # mu_NV < mu_VB is our hypothesis
+# brms::hypothesis(fit_acc, "CondNV < 0")
 ```
 With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition. As such, we accept our hypothesis.
  
@@ -410,7 +422,7 @@ With an evidence ratio of Inf and a post. probability 1, we have decisive eviden
 
 Test the "Strategy" hypothesis in the way that you think is best appropriate (but using a method that we have covered in class).
 
-** Solution **
+**Solution**
 Like in 4.b, we think that a normal distribution is inappropriate here, since the data is 
 plausibly generated by a Bernoulli distribution.
 
@@ -422,21 +434,20 @@ d_ca <- d_tidy %>%
   mutate(Cond = factor(Cond))
   
 
-fit_ca <- brm(
-  formula = is_ca ~ Cond,
-  data = d_ca,
-  family = bernoulli(link = "logit"),
-  prior = prior(student_t(1, 0, 100), class='b'),
-  sample_prior = 'yes',
-  # TODO: change back to 20k
-  iter = 1000
-)
+# fit_ca <- brm(
+#   formula = is_ca ~ Cond,
+#   data = d_ca,
+#   family = bernoulli(link = "logit"),
+#   prior = prior(student_t(1, 0, 100), class='b'),
+#   sample_prior = 'yes',
+#   # TODO: change back to 20k
+#   iter = 10
+# )
 ```
 ```{r}
-summary(fit_ca)
-# mu_NV < mu_VB is our hypothesis
-brms::hypothesis(fit_ca, "CondNV < 0")
-# TODO: answer
+# summary(fit_ca)
+# # mu_NV < mu_VB is our hypothesis
+# brms::hypothesis(fit_ca, "CondNV < 0")
 ```
 With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the proportion of categorization choices for each subject, which are indicative of a ‘critical attribute’ categorization strategy, than in the “not-easily verbalizable” condition. As such, we accept our hypothesis.
 
