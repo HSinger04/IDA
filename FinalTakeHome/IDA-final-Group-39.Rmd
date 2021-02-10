@@ -97,34 +97,20 @@ Make a short statement for each hypothesis, e.g., "find evidence for/against" or
 
 **Solution**
 
-  > "Learning Speed": Learning rate for the 'easily verbalize' condition and the 'not-easily verbalize' condition did not differ significantly from one another, so evidence against the hypothesis. 
+  > "Learning Speed": Learning rate for the easily-verbalizable condition and the not-easily-verbalizable condition did not differ significantly from one another, so evidence against the hypothesis. 
   
-  > "Accuracy": Accuracy was significantly higher in 'easily verbalize' condition than in 'not-easily verbalized condition', so evidence in favor of the hypothesis. 
+  > "Accuracy": Accuracy was significantly higher in easily-verbalizable condition than in the not-easily-verbalizable condition, so evidence in favor of the hypothesis. 
   
-  > "Strategy": \# TODO: Task: easily verbalized condition -> some preference, not easily verbalized condition -> less preference for CA than the other preference
+  > "Strategy": The participants showed preference for CA strategy in the easily-verbalizable condition, while they showed no preference for either strategy in the non-easily-verbalizable conditoin, so evidence in favor of the hypothesis.
 
 ## Ex 1.c Kind of experiment [1 point]
 
 What kind of experiment is this? I.e., which independent (explanatory) variables are there? Are they metric or categorical factors? If factors, how many levels (ordered, unordered?) do they have? Any within- or between-subjects manipulations?
 
-Solution: In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy and learning strategy (dependent variables) is tested. 
-Learning speed is a metric factor, which ranges from at least 60 to 400.
-\# TODO: Are CA, FR and Accuracy actually considered metric? They are generated
-from a bernoulli dist.
-Accuracy, CA and FR are a metric factors ranging from 0-1 in steps of 0.1. The relationship between CA and FR for a subject is as follows: FR = 1 - CA.
-\# TODO
+**Solution**
+In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy, and learning strategy (dependent variables) is tested. 
+Specifically, the independent variable, verbalizability of features, is divided into easily-verbalizable features and not-easily-verbalizable features and provided as a stimulus. Therefore, it is the categorical factor, and unordered. This stimulus sets as a between-subject independent variable.
 
-Solution:
-> independent variables
-: critical attribute(CA) vs family resemblance(FR)
-: easily-verbalizable-features vs not-easily-verbalizable features
-
-> categorical factors
-
-> unordered
-
-> within-subject for the CA vs FR independent variable
-  between-subject for the easily-verbalizable-features vs not-easily-verbalizable features
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
 We load the data:
