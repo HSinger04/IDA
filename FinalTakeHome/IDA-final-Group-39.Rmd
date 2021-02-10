@@ -347,26 +347,25 @@ Make sure to also record samples from the prior (even if we don't need them), an
 Test the hypothesis with `brms::hypothesis` and interpret the outcome with explicit mentioning of the quantities you base your interpretation on.
 
 ```{r, results='hide'}
-# 
-# d_unique <- d_unique %>%
-#   mutate(
-#     Cond = factor(Cond)
-#   )
-# 
-# fit_ls <- brm(
-#   formula = Trials ~ Cond,
-#   data = d_unique,
-#   prior = prior(student_t(1, 0, 100),  class = 'b'),
-#   sample_prior = 'yes',
-#   # TODO: change back to 20k
-#   iter = 10
-# )
+
+d_unique <- d_unique %>%
+  mutate(
+    Cond = factor(Cond)
+  )
+
+fit_ls <- brm(
+  formula = Trials ~ Cond,
+  data = d_unique,
+  prior = prior(student_t(1, 0, 100),  class = 'b'),
+  sample_prior = 'yes',
+  iter = 20000
+)
 ```
 
 ```{r}
-# (summary(fit_ls))
-# # mu_NV > mu_VB is our hypothesis
-# brms::hypothesis(fit_ls, "CondNV > 0")
+(summary(fit_ls))
+# mu_NV > mu_VB is our hypothesis
+brms::hypothesis(fit_ls, "CondNV > 0")
 ```
 ** Analysis **
 With an evidence ratio of around 2.5, we have evidence that is hardly worth ink or breath in favor of our hypothesis that learning speed is higher for the easily verbalized condition than for the non-easily verbalized condition (stated in 1.a). Also, the credible interval's lower bound is below the critical value of 0, as is the upper bound above 0. As such, the model and data provide no substantial evidence in favor of or against this hypothesis, so we withhold judgement. 
@@ -393,21 +392,20 @@ d_acc <- d_tidy %>%
   mutate(Cond = factor(Cond))
 
 
-# fit_acc <- brm(
-#   formula = correct ~ Cond,
-#   data = d_acc,
-#   family = bernoulli(link = "logit"),
-#   prior = prior(student_t(1, 0, 100), class='b'),
-#   sample_prior = 'yes',
-#   # TODO: change back to 20k
-#   iter = 10
-#)
+fit_acc <- brm(
+  formula = correct ~ Cond,
+  data = d_acc,
+  family = bernoulli(link = "logit"),
+  prior = prior(student_t(1, 0, 100), class='b'),
+  sample_prior = 'yes',
+  iter = 20000
+)
 ```
 
 ```{r}
-# summary(fit_acc)
-# # mu_NV < mu_VB is our hypothesis
-# brms::hypothesis(fit_acc, "CondNV < 0")
+summary(fit_acc)
+# mu_NV < mu_VB is our hypothesis
+brms::hypothesis(fit_acc, "CondNV < 0")
 ```
 With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the accuracy is higher for the easily verbalized condition than for the not-easily verbalized condition. As such, we accept our hypothesis.
  
@@ -428,20 +426,20 @@ d_ca <- d_tidy %>%
   mutate(Cond = factor(Cond))
   
 
-# fit_ca <- brm(
-#   formula = is_ca ~ Cond,
-#   data = d_ca,
-#   family = bernoulli(link = "logit"),
-#   prior = prior(student_t(1, 0, 100), class='b'),
-#   sample_prior = 'yes',
-#   # TODO: change back to 20k
-#   iter = 10
-# )
+fit_ca <- brm(
+  formula = is_ca ~ Cond,
+  data = d_ca,
+  family = bernoulli(link = "logit"),
+  prior = prior(student_t(1, 0, 100), class='b'),
+  sample_prior = 'yes',
+  iter = 20000
+)
 ```
+
 ```{r}
-# summary(fit_ca)
-# # mu_NV < mu_VB is our hypothesis
-# brms::hypothesis(fit_ca, "CondNV < 0")
+summary(fit_ca)
+# mu_NV < mu_VB is our hypothesis
+brms::hypothesis(fit_ca, "CondNV < 0")
 ```
 With an evidence ratio of Inf and a post. probability 1, we have decisive evidence in favor of our hypothesis that the proportion of categorization choices for each subject, which are indicative of a ‘critical attribute’ categorization strategy, than in the “not-easily verbalizable” condition. As such, we accept our hypothesis.
 
