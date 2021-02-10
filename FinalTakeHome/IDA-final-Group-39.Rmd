@@ -289,7 +289,6 @@ summary_stats <- full_join(NV_trials, VB_trials) %>%
   select(measure, Cond, lower, mean, upper)
 
 summary_stats
-d_tidy
 
 ```
 

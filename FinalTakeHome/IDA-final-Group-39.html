@@ -901,8 +901,44 @@ summary {
 <div id="exercise-5-challenge-question-comparison-to-anova-analysis-5-points" class="section level1">
 <h1><span style="color:firebrick">Exercise 5 (challenge question):</span> Comparison to ANOVA analysis [5 points]</h1>
 <p>B&amp;M’s ANOVA-based analysis for the “Strategy” Hypothesis actually also tested a fourth hypothesis, for which a significant test result was obtained. Describe in words what that finding was. Use conjugacy (starting from flat priors) to quickly sample from a Bayesian posterior to test this additional hypothesis using Kruschke’s ternary logic for hypothesis testing. (<strong>Hint:</strong> Did you really think you could take this final w/o addressing an issue translatable into a question about whether some stupid coin is fair or biased on some way or other?)</p>
-<p><strong>Solution:</strong></p>
-<p>The reported main effect of category amounts to saying that participants seem to have favored choices indicative of a “characterizing attribute” (CA) strategy.</p>
+<p><strong>Solution:</strong> The additional hypothesis tested for in the analysis of strategy model fit is whether model type (CA vs FR) has an influence on the model fit (scores), so whether there is a general preference for one strategy (in this case CA), without the influence of condition. The reported main effect of category amounts to saying that participants seem to have favored choices indicative of a “characterizing attribute” (CA) strategy.</p>
+<p>Private: The choice of strategy can be modeled as a coin flip: One either adopts method AC or method FR and there might be a general bias towards one strategy, over all flips. With conjungate priors, we can assume that all kinds of biases are equally likely, add the data and then estimate what the bias parameter would need to be in order to generate this data. For that, we could 1. look at trials: how many of all decisions adopted a CA strategy? -&gt; this would look at a general bias towards CA, not taking into consideration that bias would be distributed differently across subjects 2. look at subjects: how many of all subjects adopted a CA strategy? -&gt; for this, we would need to somehow transform the score into a binary decision. This would alter the data, we would lose information and we would no longer look at the influence of model on the scores, but on a different variable -&gt; probably not useful! Afterwards, Kruschke can then help decide if this bias is believable or not.</p>
+<p>Because the choice of strategy is binary, we assume a flat Beta as prior. <span class="math display">\[
+\begin{align*}
+  P(\theta) &amp; = Beta(1,1) \\
+  P(\theta \mid N, k) &amp; = \text{Beta}(\theta, 1+k, 1 + N - k) 
+\end{align*}
+\]</span> We then need to retrieve N and k from our data:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># number of trials in which decision was based on CA strategy </span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>k &lt;-<span class="st">  </span>d_tidy <span class="op">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="st">    </span><span class="co"># only look at test trials in which we can determine used strategy</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="st">    </span><span class="co"># count number of trials in which the response is the same as the expected response, assuming CA strategy</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="st">    </span><span class="kw">filter</span>(., <span class="kw">as.character</span>(response) <span class="op">==</span><span class="st"> </span><span class="kw">as.character</span>(expected_response)) <span class="op">%&gt;%</span></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="st">  </span><span class="kw">nrow</span>()</span>
+<span id="cb30-8"><a href="#cb30-8"></a>k </span></code></pre></div>
+<pre><code>## [1] 456</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># number of test trials </span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>N &lt;-<span class="st"> </span>d_tidy <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(trial_label, <span class="st">&quot;[AB]&quot;</span>))<span class="op">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="st">  </span><span class="kw">nrow</span>()   </span>
+<span id="cb32-5"><a href="#cb32-5"></a>N</span></code></pre></div>
+<pre><code>## [1] 680</code></pre>
+<p>Now we can compute the posterior distribution using conjugacy:</p>
+<p><span class="math display">\[
+\begin{align*}
+  P(\theta \mid 680, 456)&amp; = \text{Beta}(\theta, 1+456, 1+680-456) \\
+  P(\theta \mid 680, 456)&amp; = \text{Beta}(\theta, 457, 225)
+\end{align*}
+\]</span></p>
+<p>Now, we can estimate the bias parameter by sampling from the posterior distribution</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>samples &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="fl">1e6</span>, <span class="dv">457</span>, <span class="dv">225</span>)</span>
+<span id="cb34-2"><a href="#cb34-2"></a>aida<span class="op">::</span><span class="kw">summarize_sample_vector</span>(samples, <span class="st">&quot;bias towards CA&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##   Parameter       `|95%`  mean `95%|`
+##   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 bias towards CA  0.635 0.670  0.705</code></pre>
+<p>The mean estimate for the bias towards use of strategy CA is positive, both bounds of the credible interval are bigger than 0, so the data provides evidence in favor of the hypothesis that across all trials, there is a preference for adopting the CA strategy.</p>
 </div>
 
 
