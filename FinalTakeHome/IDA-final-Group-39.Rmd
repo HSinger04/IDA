@@ -101,7 +101,7 @@ Make a short statement for each hypothesis, e.g., "find evidence for/against" or
   
   > "Accuracy": Accuracy was significantly higher in easily-verbalizable condition than in the not-easily-verbalizable condition, so evidence in favor of the hypothesis. 
   
-  > "Strategy": The participants showed preference for CA strategy in the easily-verbalizable condition, while they showed no preference for either strategy in the non-easily-verbalizable conditoin, so evidence in favor of the hypothesis.
+  > "Strategy": The participants showed preference for CA strategy in the easily-verbalizable condition, while they showed no preference for either strategy in the non-easily-verbalizable condition, so evidence in favor of the hypothesis.
 
 ## Ex 1.c Kind of experiment [1 point]
 
@@ -109,7 +109,7 @@ What kind of experiment is this? I.e., which independent (explanatory) variables
 
 **Solution**
 In this experiment, the influence of verbalizability of features (independent variable) on learning speed, accuracy, and learning strategy (dependent variables) is tested. 
-Specifically, the independent variable, verbalizability of features, is divided into easily-verbalizable features and not-easily-verbalizable features and provided as a stimulus. Therefore, it is the categorical factor, and unordered. This stimulus sets as a between-subject independent variable.
+Specifically, the independent variable, verbalizability of features, is divided into easily-verbalizable features and not-easily-verbalizable features and provided as a stimulus. Therefore, it is a categorical factor, and unordered. The verbalizability of features of stimuli is a between-subject independent variable.
 
 # <span style = "color:firebrick">Exercise 2:</span> Inspect the data [12 points]
 
@@ -452,10 +452,10 @@ Use conjugacy (starting from flat priors) to quickly sample from a Bayesian post
 (**Hint:** Did you really think you could take this final w/o addressing an issue translatable into a question about whether some stupid coin is fair or biased on some way or other?)
 
 **Solution:**
-The additional hypothesis tested for in the analysis of strategy model fit is whether model type (CA vs FR) has an influence on the model fit (scores), so whether there is a general preference for one strategy (in this case CA), without taking into account the influence of condition.
 The reported main effect of category amounts to saying that participants seem to have favored choices indicative of a "characterizing attribute" (CA) strategy. 
 
-<!-- Tutors, ignore this!: The choice of strategy can be modeled as a coin flip: One either adopts method AC or method FR and there might be a general bias towards one strategy, over all flips. With conjungate priors, we can assume that all kinds of biases are equally likely, add the data and then estimate what the bias parameter would need to be in order to generate this data. For that, we could
+<!-- Tutors, ignore this!: The additional hypothesis tested for in the analysis of strategy model fit is whether model type (CA vs FR) has an influence on the model fit (scores), so whether there is a general preference for one strategy (in this case CA), without taking into account the influence of condition. For this, a significant main effect was found.
+The choice of strategy can be modeled as a coin flip: One either adopts method AC or method FR and there might be a general bias towards one strategy, over all flips. With conjungate priors, we can assume that all kinds of biases are equally likely, add the data and then estimate what the bias parameter would need to be in order to generate this data. For that, we could
 1. look at trials: how many of all decisions adopted a CA strategy? -> this would look at a general bias towards CA, not taking into consideration that bias would be distributed differently across subjects
 2. look at subjects: how many of all subjects adopted a CA strategy? -> for this, we would need to somehow transform the score into a binary decision. This would alter the data, we would lose information and we would no longer look at the influence of model on the scores, but on a different variable -> probably not useful!
 Afterwards, Kruschke can then help decide if this bias is believable or not. -->
@@ -465,7 +465,7 @@ flat prior, we choose a = 1 and b = 1 as the parameters.
 $$
 \begin{align*}
   P(\theta) & = Beta(1,1) \\
-  P(\theta \mid N, k) & = \text{Beta}(\theta, 1+k, 1 + N - k) 
+  P(\theta \mid N, k) & = \text{Beta}( 1+k, 1 + N - k) 
 \end{align*}
 $$
 We then need to retrieve N and k from our data:
@@ -490,8 +490,8 @@ Now we can compute the posterior distribution using conjugacy:
 
 $$
 \begin{align*}
-  P(\theta \mid 680, 456)& = \text{Beta}(\theta, 1+456, 1+680-456) \\
-  P(\theta \mid 680, 456)& = \text{Beta}(\theta, 457, 225)
+  P(\theta \mid 680, 456)& = \text{Beta}(1+456, 1+680-456) \\
+  P(\theta \mid 680, 456)& = \text{Beta}( 457, 225)
 \end{align*}
 $$
 
